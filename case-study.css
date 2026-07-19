@@ -1,0 +1,279 @@
+/* ══════════════════════════════════════
+   CASE STUDY COMPONENT
+   Reusable "grid tile" + "carousel" pair for
+   client case studies. Design language ported
+   1:1 from the rwe_carousel.html prototype —
+   do not restyle without checking the prototype.
+══════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --cs-paper: #F6F6F2;
+  --cs-ink: #000000;
+  --cs-accent: #7A0000;
+  --cs-accent-tint: #F5E0DD;
+  --cs-muted: #8B8A82;
+  --cs-line: #D9D7CE;
+}
+
+/* ── shared marks (crop corners, rule, tape, eyebrow, folio, highlighter) ── */
+.cs-rule { height: 4px; background: var(--cs-accent); width: 100%; position: absolute; top: 0; left: 0; }
+.cs-corner { position: absolute; width: 14px; height: 14px; border-color: var(--cs-ink); opacity: 0.55; }
+.cs-corner.bl { left: 14px; bottom: 14px; border-left: 1.5px solid; border-bottom: 1.5px solid; }
+.cs-corner.br { right: 14px; bottom: 14px; border-right: 1.5px solid; border-bottom: 1.5px solid; }
+.cs-corner.tl { left: 14px; top: 14px; border-left: 1.5px solid; border-top: 1.5px solid; }
+.cs-corner.tr { right: 14px; top: 14px; border-right: 1.5px solid; border-top: 1.5px solid; }
+
+.cs-eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--cs-accent); margin-top: 10px;
+}
+.cs-folio {
+  position: absolute; right: 26px; bottom: 22px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px;
+  color: var(--cs-accent); background: var(--cs-accent-tint); border: 1px solid var(--cs-accent);
+  padding: 3px 8px; border-radius: 20px;
+}
+.cs-mark {
+  background: var(--cs-accent); color: #fff; padding: 1px 5px;
+  border-radius: 3px 8px 4px 9px;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
+.cs-tape {
+  position: absolute; width: 30px; height: 11px; background: var(--cs-accent); opacity: 0.5;
+  top: -6px; left: 50%; transform: translateX(-50%);
+}
+
+/* ══════════════════════════════════════
+   GRID TILE
+══════════════════════════════════════ */
+.cs-tile {
+  position: relative; width: 100%; min-width: 0; aspect-ratio: 4/5;
+  background: var(--cs-paper); box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  padding: 18px 16px; display: flex; flex-direction: column;
+  border: none; cursor: pointer; text-align: left; font-family: inherit;
+  grid-column: span 1;
+}
+.cs-tile-eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--cs-accent); margin-top: 18px;
+}
+.cs-tile-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.cs-tile .cs-logo-img { width: 44px; height: 44px; border-radius: 7px; object-fit: cover; display: block; }
+.cs-tile-brief {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px;
+  line-height: 1.32; letter-spacing: -0.2px; color: var(--cs-ink);
+}
+.cs-tile-result {
+  position: relative; min-width: 0; border-top: 1px solid var(--cs-line); padding-top: 10px;
+  display: flex; justify-content: space-between; gap: 4px;
+}
+.cs-tile-result > div { min-width: 0; overflow: hidden; }
+.cs-tile-result > div:nth-child(2) { text-align: center; }
+.cs-tile-result .cs-r-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 6.5px; letter-spacing: 0.6px;
+  text-transform: uppercase; color: var(--cs-muted); margin-bottom: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cs-tile-result .cs-r-num {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px;
+  color: var(--cs-accent); letter-spacing: -0.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cs-tile-open {
+  position: absolute; right: 14px; bottom: 12px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 0.6px;
+  color: var(--cs-accent); background: var(--cs-accent-tint); border: 1px solid var(--cs-accent);
+  padding: 2.5px 6px; border-radius: 20px;
+}
+
+/* ══════════════════════════════════════
+   MODAL SHELL (Instagram-post-accurate chrome)
+══════════════════════════════════════ */
+.cs-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.cs-overlay.open { opacity: 1; pointer-events: all; }
+.cs-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); }
+.cs-modal {
+  position: relative; z-index: 1;
+  width: min(920px, 96vw); height: min(86vh, 760px);
+  background: #fff; border-radius: 12px; overflow: hidden;
+  display: flex; color: #000;
+  transform: scale(0.94); transition: transform 0.25s ease;
+}
+.cs-overlay.open .cs-modal { transform: scale(1); }
+.cs-close {
+  position: absolute; top: 0.9rem; right: 0.9rem; z-index: 5;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.9); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; transition: background 0.2s;
+}
+.cs-close:hover { background: #fff; }
+
+/* ── Carousel (left) ── */
+.cs-viewport {
+  position: relative; height: 100%; aspect-ratio: 4/5;
+  overflow: hidden; background: var(--cs-paper); flex-shrink: 0;
+}
+.cs-track { display: flex; height: 100%; transition: transform 0.45s cubic-bezier(.65,0,.35,1); }
+.cs-slide {
+  min-width: 100%; height: 100%; position: relative;
+  padding: 34px 30px; display: flex; flex-direction: column;
+}
+.cs-slide-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+
+.cs-slide h1 {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 35px;
+  line-height: 1.12; letter-spacing: -0.5px; color: var(--cs-ink);
+}
+.cs-slide h2 {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px;
+  line-height: 1.2; letter-spacing: -0.3px; color: var(--cs-ink);
+}
+.cs-sub { font-size: 13px; line-height: 1.6; color: #2b2b2b; max-width: 280px; }
+
+.cs-logo-img { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; display: block; }
+.cs-skill-tiles { display: flex; gap: 8px; margin-top: 6px; }
+.cs-skill-tile {
+  position: relative; flex: 1; border: 1px solid var(--cs-accent); background: var(--cs-accent-tint);
+  border-radius: 8px; padding: 12px 6px; text-align: center;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--cs-accent); font-weight: 500;
+}
+
+.cs-spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+.cs-spec-card { position: relative; border: 1px solid var(--cs-line); background: #fff; padding: 12px; }
+.cs-spec-card .cs-k { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--cs-muted); margin-bottom: 6px; }
+.cs-spec-card .cs-v { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; color: var(--cs-ink); }
+.cs-platform-icons { display: flex; gap: 8px; align-items: center; }
+.cs-platform-icons svg { width: 20px; height: 20px; color: var(--cs-ink); }
+
+.cs-role-list { display: flex; flex-direction: column; margin-top: 8px; }
+.cs-role-item { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--cs-line); align-items: baseline; }
+.cs-role-item:first-child { border-top: 1px solid var(--cs-line); }
+.cs-role-num { font-family: 'IBM Plex Mono', monospace; color: var(--cs-accent); font-size: 11px; min-width: 20px; flex-shrink: 0; }
+.cs-role-text { font-size: 12px; line-height: 1.5; color: var(--cs-ink); }
+
+.cs-dashboard-box { border: 1.5px solid var(--cs-ink); border-radius: 14px; padding: 16px; position: relative; margin-top: 6px; }
+.cs-dashboard-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 12px; letter-spacing: 0.2px; color: var(--cs-ink); }
+.cs-dash-cards { display: flex; flex-direction: column; gap: 9px; }
+.cs-dash-card { background: var(--cs-accent-tint); border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+.cs-dash-card .cs-label { display: flex; gap: 7px; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--cs-accent); }
+.cs-dash-card .cs-icon { font-size: 12px; }
+.cs-dash-card .cs-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--cs-ink); }
+
+/* Pitch-style results: trophy block + stat tiles (no live campaign metrics) */
+.cs-trophy-block {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px;
+  background: var(--cs-accent-tint); border: 1.5px solid var(--cs-accent); border-radius: 14px;
+  text-align: center; position: relative;
+}
+.cs-trophy-icon { font-size: 36px; line-height: 1; }
+.cs-trophy-label { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--cs-ink); }
+.cs-trophy-sub { font-size: 11.5px; color: #4a4a4a; max-width: 220px; line-height: 1.5; }
+
+.cs-stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 4px; }
+.cs-stat-tile { border: 1px solid var(--cs-line); background: #fff; padding: 10px 6px; text-align: center; }
+.cs-stat-tile .cs-s-icon { font-size: 16px; margin-bottom: 4px; }
+.cs-stat-tile .cs-s-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; color: var(--cs-accent); }
+.cs-stat-tile .cs-s-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--cs-muted); margin-top: 3px; line-height: 1.3; }
+
+/* Outcome slide: icon + text takeaway rows */
+.cs-outcome-block { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.cs-outcome-row { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--cs-line); align-items: center; }
+.cs-outcome-row:first-child { border-top: 1px solid var(--cs-line); }
+.cs-outcome-icon { font-size: 18px; min-width: 28px; }
+.cs-outcome-text { font-size: 12.5px; line-height: 1.5; color: #2b2b2b; }
+
+.cs-grid2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.cs-frame {
+  aspect-ratio: 1; background: #EDECE6; position: relative;
+  border: 5px solid #fff; outline: 1px solid var(--cs-line);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08); display: block; overflow: hidden;
+  text-decoration: none; cursor: pointer;
+}
+.cs-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cs-frame .cs-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
+.cs-frame .cs-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+  border-left: 12px solid #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+.cs-frame .cs-reel-tag {
+  position: absolute; top: 6px; right: 6px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 7px; letter-spacing: 0.5px;
+  background: rgba(0,0,0,0.55); color: #fff; padding: 2px 5px; border-radius: 3px;
+}
+.cs-frame .cs-caption {
+  position: absolute; bottom: 6px; left: 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #fff;
+}
+
+/* Carousel nav — overlaid on the image, matching Instagram's own desktop post modal */
+.cs-ov-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.9); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cs-ink); z-index: 4; transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.cs-ov-nav svg { width: 18px; height: 18px; }
+.cs-ov-nav:hover { background: #fff; }
+.cs-ov-nav:disabled { opacity: 0; pointer-events: none; }
+.cs-ov-prev { left: 10px; }
+.cs-ov-next { right: 10px; }
+
+.cs-ov-dots {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 5px; z-index: 4;
+}
+.cs-ov-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(0,0,0,0.25); cursor: pointer; border: none; padding: 0;
+  transition: background 0.2s;
+}
+.cs-ov-dot.active { background: var(--cs-accent); }
+
+/* ── Info side (real-Instagram-accurate chrome) ── */
+.cs-info-side {
+  flex: 1; min-width: 0; display: flex; flex-direction: column;
+  background: #fff; color: #000;
+}
+.cs-info-header {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 0.85rem 1rem; border-bottom: 1px solid #efefef; flex-shrink: 0;
+}
+.cs-info-avatar { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+.cs-info-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.cs-info-username { font-size: 0.85rem; font-weight: 600; color: #000; }
+.cs-info-menu { margin-left: auto; font-size: 1.1rem; color: #000; cursor: pointer; line-height: 1; }
+
+.cs-info-body { flex: 1; overflow-y: auto; padding: 1rem; }
+.cs-info-caption { display: flex; gap: 0.65rem; }
+.cs-info-caption .cs-info-avatar { margin-top: 2px; }
+.cs-info-caption p {
+  font-size: 0.85rem; line-height: 1.55; color: #000; white-space: pre-line;
+}
+.cs-info-caption strong { font-weight: 600; margin-right: 0.4rem; }
+
+.cs-info-footer { border-top: 1px solid #efefef; padding: 0.7rem 1rem; flex-shrink: 0; }
+.cs-icon-row { display: flex; align-items: center; gap: 0.9rem; }
+.cs-icon-row svg { width: 23px; height: 23px; color: #000; display: block; }
+.cs-icon-btn { background: none; border: none; padding: 0; cursor: pointer; display: flex; color: #000; }
+.cs-icon-btn.cs-liked svg { color: var(--cs-accent); fill: var(--cs-accent); }
+.cs-icon-spacer { flex: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .cs-modal { flex-direction: column; height: 92vh; width: 100vw; border-radius: 0; }
+  .cs-viewport { width: 100%; height: auto; aspect-ratio: 4/5; }
+  .cs-info-side { flex: 1; min-height: 0; }
+  /* Grid tile text can't stay legible at a 1/3-column mobile width, so it
+     takes the full row instead of squeezing in next to square thumbnails. */
+  .cs-tile { grid-column: 1 / -1; }
+}
