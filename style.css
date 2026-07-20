@@ -224,6 +224,7 @@ body {
   content: ''; position: absolute; top: 0; left: 0; right: 0;
   height: 1.5px; background: var(--text);
 }
+.tab-btn[data-tab="reels"] { display: none; }
 
 /* ── TAB CONTENT ─────────────────────── */
 .tab-content {
