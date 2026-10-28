@@ -106,32 +106,7 @@
 
   <!-- REELS TAB -->
   <div class="tab-content" id="tab-reels">
-    <div class="reels-grid">
-      <div class="reel-card" style="background:linear-gradient(160deg,#1a0808,#8B1A1A);">
-        <div class="reel-content"><div class="reel-stat">330M+</div><div class="reel-label">Total Impressions</div></div>
-        <div class="reel-tag">📈 Reach</div>
-      </div>
-      <div class="reel-card" style="background:linear-gradient(160deg,#080818,#1e40af);">
-        <div class="reel-content"><div class="reel-stat">50M+</div><div class="reel-label">Total Clicks</div></div>
-        <div class="reel-tag">🎯 Clicks</div>
-      </div>
-      <div class="reel-card" style="background:linear-gradient(160deg,#08180a,#166534);">
-        <div class="reel-content"><div class="reel-icon">📱</div><div class="reel-label">Platform Mastery</div><div class="reel-platforms"><span>Instagram</span><span>TikTok</span><span>LinkedIn</span><span>Facebook</span><span>Pinterest</span><span>Snapchat</span></div></div>
-        <div class="reel-tag">🌐 Platforms</div>
-      </div>
-      <div class="reel-card" style="background:linear-gradient(160deg,#180818,#7e22ce);">
-        <div class="reel-content"><div class="reel-icon">✍️</div><div class="reel-label">Content Creation</div><div class="reel-platforms"><span>Copywriting</span><span>Short-form Video</span><span>Graphic Design</span><span>Visual Storytelling</span></div></div>
-        <div class="reel-tag">🎨 Content</div>
-      </div>
-      <div class="reel-card" style="background:linear-gradient(160deg,#180e04,#c2410c);">
-        <div class="reel-content"><div class="reel-icon">🛠️</div><div class="reel-label">Tools</div><div class="reel-platforms"><span>Canva</span><span>CapCut</span><span>Hootsuite</span><span>Sprout Social</span><span>BrandWatch</span><span>Monday.com</span></div></div>
-        <div class="reel-tag">⚙️ Tools</div>
-      </div>
-      <div class="reel-card" style="background:linear-gradient(160deg,#0a0818,#8B1A1A);">
-        <div class="reel-content"><div class="reel-icon">🎓</div><div class="reel-label">Certifications</div><div class="reel-platforms"><span>LinkedIn Marketing</span><span>Google Analytics</span><span>Hootsuite Social</span></div></div>
-        <div class="reel-tag">✅ Certified</div>
-      </div>
-    </div>
+    <div class="reels-grid" id="reelsGrid"></div>
   </div>
 
   <!-- TAGGED TAB -->
@@ -175,7 +150,22 @@
   </div>
 </div>
 
+<!-- ── REEL VIEWER ── -->
+<div class="reel-overlay" id="reelOverlay" aria-hidden="true">
+  <div class="reel-backdrop" data-reel-close></div>
+  <div class="reel-modal" role="dialog" aria-modal="true" aria-label="Reel viewer">
+    <button class="reel-modal-close" data-reel-close aria-label="Close">✕</button>
+    <div class="reel-modal-media" id="reelMedia"></div>
+    <div class="reel-modal-body">
+      <div class="reel-modal-meta" id="reelMeta"></div>
+      <div id="reelCaption"></div>
+      <a class="reel-modal-link" id="reelLink" target="_blank" rel="noopener" hidden>Open reel →</a>
+    </div>
+  </div>
+</div>
+
 <script src="script.js"></script>
+<script src="reels.js"></script>
 <script src="case-studies/rwe.js"></script>
 <script src="case-studies/mars.js"></script>
 <script src="case-studies/siemens.js"></script>
