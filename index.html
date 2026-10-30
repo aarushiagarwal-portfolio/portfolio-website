@@ -7,21 +7,85 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="case-study.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- TOP NAV -->
-<header class="ig-nav">
-  <div class="nav-inner">
-    <div class="nav-handle">
-      <svg class="handle-lock" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-      aarushiagarwal
-    </div>
+<!-- SIDEBAR (desktop + tablet) -->
+<aside class="sidebar" aria-label="Main navigation">
+  <a class="sidebar-wordmark" href="#top" data-nav="work">
+    <span class="wordmark-full">@aarushiagarwal</span>
+    <span class="wordmark-short" aria-hidden="true">@</span>
+  </a>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" data-nav="work">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+      <span>Work</span>
+    </button>
+    <button class="nav-item" data-nav="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>
+      <span>Search</span>
+    </button>
+    <button class="nav-item" data-nav="reels">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M2.5 8h19M9 2.5 11.5 8M14.5 2.5 17 8"/><path d="m10 11.5 4.5 2.75L10 17z" fill="currentColor"/></svg>
+      <span>Reels</span>
+    </button>
+    <button class="nav-item" data-nav="chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5c-5.3 0-9.5 3.9-9.5 8.8 0 2.6 1.2 4.9 3.1 6.5V21l2.9-1.6c1.1.3 2.3.5 3.5.5 5.3 0 9.5-3.9 9.5-8.8S17.3 2.5 12 2.5z"/><path d="m7.5 13.8 3.2-3.4 2 2 3.8-3-3.2 3.4-2-2z" fill="currentColor"/></svg>
+      <span>Let's chat</span>
+    </button>
+    <button class="nav-item" data-nav="whats-new">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.5s-8.5-5-8.5-11A4.75 4.75 0 0 1 12 6.8a4.75 4.75 0 0 1 8.5 2.7c0 6-8.5 11-8.5 11z"/></svg>
+      <span>What's new</span>
+    </button>
+    <button class="nav-item" data-nav="work-with-me">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M12 7.5v9M7.5 12h9"/></svg>
+      <span>Work with me</span>
+    </button>
+    <button class="nav-item" data-nav="about">
+      <img class="nav-avatar" src="aarushi-cropped.jpg" alt="" />
+      <span>About me</span>
+    </button>
+  </nav>
+  <button class="nav-item nav-more" data-nav="more">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.5 5.5h17M3.5 12h17M3.5 18.5h17"/></svg>
+    <span>More</span>
+  </button>
+</aside>
+
+<!-- MOBILE TOP BAR -->
+<header class="mobile-top">
+  <a class="sidebar-wordmark" href="#top" data-nav="work"><span class="wordmark-full">@aarushiagarwal</span></a>
+  <div class="mobile-top-actions">
+    <button class="icon-btn" data-nav="whats-new" aria-label="What's new">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.5s-8.5-5-8.5-11A4.75 4.75 0 0 1 12 6.8a4.75 4.75 0 0 1 8.5 2.7c0 6-8.5 11-8.5 11z"/></svg>
+    </button>
+    <button class="icon-btn" data-nav="chat" aria-label="Let's chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5c-5.3 0-9.5 3.9-9.5 8.8 0 2.6 1.2 4.9 3.1 6.5V21l2.9-1.6c1.1.3 2.3.5 3.5.5 5.3 0 9.5-3.9 9.5-8.8S17.3 2.5 12 2.5z"/><path d="m7.5 13.8 3.2-3.4 2 2 3.8-3-3.2 3.4-2-2z" fill="currentColor"/></svg>
+    </button>
   </div>
 </header>
 
-<main class="ig-page">
+<!-- MOBILE BOTTOM BAR -->
+<nav class="mobile-bottom" aria-label="Main navigation">
+  <button class="icon-btn" data-nav="work" aria-label="Work">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+  </button>
+  <button class="icon-btn" data-nav="search" aria-label="Search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+  <button class="icon-btn" data-nav="work-with-me" aria-label="Work with me">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M12 7.5v9M7.5 12h9"/></svg>
+  </button>
+  <button class="icon-btn" data-nav="reels" aria-label="Reels">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M2.5 8h19M9 2.5 11.5 8M14.5 2.5 17 8"/><path d="m10 11.5 4.5 2.75L10 17z" fill="currentColor"/></svg>
+  </button>
+  <button class="icon-btn" data-nav="about" aria-label="About me">
+    <img class="nav-avatar" src="aarushi-cropped.jpg" alt="" />
+  </button>
+</nav>
+
+<main class="ig-page" id="top">
 
   <!-- PROFILE HEADER -->
   <section class="profile-header">
@@ -33,32 +97,37 @@
 
     <div class="profile-info">
       <div class="profile-top-row">
-        <h1>aarushiagarwal</h1>
-        <button class="hire-btn" id="hireBtn">Get In Touch</button>
+        <h1>Aarushi
+          <svg class="verified" viewBox="0 0 24 24" aria-label="Verified"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" fill="#0095F6"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </h1>
+        <div class="profile-actions">
+          <button class="ig-btn" id="hireBtn">Contact
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <a class="ig-btn" href="https://www.linkedin.com/in/aarushi-agarwal126/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="ig-btn ig-btn-icon" href="https://www.linkedin.com/in/aarushi-agarwal126/" target="_blank" rel="noopener" aria-label="Connect on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="13" cy="8" r="3.5"/><path d="M6.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M4 7v6M1 10h6"/></svg>
+          </a>
+          <button class="icon-btn" data-nav="more" aria-label="More">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+          </button>
+        </div>
       </div>
 
       <div class="profile-counts">
-        <div class="count-item"><strong>330M+</strong><span>impressions</span></div>
-        <div class="count-item"><strong>50M+</strong><span>clicks</span></div>
-        <div class="count-item"><strong>4+</strong><span>years exp.</span></div>
+        <div class="count-item"><strong>330M+</strong> <span>Impressions</span></div>
+        <div class="count-item"><strong>50M+</strong> <span>Clicks</span></div>
+        <div class="count-item"><strong>4+</strong> <span>Years of experience</span></div>
       </div>
 
       <div class="profile-bio">
-        <p class="bio-category">Social Media Manager & Content Creator 🎯</p>
+        <p class="bio-name">Aarushi Agarwal</p>
+        <p class="bio-line">🚀 Social Media Specialist & Content Creator</p>
         <p class="bio-line">📊 Data-driven campaigns that convert</p>
         <p class="bio-line">📖 Building brands through storytelling</p>
-        <p class="bio-line">🚀 Driving engagement & measurable impact</p>
-        <p class="bio-line">🎓 MSc Marketing Communications</p>
       </div>
 
-      <div class="followed-by">
-        <div class="followed-avatars">
-          <span class="followed-av"><img src="logos/rwe-logo.png" alt="RWE" /></span>
-          <span class="followed-av"><img src="logos/siemens-logo.png" alt="Siemens" /></span>
-          <span class="followed-av"><img src="logos/amex-logo.png" alt="American Express" /></span>
-        </div>
-        <span class="followed-text">Followed by <strong>RWE</strong>, <strong>Siemens</strong>, <strong>American Express</strong>, <strong>adidas</strong>, <strong>Mars</strong> + 10 others</span>
-      </div>
+      <p class="followed-by">Followed by <strong>RWE</strong>, <strong>Siemens</strong>, <strong>American Express</strong>, <strong>adidas</strong>, <strong>Mars</strong> + 10 others</p>
     </div>
   </section>
 
@@ -87,13 +156,16 @@
   <!-- TAB BAR -->
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="grid">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span>Posts</span>
     </button>
     <button class="tab-btn" data-tab="reels">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M17 17h5M2 17h5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M2.5 8h19M9 2.5 11.5 8M14.5 2.5 17 8"/></svg>
+      <span>Reels</span>
     </button>
     <button class="tab-btn" data-tab="tagged">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+      <span>Tagged</span>
     </button>
   </div>
 
@@ -121,7 +193,18 @@
     </div>
   </div>
 
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <button data-nav="work">Work</button>
+    <button data-nav="about">About</button>
+    <button data-nav="reels">Reels</button>
+    <button data-nav="chat">Contact</button>
+    <a href="https://www.linkedin.com/in/aarushi-agarwal126/" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+
 </main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- ── STORY OVERLAY ── -->
 <div class="story-overlay" id="storyOverlay">

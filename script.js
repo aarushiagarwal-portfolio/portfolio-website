@@ -321,6 +321,57 @@ document.querySelectorAll('.highlight-item').forEach(item => {
 document.getElementById('hireBtn').addEventListener('click', () => openStory('contact'));
 
 /* ══════════════════════════════════════
+   SIDEBAR + MOBILE NAV
+   Every nav control carries data-nav="<action>". Actions without a
+   handler yet (search, what's new, work with me, more) show a
+   "coming soon" toast until their panels are built.
+══════════════════════════════════════ */
+
+function showTab(name) {
+  document.querySelector(`.tab-btn[data-tab="${name}"]`).click();
+  document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
+const TAB_TO_NAV = { grid: 'work', reels: 'reels' };
+function setActiveNav(key) {
+  document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav === key));
+}
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (TAB_TO_NAV[btn.dataset.tab]) setActiveNav(TAB_TO_NAV[btn.dataset.tab]);
+  });
+});
+
+const NAV_ACTIONS = {
+  work: () => {
+    document.querySelector('.tab-btn[data-tab="grid"]').click();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+  reels: () => showTab('reels'),
+  chat: () => openStory('contact'),
+  about: () => openStory('about'),
+};
+
+const toastEl = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
+}
+
+document.querySelectorAll('[data-nav]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    const action = NAV_ACTIONS[el.dataset.nav];
+    if (action) action();
+    else showToast('Coming soon');
+  });
+});
+
+/* ══════════════════════════════════════
    POST CAROUSEL MODAL
 ══════════════════════════════════════ */
 
