@@ -1,6 +1,10 @@
 /* ── TABS ────────────────────────────── */
+/* Tabs listed here aren't ready yet: clicking shows a "coming soon" toast instead */
+const COMING_SOON_TABS = ['reels'];
+
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (COMING_SOON_TABS.includes(btn.dataset.tab)) { showToast('Coming soon'); return; }
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
@@ -332,8 +336,8 @@ function showTab(name) {
   document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
-const TAB_TO_NAV = { grid: 'work', reels: 'reels' };
+/* Posts tab = Work page: keep the sidebar in step (add reels: 'reels' when the Reels page goes live) */
+const TAB_TO_NAV = { grid: 'work' };
 function setActiveNav(key) {
   document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav === key));
 }
@@ -348,7 +352,6 @@ const NAV_ACTIONS = {
     document.querySelector('.tab-btn[data-tab="grid"]').click();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
-  reels: () => showTab('reels'),
   chat: () => openStory('contact'),
   about: () => openStory('about'),
 };
