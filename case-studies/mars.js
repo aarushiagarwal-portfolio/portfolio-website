@@ -13,6 +13,18 @@ window.CASE_STUDIES.push({
   name: 'Mars',
   logo: 'assets/case-studies/mars/mars-logo.png',
 
+  /* ── designed carousel (B2 style): slide 1 is the grid tile, all 7 open in
+     the viewer. Remove this to fall back to the tile + slides below. ── */
+  slidePages: [
+    'case-studies/Mars/carousel/slide-1-cover.html',
+    'case-studies/Mars/carousel/slide-2-the-brief.html',
+    'case-studies/Mars/carousel/slide-3-paid-launch.html',
+    'case-studies/Mars/carousel/slide-4-organic-rollout.html',
+    'case-studies/Mars/carousel/slide-5-my-role.html',
+    'case-studies/Mars/carousel/slide-6-results.html',
+    'case-studies/Mars/carousel/slide-7-the-work.html',
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Careers Podcast',
   tileBrief: 'Real career journeys, told through an 8-episode podcast and social-first rollout.',
