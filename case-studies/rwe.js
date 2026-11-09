@@ -13,6 +13,17 @@ window.CASE_STUDIES.push({
   name: 'RWE',
   logo: 'assets/case-studies/rwe/rwe-logo.png',
 
+  /* ── designed carousel (B2 style): slide 1 is the grid tile, all 6 open in
+     the viewer. Remove this to fall back to the tile + slides below. ── */
+  slidePages: [
+    'case-studies/RWE/carousel/slide-1-cover.html',
+    'case-studies/RWE/carousel/slide-2-the-brief.html',
+    'case-studies/RWE/carousel/slide-3-campaign-scope.html',
+    'case-studies/RWE/carousel/slide-4-my-role.html',
+    'case-studies/RWE/carousel/slide-5-results.html',
+    'case-studies/RWE/carousel/slide-6-the-work.html',
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Always On Social',
   tileBrief: 'Retention through authentic, behind-the-scenes storytelling.',
