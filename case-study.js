@@ -146,10 +146,42 @@ function csRenderSlide(slide, index, total) {
     </div>`;
 }
 
+/* ── Designed slide pages ──
+   A case study can instead set `slidePages: ['path/slide-1.html', ...]`:
+   finished 432×540 slide pages (e.g. case-studies/RWE/carousel/). Slide 1
+   becomes the grid tile and every page becomes a carousel slide, scaled to
+   fit. Pages with links stay clickable; the rest pass clicks/swipes through. */
+const CS_PAGE_W = 432;
+const csPageObserver = new ResizeObserver(entries => {
+  entries.forEach(e => {
+    const frame = e.target.querySelector('iframe');
+    if (frame) frame.style.transform = `scale(${e.contentRect.width / CS_PAGE_W})`;
+  });
+});
+function csPageHtml(src, title, interactive) {
+  return `<div class="cs-page"><iframe src="${src}" title="${title}" scrolling="no" loading="lazy"${interactive ? '' : ' tabindex="-1" aria-hidden="true"'}></iframe></div>`;
+}
+function csFitPages(root) {
+  root.querySelectorAll('.cs-page').forEach(p => {
+    csPageObserver.observe(p);
+    const frame = p.querySelector('iframe');
+    frame.addEventListener('load', () => {
+      try { if (frame.contentDocument.querySelector('a[href]')) p.classList.add('cs-page-live'); } catch (_) {}
+    }, { once: true });
+  });
+}
+
 function csBuildTile(data) {
   const btn = document.createElement('button');
   btn.className = 'cs-tile';
   btn.setAttribute('aria-label', `Open ${data.name} case study`);
+  if (data.slidePages) {
+    btn.classList.add('cs-tile-page');
+    btn.innerHTML = csPageHtml(data.slidePages[0], `${data.name} case study cover`, false);
+    csFitPages(btn);
+    btn.addEventListener('click', () => csOpen(data));
+    return btn;
+  }
   btn.innerHTML = `
     <div class="cs-rule"></div><div class="cs-corner tl"></div><div class="cs-corner tr"></div>
     <div class="cs-tile-eyebrow">${data.eyebrow}</div>
@@ -167,6 +199,10 @@ function csBuildTile(data) {
 }
 
 function csBuildSlidesHtml(data) {
+  if (data.slidePages) {
+    return data.slidePages.map((src, i) =>
+      `<div class="cs-slide cs-slide-page">${csPageHtml(src, `${data.name} slide ${i + 1}`, true)}</div>`).join('');
+  }
   return data.slides.map((slide, i) => csRenderSlide(slide, i, data.slides.length)).join('');
 }
 
@@ -279,6 +315,7 @@ function csOpen(data) {
   const dotsWrap = overlay.querySelector('.cs-ov-dots');
 
   track.innerHTML = csBuildSlidesHtml(data);
+  csFitPages(track);
   csSlideCount = track.querySelectorAll('.cs-slide').length;
   dotsWrap.innerHTML = '';
   for (let i = 0; i < csSlideCount; i++) {
