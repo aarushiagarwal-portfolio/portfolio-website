@@ -14,6 +14,17 @@ window.CASE_STUDIES.push({
   name: 'adidas',
   logo: 'assets/case-studies/adidas/adidas-logo.png',
 
+  /* ── designed carousel (B2 style): slide 1 is the grid tile, all 6 open in
+     the viewer. Remove this to fall back to the tile + slides below. ── */
+  slidePages: [
+    'case-studies/adidas/carousel/slide-1-cover.html',
+    'case-studies/adidas/carousel/slide-2-the-brief.html',
+    'case-studies/adidas/carousel/slide-3-campaign-scope.html',
+    'case-studies/adidas/carousel/slide-4-my-role.html',
+    'case-studies/adidas/carousel/slide-5-results.html',
+    'case-studies/adidas/carousel/slide-6-the-work.html',
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Paid Social',
   tileBrief: 'Paid social campaign activating the new employer brand across 4 audiences, globally.',
