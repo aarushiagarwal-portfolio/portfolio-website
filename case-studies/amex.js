@@ -12,6 +12,17 @@ window.CASE_STUDIES.push({
   name: 'American Express',
   logo: 'assets/case-studies/amex/amex-logo.png',
 
+  /* ── designed carousel (B2 style): slide 1 is the grid tile, all 6 open in
+     the viewer. Remove this to fall back to the tile + slides below. ── */
+  slidePages: [
+    'case-studies/Amex/carousel/slide-1-cover.html',
+    'case-studies/Amex/carousel/slide-2-the-brief.html',
+    'case-studies/Amex/carousel/slide-3-campaign-scope.html',
+    'case-studies/Amex/carousel/slide-4-my-role.html',
+    'case-studies/Amex/carousel/slide-5-results.html',
+    'case-studies/Amex/carousel/slide-6-the-work.html',
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Tech Talent Campaign',
   tileBrief: 'Paid social campaign building Amex\'s tech employer brand across 3 markets.',
