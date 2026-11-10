@@ -12,6 +12,15 @@ window.CASE_STUDIES.push({
   name: 'Siemens',
   logo: 'assets/case-studies/siemens/siemens-logo.png',
 
+  /* ── designed carousel (B2 style): slide 1 is the grid tile, all 4 open in
+     the viewer. Remove this to fall back to the tile + slides below. ── */
+  slidePages: [
+    'case-studies/Siemens/carousel/slide-1-cover.html',
+    'case-studies/Siemens/carousel/slide-2-the-brief.html',
+    'case-studies/Siemens/carousel/slide-3-pitch-scope.html',
+    'case-studies/Siemens/carousel/slide-4-what-i-delivered.html',
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'New Business Pitch',
   tileBrief: 'Full rebrand strategy for Siemens Careers — pitched and won in 7 days.',
