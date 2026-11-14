@@ -323,12 +323,12 @@ storyTapRight.addEventListener('click', () => { if (storyIdx + 1 < storySlides.l
 document.querySelectorAll('.highlight-item').forEach(item => {
   item.addEventListener('click', () => openStory(item.dataset.story));
 });
-document.getElementById('hireBtn').addEventListener('click', () => openStory('contact'));
+document.getElementById('hireBtn').addEventListener('click', () => openChat());
 
 /* ══════════════════════════════════════
    SIDEBAR + MOBILE NAV
    Every nav control carries data-nav="<action>". Actions without a
-   handler yet (work with me, more) show a "coming soon" toast until
+   handler yet (more) show a "coming soon" toast until
    their panels are built. Search is added by search.js and What's new
    by whats-new.js.
 ══════════════════════════════════════ */
@@ -355,7 +355,7 @@ const NAV_ACTIONS = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
   reels: () => showTab('reels'),
-  chat: () => openStory('contact'),
+  chat: () => openStory('contact'), // replaced by the Let's chat panel in chat.js
   about: () => openStory('about'),
 };
 
@@ -456,7 +456,7 @@ function openPost(key) {
     <div class="pi-tags">${b.tags.map(t=>`<span class="pi-tag">${t}</span>`).join('')}</div>
     <div class="pi-stats">${b.stats.map(s=>`<div class="pi-stat"><strong>${s.n}</strong><span>${s.l}</span></div>`).join('')}</div>`;
 
-  document.getElementById('piHire').addEventListener('click', () => { closePost(); openStory('contact'); });
+  document.getElementById('piHire').addEventListener('click', () => { closePost(); openChat(); });
   updateCar();
   postOverlay.classList.add('open');
 }
