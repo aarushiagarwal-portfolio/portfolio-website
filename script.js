@@ -251,11 +251,12 @@ const storyClose    = document.getElementById('storyClose');
 const storyTapLeft  = document.getElementById('storyTapLeft');
 const storyTapRight = document.getElementById('storyTapRight');
 
-function openStory(key) {
+/* startIdx: slide to open on (0 = first). What's new uses it to open a specific review. */
+function openStory(key, startIdx = 0) {
   const data = STORIES[key];
   if (!data) return;
   storySlides = data;
-  storyIdx = 0;
+  storyIdx = startIdx;
 
   // Build progress bars
   storyBars.innerHTML = data.map(() => `<div class="story-bar"><div class="story-bar-fill"></div></div>`).join('');
@@ -265,7 +266,7 @@ function openStory(key) {
   data.forEach(d => storySlideArea.appendChild(buildSlide(d)));
 
   storyOverlay.classList.add('open');
-  showStorySlide(0);
+  showStorySlide(startIdx);
 }
 
 function showStorySlide(idx) {
@@ -327,8 +328,9 @@ document.getElementById('hireBtn').addEventListener('click', () => openStory('co
 /* ══════════════════════════════════════
    SIDEBAR + MOBILE NAV
    Every nav control carries data-nav="<action>". Actions without a
-   handler yet (what's new, work with me, more) show a "coming soon"
-   toast until their panels are built. Search is added by search.js.
+   handler yet (work with me, more) show a "coming soon" toast until
+   their panels are built. Search is added by search.js and What's new
+   by whats-new.js.
 ══════════════════════════════════════ */
 
 function showTab(name) {

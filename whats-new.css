@@ -1,0 +1,118 @@
+/* ══════════════════════════════════════
+   WHAT'S NEW PANEL (see whats-new.js)
+   Same shell as the Search panel in search.css: slides out from under
+   the sidebar on desktop/tablet, full screen above the bottom bar on phone.
+   Filter chips reuse Search's .sp-chip style.
+══════════════════════════════════════ */
+.wn-panel {
+  position: fixed; top: 0; bottom: 0; left: var(--sidebar-w); z-index: 90;
+  width: 397px; max-width: calc(100vw - var(--sidebar-w));
+  display: flex; flex-direction: column;
+  background: var(--surface); color: var(--ig-text);
+  border-right: 1px solid var(--ig-line); border-radius: 0 16px 16px 0;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+  transform: translateX(-100%); visibility: hidden;
+  transition: transform 0.3s cubic-bezier(.2,.7,.3,1), visibility 0s 0.3s;
+}
+.wn-panel.open { transform: none; visibility: visible; transition-delay: 0s; }
+
+.wn-head { padding: 24px 24px 16px; border-bottom: 1px solid var(--ig-line); }
+.wn-title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+.wn-head h2 { font-size: 24px; font-weight: 600; line-height: 30px; }
+.wn-back {
+  display: none; align-items: center; justify-content: center;
+  width: 32px; height: 32px; margin-left: -8px; border: none; border-radius: 8px;
+  background: none; color: var(--ig-text); cursor: pointer;
+}
+.wn-back svg { width: 24px; height: 24px; }
+.wn-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.wn-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 0 24px; overscroll-behavior: contain; }
+
+/* Pinned "Currently" card */
+.wn-current {
+  margin: 16px 24px 4px; padding: 14px 16px 16px; border-radius: 12px;
+  background: var(--ig-hover);
+  font-size: 14px; line-height: 18px;
+}
+.wn-current-text b { font-weight: 600; }
+.wn-current-sub { margin-top: 6px; color: var(--ig-muted); }
+.wn-current .wn-btn { margin-top: 12px; }
+
+/* Sections */
+.wn-section { padding: 8px 0; border-top: 1px solid var(--ig-line); }
+.wn-current + .wn-section, .wn-body > .wn-section:first-child { border-top: none; }
+.wn-section[hidden], .wn-row[hidden] { display: none; }
+.wn-section h3 { padding: 12px 24px 8px; font-size: 16px; font-weight: 600; }
+
+/* Rows */
+.wn-row {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 8px 24px; border: none; background: none; cursor: pointer;
+  font-family: inherit; text-align: left; color: var(--ig-text);
+  transition: background 0.15s;
+}
+.wn-row:hover, button.wn-row:focus-visible { background: var(--ig-hover); }
+.wn-text { flex: 1; min-width: 0; font-size: 14px; line-height: 18px; overflow-wrap: anywhere; }
+.wn-text b { font-weight: 600; }
+
+.wn-av {
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 50%; overflow: hidden;
+}
+.wn-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wn-av-initials {
+  background: var(--burgundy); color: #fff;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.02em;
+}
+
+.wn-thumb {
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 4px; overflow: hidden;
+  background: var(--ig-btn); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+}
+.wn-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wn-thumb-play { background: #000; color: #fff; box-shadow: none; }
+.wn-thumb-play svg { width: 20px; height: 20px; }
+
+.wn-btn {
+  flex-shrink: 0; height: 32px; padding: 0 16px; border: none; border-radius: 8px;
+  background: var(--ig-blue); color: #fff; cursor: pointer;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  transition: background 0.15s;
+}
+.wn-btn:hover { background: #1877F2; }
+
+.wn-panel :focus-visible { outline: 2px solid var(--ig-blue); outline-offset: 2px; }
+button.wn-row:focus-visible { outline-offset: -2px; }
+
+/* ── Red dot on the heart (sidebar + mobile top bar) ── */
+.wn-ico { position: relative; display: inline-flex; flex-shrink: 0; font-style: normal; }
+.wn-unseen .wn-ico::after {
+  content: ''; position: absolute; top: -1px; right: -2px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #FF3040; box-shadow: 0 0 0 2px var(--surface);
+}
+
+@media (max-width: 767px) {
+  .wn-panel {
+    left: 0; bottom: 50px; width: 100%; max-width: none; z-index: 150;
+    border: none; border-radius: 0; box-shadow: none;
+    transform: none; opacity: 0;
+    transition: opacity 0.2s, visibility 0s 0.2s;
+  }
+  .wn-panel.open { opacity: 1; }
+  .wn-head { padding: 10px 16px 12px; }
+  .wn-title-row { margin-bottom: 12px; }
+  .wn-head h2 { font-size: 20px; line-height: 32px; }
+  .wn-back { display: inline-flex; }
+  .wn-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px; scrollbar-width: none; }
+  .wn-chips::-webkit-scrollbar { display: none; }
+  .wn-chips .sp-chip { flex-shrink: 0; }
+  .wn-current { margin-left: 16px; margin-right: 16px; }
+  .wn-section h3, .wn-row { padding-left: 16px; padding-right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wn-panel, .wn-panel.open { transition: none; }
+}
