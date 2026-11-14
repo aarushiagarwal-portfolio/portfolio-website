@@ -1,6 +1,6 @@
 /* ── TABS ────────────────────────────── */
 /* Tabs listed here aren't ready yet: clicking shows a "coming soon" toast instead */
-const COMING_SOON_TABS = ['reels'];
+const COMING_SOON_TABS = [];
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -327,8 +327,8 @@ document.getElementById('hireBtn').addEventListener('click', () => openStory('co
 /* ══════════════════════════════════════
    SIDEBAR + MOBILE NAV
    Every nav control carries data-nav="<action>". Actions without a
-   handler yet (search, what's new, work with me, more) show a
-   "coming soon" toast until their panels are built.
+   handler yet (what's new, work with me, more) show a "coming soon"
+   toast until their panels are built. Search is added by search.js.
 ══════════════════════════════════════ */
 
 function showTab(name) {
@@ -336,8 +336,8 @@ function showTab(name) {
   document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* Posts tab = Work page: keep the sidebar in step (add reels: 'reels' when the Reels page goes live) */
-const TAB_TO_NAV = { grid: 'work' };
+/* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
+const TAB_TO_NAV = { grid: 'work', reels: 'reels' };
 function setActiveNav(key) {
   document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav === key));
 }
@@ -352,6 +352,7 @@ const NAV_ACTIONS = {
     document.querySelector('.tab-btn[data-tab="grid"]').click();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
+  reels: () => showTab('reels'),
   chat: () => openStory('contact'),
   about: () => openStory('about'),
 };

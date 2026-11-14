@@ -325,63 +325,135 @@ body { padding-left: var(--sidebar-w); }
 }
 
 /* ── REELS GRID ──────────────────────── */
-.reels-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; }
+.reels-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
 .reel-tile {
-  position: relative; display: block; width: 100%; aspect-ratio: 1; overflow: hidden;
+  position: relative; display: block; width: 100%; aspect-ratio: 9/16; overflow: hidden;
   background: var(--surface-2); border: none; padding: 0; cursor: pointer; color: #fff;
+  font-family: inherit;
 }
 .reel-thumb {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  display: block; transition: transform 0.35s;
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
 }
-.reel-tile:hover .reel-thumb { transform: scale(1.05); }
-.reel-play {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  width: 46px; height: 46px; border-radius: 50%;
-  background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
+.reel-hover {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.3); font-size: 16px; opacity: 0; transition: opacity 0.2s;
 }
-.reel-play svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
-.reel-badge {
-  position: absolute; top: 8px; left: 8px; z-index: 1;
-  font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.55rem; border-radius: 50px;
-  background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); white-space: nowrap;
+.reel-tile:hover .reel-hover,
+.reel-tile:focus-visible .reel-hover { opacity: 1; }
+.reel-count {
+  position: absolute; left: 12px; bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.45);
 }
-.reel-info {
-  position: absolute; left: 0; right: 0; bottom: 0; padding: 2rem 0.75rem 0.6rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  font-size: 0.78rem; font-weight: 500; text-align: left; line-height: 1.35;
-  opacity: 0; transition: opacity 0.25s;
-}
-.reel-info .views { display: block; font-weight: 700; }
-.reel-tile:hover .reel-info,
-.reel-tile:focus-visible .reel-info { opacity: 1; }
+.reel-count svg { width: 18px; height: 18px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
 
-/* reel viewer */
+/* reel viewer (Instagram desktop post layout) */
 .reel-overlay {
   position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none; transition: opacity 0.25s;
 }
 .reel-overlay.open { opacity: 1; pointer-events: all; }
-.reel-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); }
-.reel-modal {
-  position: relative; width: min(380px, 92vw); background: var(--surface);
-  border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md);
-}
-.reel-modal-media {
-  aspect-ratio: 9/16; max-height: 75vh; width: 100%; background: #000; color: #fff;
+.reel-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.65); }
+.reel-close, .reel-nav {
+  position: absolute; z-index: 2; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
-.reel-modal-media video { width: 100%; height: 100%; object-fit: contain; }
-.reel-modal-body { padding: 1rem 1.1rem 1.2rem; font-size: 0.85rem; line-height: 1.5; }
-.reel-modal-meta { font-size: 0.72rem; color: var(--text-2); margin-bottom: 0.35rem; }
-.reel-modal-link {
-  display: inline-block; margin-top: 0.6rem; color: var(--burgundy); font-weight: 600; text-decoration: none;
+.reel-close { top: 16px; right: 16px; width: 40px; height: 40px; background: none; color: #fff; }
+.reel-close svg { width: 26px; height: 26px; }
+.reel-nav {
+  top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%;
+  background: #fff; color: var(--ig-text); box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
-.reel-modal-link[hidden] { display: none; }
-.reel-modal-close {
-  position: absolute; top: 8px; right: 8px; z-index: 2; width: 32px; height: 32px; border-radius: 50%;
-  border: none; background: rgba(255,255,255,0.9); cursor: pointer; font-size: 0.95rem;
+.reel-nav svg { width: 18px; height: 18px; }
+.reel-nav[hidden] { display: none; }
+.reel-prev { left: 24px; }
+.reel-next { right: 24px; }
+.reel-modal {
+  --reel-h: min(90vh, 880px);
+  position: relative; z-index: 1; display: flex;
+  height: var(--reel-h); max-width: calc(100vw - 160px);
+  background: var(--surface); border-radius: 12px; overflow: hidden;
+}
+.reel-media {
+  position: relative; flex-shrink: 0; height: 100%; aspect-ratio: 9/16; background: #000;
+}
+.reel-media img, .reel-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.reel-play-big {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 84px; height: 84px; display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.92); filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35));
+  transition: transform 0.15s;
+}
+.reel-play-big:hover { transform: translate(-50%,-50%) scale(1.06); }
+.reel-play-big svg { width: 100%; height: 100%; }
+.reel-sound {
+  position: absolute; right: 16px; bottom: 16px; width: 32px; height: 32px; border-radius: 50%;
+  border: none; background: rgba(38,38,38,0.85); color: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.reel-sound svg { width: 16px; height: 16px; }
+
+.reel-side {
+  width: 500px; min-width: 0; display: flex; flex-direction: column;
+  border-left: 1px solid var(--ig-line); font-size: 14px; color: var(--ig-text);
+}
+.reel-av { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.reel-header {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+  border-bottom: 1px solid var(--ig-line);
+}
+.reel-head-text { flex: 1; min-width: 0; }
+.reel-handle { display: flex; align-items: center; gap: 4px; font-weight: 600; }
+.reel-handle .verified, .reel-caption .verified { width: 14px; height: 14px; vertical-align: -2px; }
+.reel-dot { color: var(--ig-text); }
+.reel-client { color: var(--ig-blue); font-weight: 600; }
+.reel-sub { font-size: 12px; margin-top: 2px; }
+.reel-more { display: flex; color: var(--ig-text); }
+.reel-more svg { width: 24px; height: 24px; }
+.reel-body { flex: 1; overflow-y: auto; padding: 16px; }
+.reel-caption { display: flex; gap: 14px; line-height: 20px; }
+.reel-caption p { margin-bottom: 14px; }
+.reel-tags { color: #00376B; }
+.reel-ig-link { font-size: 12px; color: var(--ig-muted); text-decoration: none; }
+.reel-ig-link:hover { text-decoration: underline; }
+.reel-actions {
+  display: flex; align-items: center; gap: 4px; padding: 6px 8px 0;
+  border-top: 1px solid var(--ig-line);
+}
+.reel-icon {
+  width: 40px; height: 40px; border: none; background: none; cursor: pointer; color: var(--ig-text);
+  display: flex; align-items: center; justify-content: center;
+}
+.reel-icon svg { width: 24px; height: 24px; transition: transform 0.15s; }
+.reel-icon:hover svg { opacity: 0.6; }
+.reel-like.liked { color: #FF3040; }
+.reel-like.liked svg { fill: currentColor; }
+.reel-spacer { flex: 1; }
+.reel-stats { padding: 4px 16px 16px; }
+.reel-comment {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 14px 16px; border: none; border-top: 1px solid var(--ig-line);
+  background: none; cursor: pointer; font-family: inherit; font-size: 14px; text-align: left;
+}
+.reel-comment svg { width: 24px; height: 24px; color: var(--ig-text); flex-shrink: 0; }
+.reel-comment span { flex: 1; color: var(--ig-muted); }
+.reel-comment strong { color: var(--ig-blue); font-weight: 600; }
+
+@media (max-width: 1000px) {
+  .reel-modal { max-width: calc(100vw - 32px); }
+  .reel-side { width: 340px; }
+  .reel-prev { left: 8px; }
+  .reel-next { right: 8px; }
+}
+@media (max-width: 767px) {
+  .reel-modal {
+    flex-direction: column; height: 100%; max-width: none; width: 100vw; border-radius: 0;
+  }
+  .reel-media { height: auto; width: 100%; max-height: 68vh; aspect-ratio: 9/16; margin: 0 auto; }
+  .reel-side { width: 100%; flex: 1; min-height: 0; border-left: none; }
+  .reel-header { order: -1; }
+  .reel-close { color: #fff; z-index: 3; }
+  .reel-nav { display: none; }
 }
 
 /* ── TAGGED GRID ─────────────────────── */

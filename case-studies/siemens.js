@@ -21,6 +21,22 @@ window.CASE_STUDIES.push({
     'case-studies/Siemens/carousel/slide-4-what-i-delivered.html',
   ],
 
+  /* ── search ── what the Search panel knows about this project.
+     headline: the number shown next to the project in the Search list.
+     tags:     one line per tag. To add a tag, copy a line and change it:
+                 tag   = the chip name (reuse a spelling from another project
+                         to share its chip, or type a new name to create one)
+                 slide = which slide of the carousel opens for that tag
+                 proof = the one-line evidence shown under the project ── */
+  headline: 'Won in 7 days',
+  tags: [
+    { tag: 'Pitches', slide: 1, proof: 'Full rebrand strategy for Siemens Careers, pitched and won in 7 days' },
+    { tag: 'Strategy', slide: 4, proof: 'Built the pitch deck, a 90-day content calendar and 4 series recommendations' },
+    { tag: 'Trends', slide: 4, proof: 'Filmed and edited 3 trend videos adapted for the Siemens brand' },
+    { tag: 'Video', slide: 4, proof: 'Filmed and edited 3 trend videos adapted for the Siemens brand' },
+    { tag: 'Instagram', slide: 3, proof: 'Instagram pitch for 6 countries, aimed at ages 22 to 35' },
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'New Business Pitch',
   tileBrief: 'Full rebrand strategy for Siemens Careers — pitched and won in 7 days.',

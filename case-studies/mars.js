@@ -25,6 +25,25 @@ window.CASE_STUDIES.push({
     'case-studies/Mars/carousel/slide-7-the-work.html',
   ],
 
+  /* ── search ── what the Search panel knows about this project.
+     headline: the number shown next to the project in the Search list.
+     tags:     one line per tag. To add a tag, copy a line and change it:
+                 tag   = the chip name (reuse a spelling from another project
+                         to share its chip, or type a new name to create one)
+                 slide = which slide of the carousel opens for that tag
+                 proof = the one-line evidence shown under the project ── */
+  headline: '15.79% eng. rate',
+  tags: [
+    { tag: 'Podcast', slide: 5, proof: 'Supported podcast strategy: platform, season structure, format and competitor analysis' },
+    { tag: 'Organic', slide: 4, proof: 'Developed a social-first rollout across Reels, TikTok and LinkedIn' },
+    { tag: 'Paid social', slide: 3, proof: 'Paid launch over 4 months in the US, UK and France' },
+    { tag: 'Video', slide: 5, proof: 'Directed production, briefing two social cuts per episode' },
+    { tag: 'TikTok', slide: 5, proof: 'Managed cross-platform distribution across TikTok, Meta and LinkedIn' },
+    { tag: 'Instagram', slide: 5, proof: 'Managed cross-platform distribution across TikTok, Meta and LinkedIn' },
+    { tag: 'Facebook', slide: 5, proof: 'Managed cross-platform distribution across TikTok, Meta and LinkedIn' },
+    { tag: 'LinkedIn', slide: 5, proof: 'Managed cross-platform distribution across TikTok, Meta and LinkedIn' },
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Careers Podcast',
   tileBrief: 'Real career journeys, told through an 8-episode podcast and social-first rollout.',
