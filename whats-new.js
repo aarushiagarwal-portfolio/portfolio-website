@@ -29,13 +29,8 @@
    There are no dates: you decide what sits under each heading.
 ══════════════════════════════════════ */
 const WHATS_NEW = {
-  /* Pinned card, always shown at the top */
-  currently: {
-    text: 'Currently: open to social media roles in London 🇬🇧 · posting London café and day-out guides on **@aarushis.life** ☕',
-    sub: 'In the drafts 👀: Bath, Croatia, Florence, Norway & Finland, Singapore…',
-    button: 'Say hi',
-    action: 'chat',
-  },
+  /* Optional pinned card above the sections. To bring it back, add:
+     currently: { text: '…', sub: '…', button: 'Say hi', action: 'chat' }, */
 
   sections: [
     {
