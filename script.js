@@ -1,6 +1,6 @@
 /* ── TABS ────────────────────────────── */
 /* Tabs listed here aren't ready yet: clicking shows a "coming soon" toast instead */
-const COMING_SOON_TABS = [];
+const COMING_SOON_TABS = ['reels'];
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -337,7 +337,7 @@ function showTab(name) {
 }
 
 /* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
-const TAB_TO_NAV = { grid: 'work', reels: 'reels' };
+const TAB_TO_NAV = { grid: 'work' };
 function setActiveNav(key) {
   document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav === key));
 }
@@ -352,7 +352,6 @@ const NAV_ACTIONS = {
     document.querySelector('.tab-btn[data-tab="grid"]').click();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
-  reels: () => showTab('reels'),
   chat: () => openStory('contact'),
   about: () => openStory('about'),
 };
