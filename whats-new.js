@@ -6,8 +6,7 @@
    To add an update: copy one { ... } block inside the section it belongs
    to, paste it where it should appear (top = newest) and change:
      id      a short unique name, e.g. 'bath-guide'. The red dot on the
-             heart shows again whenever the id of the very first update
-             (top of the first section) changes.
+             heart shows on every new visit until the panel is opened.
      type    'work' | 'content' | 'review' | 'trend' | 'life'
              (decides which chip shows it; 'life' sits under Content)
      avatar  'me' for your photo, or initials like 'MA' for a reviewer
@@ -218,7 +217,10 @@ const WHATS_NEW = {
     if (item) run(item.action);
   });
 
-  /* ── red dot on the heart ── */
+  /* ── red dot on the heart ──
+     Shows on every new visit and clears once the panel is opened. It stays
+     cleared for the rest of that visit (sessionStorage), then returns the
+     next time someone comes to the site. ── */
   const hearts = document.querySelectorAll('[data-nav="whats-new"]');
   hearts.forEach(h => {
     const icon = h.querySelector('svg');
@@ -231,7 +233,7 @@ const WHATS_NEW = {
   let seenThisVisit = false;
   function hasUnseen() {
     if (seenThisVisit || !newestId) return false;
-    try { return localStorage.getItem(SEEN_KEY) !== newestId; } catch (_) { return true; }
+    try { return sessionStorage.getItem(SEEN_KEY) !== newestId; } catch (_) { return true; }
   }
   function paintDot() {
     const unseen = hasUnseen();
@@ -239,7 +241,7 @@ const WHATS_NEW = {
   }
   function markSeen() {
     seenThisVisit = true;
-    try { localStorage.setItem(SEEN_KEY, newestId); } catch (_) { /* private mode: dot stays off for this visit only */ }
+    try { sessionStorage.setItem(SEEN_KEY, newestId); } catch (_) { /* storage blocked: dot stays off until the page reloads */ }
     paintDot();
   }
   paintDot();
