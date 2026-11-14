@@ -126,8 +126,9 @@
     });
   });
 
-  /* Reels (the viewer shows the first six) */
-  if (typeof REELS !== 'undefined' && window.openReel) {
+  /* Reels (the viewer shows the first six); left out while the Reels tab is "coming soon" */
+  const reelsLive = typeof COMING_SOON_TABS === 'undefined' || !COMING_SOON_TABS.includes('reels');
+  if (typeof REELS !== 'undefined' && window.openReel && reelsLive) {
     REELS.slice(0, 6).forEach((r, i) => addItem({
       kind: 'reel', title: r.client, img: r.thumb, sub: r.caption,
       lines: [{ text: r.caption }, { text: (r.tags || []).join(' ') }, { text: r.credits }, { text: 'reel video', hidden: true }],
