@@ -23,6 +23,22 @@ window.CASE_STUDIES.push({
     'case-studies/Amex/carousel/slide-6-the-work.html',
   ],
 
+  /* ── search ── what the Search panel knows about this project.
+     headline: the number shown next to the project in the Search list.
+     tags:     one line per tag. To add a tag, copy a line and change it:
+                 tag   = the chip name (reuse a spelling from another project
+                         to share its chip, or type a new name to create one)
+                 slide = which slide of the carousel opens for that tag
+                 proof = the one-line evidence shown under the project ── */
+  headline: '27.5% CTR',
+  tags: [
+    { tag: 'Paid social', slide: 4, proof: 'Executed paid social across LinkedIn, Meta and Reddit' },
+    { tag: 'Reporting', slide: 5, proof: 'Generated campaign performance reports' },
+    { tag: 'Facebook', slide: 3, proof: 'Set up, monitored and optimised ads across all three platforms' },
+    { tag: 'LinkedIn', slide: 3, proof: 'Set up, monitored and optimised ads across all three platforms' },
+    { tag: 'Reddit', slide: 3, proof: 'Set up, monitored and optimised ads across all three platforms' },
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Tech Talent Campaign',
   tileBrief: 'Paid social campaign building Amex\'s tech employer brand across 3 markets.',

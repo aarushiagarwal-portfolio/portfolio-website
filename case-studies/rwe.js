@@ -24,6 +24,24 @@ window.CASE_STUDIES.push({
     'case-studies/RWE/carousel/slide-6-the-work.html',
   ],
 
+  /* ── search ── what the Search panel knows about this project.
+     headline: the number shown next to the project in the Search list.
+     tags:     one line per tag. To add a tag, copy a line and change it:
+                 tag   = the chip name (reuse a spelling from another project
+                         to share its chip, or type a new name to create one)
+                 slide = which slide of the carousel opens for that tag
+                 proof = the one-line evidence shown under the project ── */
+  headline: '37M+ impressions',
+  tags: [
+    { tag: 'Organic', slide: 4, proof: 'Managed monthly content planning, scheduling, publishing and community engagement' },
+    { tag: 'Community', slide: 4, proof: 'Managed monthly publishing and community engagement' },
+    { tag: 'Video', slide: 4, proof: 'Directed end-to-end video production, briefing to final approval' },
+    { tag: 'Paid social', slide: 4, proof: 'Optimised content performance through paid boosting' },
+    { tag: 'Instagram', slide: 3, proof: 'Always-on social for 12 months across 15 countries' },
+    { tag: 'Facebook', slide: 3, proof: 'Always-on social for 12 months across 15 countries' },
+    { tag: 'LinkedIn', slide: 3, proof: 'Always-on social for 12 months across 15 countries' },
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Always On Social',
   tileBrief: 'Retention through authentic, behind-the-scenes storytelling.',

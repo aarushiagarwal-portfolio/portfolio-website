@@ -97,6 +97,8 @@ const REELS = [
     overlay.setAttribute('aria-hidden', 'false');
   }
 
+  window.openReel = openReel; // used by Search
+
   function step(d) {
     const n = current + d;
     if (n < 0 || n >= reels.length) return;

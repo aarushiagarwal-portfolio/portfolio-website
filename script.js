@@ -327,8 +327,8 @@ document.getElementById('hireBtn').addEventListener('click', () => openStory('co
 /* ══════════════════════════════════════
    SIDEBAR + MOBILE NAV
    Every nav control carries data-nav="<action>". Actions without a
-   handler yet (search, what's new, work with me, more) show a
-   "coming soon" toast until their panels are built.
+   handler yet (what's new, work with me, more) show a "coming soon"
+   toast until their panels are built. Search is added by search.js.
 ══════════════════════════════════════ */
 
 function showTab(name) {

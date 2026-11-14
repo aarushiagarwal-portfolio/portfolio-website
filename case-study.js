@@ -175,6 +175,7 @@ function csBuildTile(data) {
   const btn = document.createElement('button');
   btn.className = 'cs-tile';
   btn.setAttribute('aria-label', `Open ${data.name} case study`);
+  btn.dataset.cs = data.id; // lets Search narrow the grid to matching projects
   if (data.slidePages) {
     btn.classList.add('cs-tile-page');
     btn.innerHTML = csPageHtml(data.slidePages[0], `${data.name} case study cover`, false);
@@ -309,7 +310,8 @@ function csGoTo(i) {
   csOverlayEl.querySelector('.cs-ov-next').disabled = csIndex === csSlideCount - 1;
 }
 
-function csOpen(data) {
+/* startIndex: slide to open on (0 = cover). Search uses it to land on the proof. */
+function csOpen(data, startIndex = 0) {
   const overlay = csEnsureOverlay();
   const track = overlay.querySelector('.cs-track');
   const dotsWrap = overlay.querySelector('.cs-ov-dots');
@@ -331,10 +333,11 @@ function csOpen(data) {
     `<strong>${data.post.username}</strong>${data.post.caption}`;
   overlay.querySelector('.cs-like-btn').classList.remove('cs-liked');
 
-  csIndex = 0;
-  track.style.transform = 'translateX(0)';
+  track.style.transition = 'none'; // jump straight to the starting slide, no slide-through
   overlay.classList.add('open');
-  csGoTo(0);
+  csGoTo(startIndex);
+  void track.offsetWidth;
+  track.style.transition = '';
 }
 
 function csClose() {

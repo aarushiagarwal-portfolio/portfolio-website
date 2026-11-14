@@ -25,6 +25,22 @@ window.CASE_STUDIES.push({
     'case-studies/adidas/carousel/slide-6-the-work.html',
   ],
 
+  /* ── search ── what the Search panel knows about this project.
+     headline: the number shown next to the project in the Search list.
+     tags:     one line per tag. To add a tag, copy a line and change it:
+                 tag   = the chip name (reuse a spelling from another project
+                         to share its chip, or type a new name to create one)
+                 slide = which slide of the carousel opens for that tag
+                 proof = the one-line evidence shown under the project ── */
+  headline: '61.5M+ impressions',
+  tags: [
+    { tag: 'Paid social', slide: 4, proof: 'Set up and optimised 50+ paid ads a month across Meta and LinkedIn' },
+    { tag: 'Reporting', slide: 5, proof: 'Data-driven optimisations: audience refinements and creative testing' },
+    { tag: 'Instagram', slide: 3, proof: '9-month campaign across 13 countries' },
+    { tag: 'Facebook', slide: 3, proof: '9-month campaign across 13 countries' },
+    { tag: 'LinkedIn', slide: 3, proof: '9-month campaign across 13 countries' },
+  ],
+
   /* ── grid tile ── */
   eyebrow: 'Paid Social',
   tileBrief: 'Paid social campaign activating the new employer brand across 4 audiences, globally.',
