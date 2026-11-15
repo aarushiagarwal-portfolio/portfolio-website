@@ -236,7 +236,7 @@ function csEnsureOverlay() {
   csOverlayEl.id = 'csOverlay';
   csOverlayEl.innerHTML = `
     <div class="cs-backdrop"></div>
-    <div class="cs-modal">
+    <div class="cs-modal" role="dialog" aria-modal="true" aria-label="Case study" tabindex="-1">
       <button class="cs-close" aria-label="Close">✕</button>
       <div class="cs-viewport">
         <div class="cs-track"></div>
@@ -317,6 +317,7 @@ function csGoTo(i) {
   const track = csOverlayEl.querySelector('.cs-track');
   track.style.transform = `translateX(-${csIndex * 100}%)`;
   csOverlayEl.querySelectorAll('.cs-ov-dot').forEach((d, i2) => d.classList.toggle('active', i2 === csIndex));
+  csOverlayEl.querySelectorAll('.cs-slide').forEach((s, i2) => { s.inert = i2 !== csIndex; }); // keyboard only reaches the slide on screen
   csOverlayEl.querySelector('.cs-ov-prev').disabled = csIndex === 0;
   csOverlayEl.querySelector('.cs-ov-next').disabled = csIndex === csSlideCount - 1;
 }

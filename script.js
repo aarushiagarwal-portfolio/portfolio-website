@@ -36,7 +36,81 @@ function whenScrollable(fn) {
   syncScrollLock();
   if (pageLocked) afterUnlock = fn; else fn();
 }
-new MutationObserver(syncScrollLock).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+/* People who ask their device for less motion get instant jumps, not glides */
+const SCROLL_STYLE = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+/* ══════════════════════════════════════
+   KEYBOARD FOCUS
+   When a story, case study, reel or panel opens, focus moves into it; when it
+   closes, focus goes back to whatever opened it. While a full-screen viewer is
+   open the page behind can't be reached with Tab.
+══════════════════════════════════════ */
+const FOCUS_LAYERS = '.story-overlay, .post-overlay, .cs-overlay, .reel-overlay, .search-panel, .wn-panel, .chat-panel';
+const VIEWERS_OPEN = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open';
+const CAN_FOCUS = 'button:not([disabled]), a[href], input, [tabindex]:not([tabindex="-1"])';
+const focusTrail = [];                 // recently focused or pressed controls, newest last
+const layerOpener = new Map();         // open layer -> the control that opened it
+let openLayers = new Set();
+
+function noteFocus(el) {
+  if (!el || el === document.body) return;
+  focusTrail.push(el);
+  if (focusTrail.length > 8) focusTrail.shift();
+}
+document.addEventListener('focusin', e => noteFocus(e.target));
+const notePress = e => noteFocus(e.target.closest && e.target.closest(CAN_FOCUS));
+document.addEventListener('pointerdown', notePress, true);
+document.addEventListener('click', notePress, true);   // also covers Enter / Space on a button
+
+function syncFocus() {
+  const now = new Set(document.querySelectorAll(FOCUS_LAYERS));
+  now.forEach(el => { if (!el.classList.contains('open')) now.delete(el); });
+  const opened = [...now].filter(el => !openLayers.has(el));
+  const closed = [...openLayers].filter(el => !now.has(el));
+  openLayers = now;
+  if (!opened.length && !closed.length) return;
+
+  /* the page behind a full-screen viewer is out of reach of Tab and screen readers */
+  const viewerOpen = !!document.querySelector(VIEWERS_OPEN);
+  document.querySelectorAll('.sidebar, .mobile-top, .mobile-bottom, .ig-page').forEach(el => { el.inert = viewerOpen; });
+
+  opened.forEach(el => {
+    const active = document.activeElement;
+    const opener = active && active !== document.body && !el.contains(active)
+      ? active
+      : focusTrail.slice().reverse().find(f => f.isConnected && !el.contains(f));
+    layerOpener.set(el, opener || null);
+    if (el.contains(document.activeElement)) return;   // it already took focus itself
+    const target = el.querySelector('[role="dialog"]') || el;
+    if (!target.hasAttribute('tabindex')) target.tabIndex = -1;
+    target.focus({ preventScroll: true });
+  });
+
+  if (!opened.length) closed.forEach(el => {
+    const opener = layerOpener.get(el);
+    layerOpener.delete(el);
+    const active = document.activeElement;
+    const lost = !active || active === document.body || el.contains(active);
+    if (lost && opener && opener.isConnected && !opener.closest('[inert]')) opener.focus({ preventScroll: true });
+  });
+  else closed.forEach(el => layerOpener.delete(el));
+}
+
+/* Tab stays inside an open story or case study (the reel viewer does its own) */
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const layer = document.querySelector('.cs-overlay.open') || document.querySelector('.story-overlay.open') || document.querySelector('.post-overlay.open');
+  if (!layer) return;
+  const items = [...layer.querySelectorAll(CAN_FOCUS)].filter(el => el.getClientRects().length && !el.closest('[inert]'));
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1], active = document.activeElement;
+  const inside = items.includes(active);
+  if (e.shiftKey && (!inside || active === first)) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && (!inside || active === last)) { e.preventDefault(); first.focus(); }
+});
+
+new MutationObserver(() => { syncScrollLock(); syncFocus(); })
+  .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
 
 /* ── TABS ────────────────────────────── */
 /* Tabs listed here aren't ready yet: clicking shows a "coming soon" toast instead */
@@ -400,7 +474,7 @@ document.getElementById('hireBtn').addEventListener('click', () => openChat());
 
 function showTab(name) {
   document.querySelector(`.tab-btn[data-tab="${name}"]`).click();
-  whenScrollable(() => document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  whenScrollable(() => document.querySelector('.tab-bar').scrollIntoView({ behavior: SCROLL_STYLE, block: 'start' }));
 }
 
 /* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
@@ -417,7 +491,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 const NAV_ACTIONS = {
   work: () => {
     document.querySelector('.tab-btn[data-tab="grid"]').click();
-    whenScrollable(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    whenScrollable(() => window.scrollTo({ top: 0, behavior: SCROLL_STYLE }));
   },
   reels: () => showTab('reels'),
   chat: () => openStory('contact'), // replaced by the Let's chat panel in chat.js
@@ -530,6 +604,10 @@ function closePost() { postOverlay.classList.remove('open'); }
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape')       { closeStory(); closePost(); }
+  if (storyOverlay.classList.contains('open')) {   // keyboard version of tapping the sides of a story
+    if (e.key === 'ArrowRight') storyTapRight.click();
+    if (e.key === 'ArrowLeft')  storyTapLeft.click();
+  }
   if (e.key === 'ArrowRight' && postOverlay.classList.contains('open')) { if (carIdx < carSlides.length - 1) { carIdx++; updateCar(); } }
   if (e.key === 'ArrowLeft'  && postOverlay.classList.contains('open')) { if (carIdx > 0) { carIdx--; updateCar(); } }
 });

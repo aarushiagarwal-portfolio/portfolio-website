@@ -1087,3 +1087,21 @@ body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: 
 .story-shell, .reel-media, .cs-track { touch-action: pan-y; }
 /* Links on a story slide sit above the tap-to-skip zones, so a tap on them opens the link */
 .contact-link-s { position: relative; z-index: 10; }
+
+/* ── KEYBOARD FOCUS ──────────────────────
+   One clear focus ring for anyone moving around with Tab. */
+:focus-visible { outline: 2px solid var(--ig-blue); outline-offset: 2px; }
+.cs-tile:focus-visible, .post-thumb:focus-visible { outline-offset: -2px; }
+.story-shell:focus, .post-modal:focus, .cs-modal:focus,
+.search-panel:focus, .wn-panel:focus, .chat-panel:focus { outline: none; }
+
+/* ── REDUCED MOTION ──────────────────────
+   For people who ask their device for less motion: no decorative animation.
+   The story progress bar stays, because it shows how long a slide lasts. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *:not(.story-bar-fill), *::before, *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important; transition-delay: 0s !important;
+  }
+}
