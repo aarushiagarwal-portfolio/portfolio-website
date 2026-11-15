@@ -103,7 +103,7 @@ function buildSlide(data) {
       div.innerHTML = `
         <div class="slide-hero">
           <div class="slide-hero-photo">
-            <img src="aarushi.jpg" alt="Aarushi" />
+            <img src="aarushi-about.jpg" alt="Aarushi" width="880" height="1092" decoding="async" />
           </div>
           <div class="slide-hero-text">
             <div class="slide-hero-badge"><div class="badge-green-dot"></div>Available for new opportunities</div>
@@ -472,7 +472,7 @@ function buildCarSlide(s) {
   div.className = 'carousel-slide';
 
   if (s.img) {
-    div.innerHTML = `<img src="${s.img}" alt="" style="width:100%;height:100%;object-fit:cover;" />`;
+    div.innerHTML = `<img src="${s.img}" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />`;
   } else {
     div.style.background = s.bg || '#111';
     let inner = `<div class="car-slide-overlay">`;
@@ -512,7 +512,7 @@ function openPost(key) {
 
   postInfoSide.innerHTML = `
     <div class="pi-account">
-      <div class="pi-avatar"><img src="aarushi-cropped.jpg" alt="Aarushi" /></div>
+      <div class="pi-avatar"><img src="aarushi-avatar.jpg" alt="Aarushi" width="38" height="38" loading="lazy" decoding="async" /></div>
       <div><strong>aarushiagarwal</strong><span>Social Media Manager</span></div>
       <button class="pi-hire" id="piHire">Get In Touch</button>
     </div>

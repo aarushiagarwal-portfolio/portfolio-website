@@ -56,7 +56,7 @@ const CS_PLATFORM_ICONS = {
 function csRenderBlock(block) {
   switch (block.type) {
     case 'logo':
-      return `<img class="cs-logo-img" src="${block.src}" alt="${block.alt || ''}">`;
+      return `<img class="cs-logo-img" src="${block.src}" alt="${block.alt || ''}" width="64" height="64" loading="lazy" decoding="async">`;
 
     case 'heading1':
       return `<h1>${block.html}</h1>`;
@@ -125,7 +125,7 @@ function csRenderDashboard(d, spaced) {
 function csRenderCreative(c) {
   return `
     <a class="cs-frame" href="${c.href}" target="_blank" rel="noopener">
-      <img src="${c.img}" alt="${c.caption}">
+      <img src="${c.img}" alt="${c.caption}" loading="lazy" decoding="async">
       <div class="cs-shade"></div>
       <span class="cs-reel-tag">${c.tag}</span>
       ${c.isVideo !== false ? '<span class="cs-play"></span>' : ''}
@@ -195,7 +195,7 @@ function csBuildTile(data) {
     <div class="cs-rule"></div><div class="cs-corner tl"></div><div class="cs-corner tr"></div>
     <div class="cs-tile-eyebrow">${data.eyebrow}</div>
     <div class="cs-tile-body">
-      <img class="cs-logo-img" src="${data.logo}" alt="${data.name}" />
+      <img class="cs-logo-img" src="${data.logo}" alt="${data.name}" width="44" height="44" loading="lazy" decoding="async" />
       <div class="cs-tile-brief">${data.tileBrief}</div>
       <div class="cs-tile-result">
         ${data.tileResults.map(r => `<div><div class="cs-r-label">${r.label}</div><div class="cs-r-num">${r.num}</div></div>`).join('')}
@@ -250,13 +250,13 @@ function csEnsureOverlay() {
       </div>
       <div class="cs-info-side">
         <div class="cs-info-header">
-          <div class="cs-info-avatar"><img src="aarushi-cropped.jpg" alt="Aarushi Agarwal"></div>
+          <div class="cs-info-avatar"><img src="aarushi-avatar.jpg" alt="Aarushi Agarwal" width="30" height="30" loading="lazy" decoding="async"></div>
           <span class="cs-info-username"></span>
           <span class="cs-info-menu">&#8942;</span>
         </div>
         <div class="cs-info-body">
           <div class="cs-info-caption">
-            <div class="cs-info-avatar"><img src="aarushi-cropped.jpg" alt="Aarushi Agarwal"></div>
+            <div class="cs-info-avatar"><img src="aarushi-avatar.jpg" alt="Aarushi Agarwal" width="30" height="30" loading="lazy" decoding="async"></div>
             <p></p>
           </div>
         </div>

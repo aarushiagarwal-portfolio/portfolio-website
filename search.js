@@ -280,7 +280,7 @@
   function rowHtml(r, i) {
     const it = r.item;
     const avatar = it.img
-      ? `<span class="sp-av sp-av-${it.kind}"><img src="${it.img}" alt="" loading="lazy"></span>`
+      ? `<span class="sp-av sp-av-${it.kind}"><img src="${it.img}" alt="" width="44" height="44" loading="lazy" decoding="async"></span>`
       : `<span class="sp-av sp-av-${it.kind}">${it.initials ? esc(it.initials) : ICONS.skill}</span>`;
     let sub = r.line && !r.line.hidden ? highlight(r.line.text, r.tokens) : highlight(it.sub, r.tokens);
     /* matched through a tag whose proof line doesn't contain the typed word: name the tag */

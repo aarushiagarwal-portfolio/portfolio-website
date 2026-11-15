@@ -9,7 +9,7 @@ const CHAT = {
   note:     "Always up for a chat about social strategy, campaigns, or what's next.",
   name:     'Aarushi Agarwal',
   role:     'Social Media and Content Specialist',
-  photo:    'aarushi-cropped.jpg',
+  photo:    'aarushi-avatar.jpg',
   email:    'aarushiag126@gmail.com',
   linkedin: 'https://www.linkedin.com/in/aarushi-agarwal126/',
   footer:   'Usually replies within a day',
@@ -40,7 +40,7 @@ const CHAT = {
     <div class="chat-body">
       <div class="chat-me">
         <p class="chat-note">${esc(CHAT.note)}</p>
-        <span class="chat-ring"><img src="${esc(CHAT.photo)}" alt=""></span>
+        <span class="chat-ring"><img src="${esc(CHAT.photo)}" alt="" width="134" height="134" loading="lazy" decoding="async"></span>
         <p class="chat-name">${esc(CHAT.name)}</p>
         <p class="chat-role">${esc(CHAT.role)}</p>
       </div>
