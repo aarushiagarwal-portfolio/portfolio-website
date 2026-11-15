@@ -5,8 +5,8 @@
    Filter chips reuse Search's .sp-chip style.
 ══════════════════════════════════════ */
 .wn-panel {
-  position: fixed; top: 0; bottom: 0; left: var(--sidebar-w); z-index: 90;
-  width: 397px; max-width: calc(100vw - var(--sidebar-w));
+  position: fixed; top: 0; bottom: 0; left: calc(var(--sidebar-w) + var(--safe-l)); z-index: 90;
+  width: 397px; max-width: calc(100vw - var(--sidebar-w) - var(--safe-l));
   display: flex; flex-direction: column;
   background: var(--surface); color: var(--ig-text);
   border-right: 1px solid var(--ig-line); border-radius: 0 16px 16px 0;
@@ -52,7 +52,8 @@
   font-family: inherit; text-align: left; color: var(--ig-text);
   transition: background 0.15s;
 }
-.wn-row:hover, button.wn-row:focus-visible { background: var(--ig-hover); }
+button.wn-row:focus-visible { background: var(--ig-hover); }
+@media (hover: hover) { .wn-row:hover { background: var(--ig-hover); } }
 .wn-text { flex: 1; min-width: 0; font-size: 14px; line-height: 18px; overflow-wrap: anywhere; }
 .wn-text b { font-weight: 600; }
 
@@ -81,7 +82,7 @@
   font-family: inherit; font-size: 14px; font-weight: 600;
   transition: background 0.15s;
 }
-.wn-btn:hover { background: #1877F2; }
+@media (hover: hover) { .wn-btn:hover { background: #1877F2; } }
 
 .wn-panel :focus-visible { outline: 2px solid var(--ig-blue); outline-offset: 2px; }
 button.wn-row:focus-visible { outline-offset: -2px; }
@@ -96,7 +97,8 @@ button.wn-row:focus-visible { outline-offset: -2px; }
 
 @media (max-width: 767px) {
   .wn-panel {
-    left: 0; bottom: 50px; width: 100%; max-width: none; z-index: 150;
+    left: 0; bottom: calc(50px + var(--safe-b)); width: 100%; max-width: none; z-index: 150;
+    padding-top: var(--safe-t);
     border: none; border-radius: 0; box-shadow: none;
     transform: none; opacity: 0;
     transition: opacity 0.2s, visibility 0s 0.2s;

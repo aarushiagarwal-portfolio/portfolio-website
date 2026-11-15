@@ -112,7 +112,7 @@ const WHATS_NEW = {
     { key: 'trends', label: 'Trends', types: ['trend'] },
   ];
   const SEEN_KEY = 'wn-seen';
-  const ME_PHOTO = 'aarushi-cropped.jpg';
+  const ME_PHOTO = 'aarushi-avatar.jpg';
   const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
   const BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
 
@@ -144,16 +144,16 @@ const WHATS_NEW = {
   /* ── markup ── */
   function avatarHtml(a) {
     return a === 'me'
-      ? `<span class="wn-av"><img src="${ME_PHOTO}" alt=""></span>`
+      ? `<span class="wn-av"><img src="${ME_PHOTO}" alt="" width="44" height="44" loading="lazy" decoding="async"></span>`
       : `<span class="wn-av wn-av-initials" aria-hidden="true">${esc(a)}</span>`;
   }
   function thumbHtml(t) {
     if (t === 'play') return `<span class="wn-thumb wn-thumb-play">${PLAY}</span>`;
     if (t.startsWith('case:')) {
       const cs = findCase(t.slice(5));
-      return cs ? `<span class="wn-thumb"><img src="${cs.logo}" alt="" loading="lazy"></span>` : '';
+      return cs ? `<span class="wn-thumb"><img src="${cs.logo}" alt="" width="44" height="44" loading="lazy" decoding="async"></span>` : '';
     }
-    return `<span class="wn-thumb"><img src="${esc(t)}" alt="" loading="lazy"></span>`;
+    return `<span class="wn-thumb"><img src="${esc(t)}" alt="" width="44" height="44" loading="lazy" decoding="async"></span>`;
   }
   function rowHtml(it) {
     const text = `<span class="wn-text">${rich(it.text)}</span>`;

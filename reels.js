@@ -105,10 +105,22 @@ const REELS = [
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* ── grid tiles ── */
+  /* ── grid tiles ──
+     Nothing is downloaded for a tile until the Reels grid is on (or near) the
+     screen: first its poster, then its 3-second clip. The clip only plays while
+     the tile is on screen. ── */
+  function loadClip(v) {
+    if (v.dataset.src) { v.poster = v.dataset.poster; v.src = v.dataset.src; delete v.dataset.src; }
+  }
+  const nearWatcher = 'IntersectionObserver' in window
+    ? new IntersectionObserver(entries => entries.forEach(en => {
+        if (en.isIntersecting) { loadClip(en.target); nearWatcher.unobserve(en.target); }
+      }), { rootMargin: '400px 0px' })
+    : null;
   const clipWatcher = !reduceMotion && 'IntersectionObserver' in window
     ? new IntersectionObserver(entries => entries.forEach(en => {
         const v = en.target;
+        if (en.isIntersecting) loadClip(v);
         if (en.isIntersecting && !overlay.classList.contains('open')) {
           const p = v.play();
           if (p) p.catch(() => {});
@@ -123,8 +135,8 @@ const REELS = [
     tile.setAttribute('aria-label', r.label + '. ' + r.views + ' views. Open reel');
     tile.innerHTML =
       (clipWatcher
-        ? '<video class="reel-thumb" src="' + r.clip + '" poster="' + r.poster + '" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>'
-        : '<img class="reel-thumb" src="' + r.poster + '" alt="">') +
+        ? '<video class="reel-thumb" data-src="' + r.clip + '" data-poster="' + r.poster + '" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>'
+        : '<img class="reel-thumb" src="' + r.poster + '" alt="" loading="lazy" decoding="async">') +
       '<span class="reel-hover" aria-hidden="true">' +
         '<span class="reel-hover-stats">' +
           '<span>' + ICON.play + r.views + '</span>' +
@@ -139,6 +151,7 @@ const REELS = [
     if (clipWatcher) {
       const v = tile.querySelector('video');
       v.muted = true;
+      nearWatcher.observe(v);
       clipWatcher.observe(v);
     }
   });
@@ -189,7 +202,7 @@ const REELS = [
     });
 
     header.innerHTML =
-      '<span class="reel-ring"><img class="reel-av" src="aarushi-cropped.jpg" alt=""></span>' +
+      '<span class="reel-ring"><img class="reel-av" src="aarushi-avatar.jpg" alt="" width="32" height="32" decoding="async"></span>' +
       '<div class="reel-head-text"><div class="reel-handle">' + REEL_ACCOUNT.handle +
         '<span class="reel-dot">·</span>' +
         '<a class="reel-follow" href="' + REEL_ACCOUNT.url + '" target="_blank" rel="noopener">Follow</a></div>' +
@@ -197,7 +210,7 @@ const REELS = [
       '<a class="reel-more" href="' + r.link + '" target="_blank" rel="noopener" aria-label="Open on TikTok">' + ICON.more + '</a>';
 
     captionEl.innerHTML =
-      '<img class="reel-av" src="aarushi-cropped.jpg" alt="">' +
+      '<img class="reel-av" src="aarushi-avatar.jpg" alt="" width="32" height="32" loading="lazy" decoding="async">' +
       '<div><p class="reel-text"><strong>' + REEL_ACCOUNT.handle + '</strong> ' + esc(r.caption) + '</p>' +
       (r.tags && r.tags.length
         ? '<p class="reel-tags">' + r.tags.map(t =>

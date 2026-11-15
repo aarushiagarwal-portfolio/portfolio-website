@@ -1,3 +1,117 @@
+/* ══════════════════════════════════════
+   PAGE SCROLL LOCK
+   While a story, case study, reel or panel is open, the page behind must not
+   scroll. This watches for anything gaining or losing the "open" class, pins
+   the page in place, and puts it back exactly where it was on close.
+══════════════════════════════════════ */
+const OPEN_LAYERS = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open, .search-panel.open, .wn-panel.open, .chat-panel.open';
+let pageLocked = false, pageLockY = 0, afterUnlock = null;
+
+function jumpTo(y) { // instant, even though the page normally scrolls smoothly
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';
+  window.scrollTo(0, y);
+  root.style.scrollBehavior = '';
+}
+function syncScrollLock() {
+  const shouldLock = !!document.querySelector(OPEN_LAYERS);
+  if (shouldLock === pageLocked) return;
+  pageLocked = shouldLock;
+  if (shouldLock) {
+    pageLockY = window.scrollY;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.top = -pageLockY + 'px';
+    if (scrollbar > 0) document.body.style.paddingRight = scrollbar + 'px'; // no sideways jump when the scrollbar goes
+    document.body.classList.add('scroll-locked');
+  } else {
+    document.body.classList.remove('scroll-locked');
+    document.body.style.top = '';
+    document.body.style.paddingRight = '';
+    jumpTo(pageLockY);
+    if (afterUnlock) { const run = afterUnlock; afterUnlock = null; run(); }
+  }
+}
+/* Scroll the page now, or as soon as whatever is open has closed. */
+function whenScrollable(fn) {
+  syncScrollLock();
+  if (pageLocked) afterUnlock = fn; else fn();
+}
+/* People who ask their device for less motion get instant jumps, not glides */
+const SCROLL_STYLE = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+/* ══════════════════════════════════════
+   KEYBOARD FOCUS
+   When a story, case study, reel or panel opens, focus moves into it; when it
+   closes, focus goes back to whatever opened it. While a full-screen viewer is
+   open the page behind can't be reached with Tab.
+══════════════════════════════════════ */
+const FOCUS_LAYERS = '.story-overlay, .post-overlay, .cs-overlay, .reel-overlay, .search-panel, .wn-panel, .chat-panel';
+const VIEWERS_OPEN = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open';
+const CAN_FOCUS = 'button:not([disabled]), a[href], input, [tabindex]:not([tabindex="-1"])';
+const focusTrail = [];                 // recently focused or pressed controls, newest last
+const layerOpener = new Map();         // open layer -> the control that opened it
+let openLayers = new Set();
+
+function noteFocus(el) {
+  if (!el || el === document.body) return;
+  focusTrail.push(el);
+  if (focusTrail.length > 8) focusTrail.shift();
+}
+document.addEventListener('focusin', e => noteFocus(e.target));
+const notePress = e => noteFocus(e.target.closest && e.target.closest(CAN_FOCUS));
+document.addEventListener('pointerdown', notePress, true);
+document.addEventListener('click', notePress, true);   // also covers Enter / Space on a button
+
+function syncFocus() {
+  const now = new Set(document.querySelectorAll(FOCUS_LAYERS));
+  now.forEach(el => { if (!el.classList.contains('open')) now.delete(el); });
+  const opened = [...now].filter(el => !openLayers.has(el));
+  const closed = [...openLayers].filter(el => !now.has(el));
+  openLayers = now;
+  if (!opened.length && !closed.length) return;
+
+  /* the page behind a full-screen viewer is out of reach of Tab and screen readers */
+  const viewerOpen = !!document.querySelector(VIEWERS_OPEN);
+  document.querySelectorAll('.sidebar, .mobile-top, .mobile-bottom, .ig-page').forEach(el => { el.inert = viewerOpen; });
+
+  opened.forEach(el => {
+    const active = document.activeElement;
+    const opener = active && active !== document.body && !el.contains(active)
+      ? active
+      : focusTrail.slice().reverse().find(f => f.isConnected && !el.contains(f));
+    layerOpener.set(el, opener || null);
+    if (el.contains(document.activeElement)) return;   // it already took focus itself
+    const target = el.querySelector('[role="dialog"]') || el;
+    if (!target.hasAttribute('tabindex')) target.tabIndex = -1;
+    target.focus({ preventScroll: true });
+  });
+
+  if (!opened.length) closed.forEach(el => {
+    const opener = layerOpener.get(el);
+    layerOpener.delete(el);
+    const active = document.activeElement;
+    const lost = !active || active === document.body || el.contains(active);
+    if (lost && opener && opener.isConnected && !opener.closest('[inert]')) opener.focus({ preventScroll: true });
+  });
+  else closed.forEach(el => layerOpener.delete(el));
+}
+
+/* Tab stays inside an open story or case study (the reel viewer does its own) */
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const layer = document.querySelector('.cs-overlay.open') || document.querySelector('.story-overlay.open') || document.querySelector('.post-overlay.open');
+  if (!layer) return;
+  const items = [...layer.querySelectorAll(CAN_FOCUS)].filter(el => el.getClientRects().length && !el.closest('[inert]'));
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1], active = document.activeElement;
+  const inside = items.includes(active);
+  if (e.shiftKey && (!inside || active === first)) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && (!inside || active === last)) { e.preventDefault(); first.focus(); }
+});
+
+new MutationObserver(() => { syncScrollLock(); syncFocus(); })
+  .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+
 /* ── TABS ────────────────────────────── */
 /* Tabs listed here aren't ready yet: clicking shows a "coming soon" toast instead */
 const COMING_SOON_TABS = [];
@@ -63,7 +177,7 @@ function buildSlide(data) {
       div.innerHTML = `
         <div class="slide-hero">
           <div class="slide-hero-photo">
-            <img src="aarushi.jpg" alt="Aarushi" />
+            <img src="aarushi-about.jpg" alt="Aarushi" width="880" height="1092" decoding="async" />
           </div>
           <div class="slide-hero-text">
             <div class="slide-hero-badge"><div class="badge-green-dot"></div>Available for new opportunities</div>
@@ -250,6 +364,16 @@ const storySlideArea= document.getElementById('storySlideArea');
 const storyClose    = document.getElementById('storyClose');
 const storyTapLeft  = document.getElementById('storyTapLeft');
 const storyTapRight = document.getElementById('storyTapRight');
+const storyShell    = document.getElementById('storyShell');
+
+/* On short screens (a phone held sideways) the story card keeps its designed
+   size and is scaled down to fit, so nothing is cut off. See style.css. */
+const STORY_FIT_H = 580;
+function fitStory() {
+  storyShell.style.setProperty('--story-fit', Math.min(1, (window.innerHeight * 0.9) / STORY_FIT_H).toFixed(3));
+}
+fitStory();
+window.addEventListener('resize', fitStory);
 
 /* startIdx: slide to open on (0 = first). What's new uses it to open a specific review. */
 function openStory(key, startIdx = 0) {
@@ -320,6 +444,21 @@ storyBackdrop.addEventListener('click', closeStory);
 storyTapLeft.addEventListener('click',  () => { if (storyIdx > 0) showStorySlide(storyIdx - 1); });
 storyTapRight.addEventListener('click', () => { if (storyIdx + 1 < storySlides.length) showStorySlide(storyIdx + 1); else closeStory(); });
 
+/* Touch: swipe left / right moves between slides (taps still work as before) */
+let storyTouch = null;
+storyShell.addEventListener('touchstart', e => {
+  storyTouch = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+}, { passive: true });
+storyShell.addEventListener('touchend', e => {
+  if (!storyTouch) return;
+  const dx = e.changedTouches[0].clientX - storyTouch.x, dy = e.changedTouches[0].clientY - storyTouch.y;
+  storyTouch = null;
+  if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return; // too short, or mostly vertical
+  if (dx > 0) { if (storyIdx > 0) showStorySlide(storyIdx - 1); }
+  else if (storyIdx + 1 < storySlides.length) showStorySlide(storyIdx + 1);
+  else closeStory();
+}, { passive: true });
+
 document.querySelectorAll('.highlight-item').forEach(item => {
   item.addEventListener('click', () => openStory(item.dataset.story));
 });
@@ -335,7 +474,7 @@ document.getElementById('hireBtn').addEventListener('click', () => openChat());
 
 function showTab(name) {
   document.querySelector(`.tab-btn[data-tab="${name}"]`).click();
-  document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  whenScrollable(() => document.querySelector('.tab-bar').scrollIntoView({ behavior: SCROLL_STYLE, block: 'start' }));
 }
 
 /* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
@@ -352,7 +491,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 const NAV_ACTIONS = {
   work: () => {
     document.querySelector('.tab-btn[data-tab="grid"]').click();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    whenScrollable(() => window.scrollTo({ top: 0, behavior: SCROLL_STYLE }));
   },
   reels: () => showTab('reels'),
   chat: () => openStory('contact'), // replaced by the Let's chat panel in chat.js
@@ -407,7 +546,7 @@ function buildCarSlide(s) {
   div.className = 'carousel-slide';
 
   if (s.img) {
-    div.innerHTML = `<img src="${s.img}" alt="" style="width:100%;height:100%;object-fit:cover;" />`;
+    div.innerHTML = `<img src="${s.img}" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />`;
   } else {
     div.style.background = s.bg || '#111';
     let inner = `<div class="car-slide-overlay">`;
@@ -447,7 +586,7 @@ function openPost(key) {
 
   postInfoSide.innerHTML = `
     <div class="pi-account">
-      <div class="pi-avatar"><img src="aarushi-cropped.jpg" alt="Aarushi" /></div>
+      <div class="pi-avatar"><img src="aarushi-avatar.jpg" alt="Aarushi" width="38" height="38" loading="lazy" decoding="async" /></div>
       <div><strong>aarushiagarwal</strong><span>Social Media Manager</span></div>
       <button class="pi-hire" id="piHire">Get In Touch</button>
     </div>
@@ -465,6 +604,10 @@ function closePost() { postOverlay.classList.remove('open'); }
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape')       { closeStory(); closePost(); }
+  if (storyOverlay.classList.contains('open')) {   // keyboard version of tapping the sides of a story
+    if (e.key === 'ArrowRight') storyTapRight.click();
+    if (e.key === 'ArrowLeft')  storyTapLeft.click();
+  }
   if (e.key === 'ArrowRight' && postOverlay.classList.contains('open')) { if (carIdx < carSlides.length - 1) { carIdx++; updateCar(); } }
   if (e.key === 'ArrowLeft'  && postOverlay.classList.contains('open')) { if (carIdx > 0) { carIdx--; updateCar(); } }
 });

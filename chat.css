@@ -4,8 +4,8 @@
    desktop/tablet, full screen above the bottom bar on phone.
 ══════════════════════════════════════ */
 .chat-panel {
-  position: fixed; top: 0; bottom: 0; left: var(--sidebar-w); z-index: 90;
-  width: 397px; max-width: calc(100vw - var(--sidebar-w));
+  position: fixed; top: 0; bottom: 0; left: calc(var(--sidebar-w) + var(--safe-l)); z-index: 90;
+  width: 397px; max-width: calc(100vw - var(--sidebar-w) - var(--safe-l));
   display: flex; flex-direction: column;
   background: var(--surface); color: var(--ig-text);
   border-right: 1px solid var(--ig-line); border-radius: 0 16px 16px 0;
@@ -53,7 +53,7 @@
   padding: 16px 4px; color: var(--ig-text); text-decoration: none; font-size: 15px;
 }
 .chat-val { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.chat-link:hover .chat-val { text-decoration: underline; }
+@media (hover: hover) { .chat-link:hover .chat-val { text-decoration: underline; } }
 .chat-ico { display: flex; width: 22px; flex-shrink: 0; }
 .chat-ico svg { width: 22px; height: 22px; }
 .chat-ico-li svg { width: 20px; height: 20px; }
@@ -63,7 +63,7 @@
   color: var(--ig-muted); cursor: pointer; flex-shrink: 0;
 }
 .chat-end svg { width: 18px; height: 18px; }
-button.chat-end:hover { background: var(--ig-hover); color: var(--ig-text); }
+@media (hover: hover) { button.chat-end:hover { background: var(--ig-hover); color: var(--ig-text); } }
 
 .chat-foot { margin-top: auto; padding-top: 24px; text-align: center; font-size: 12px; color: var(--ig-muted); }
 
@@ -71,7 +71,8 @@ button.chat-end:hover { background: var(--ig-hover); color: var(--ig-text); }
 
 @media (max-width: 767px) {
   .chat-panel {
-    left: 0; bottom: 50px; width: 100%; max-width: none; z-index: 150;
+    left: 0; bottom: calc(50px + var(--safe-b)); width: 100%; max-width: none; z-index: 150;
+    padding-top: var(--safe-t);
     border: none; border-radius: 0; box-shadow: none;
     transform: none; opacity: 0;
     transition: opacity 0.2s, visibility 0s 0.2s;

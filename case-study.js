@@ -56,7 +56,7 @@ const CS_PLATFORM_ICONS = {
 function csRenderBlock(block) {
   switch (block.type) {
     case 'logo':
-      return `<img class="cs-logo-img" src="${block.src}" alt="${block.alt || ''}">`;
+      return `<img class="cs-logo-img" src="${block.src}" alt="${block.alt || ''}" width="64" height="64" loading="lazy" decoding="async">`;
 
     case 'heading1':
       return `<h1>${block.html}</h1>`;
@@ -125,7 +125,7 @@ function csRenderDashboard(d, spaced) {
 function csRenderCreative(c) {
   return `
     <a class="cs-frame" href="${c.href}" target="_blank" rel="noopener">
-      <img src="${c.img}" alt="${c.caption}">
+      <img src="${c.img}" alt="${c.caption}" loading="lazy" decoding="async">
       <div class="cs-shade"></div>
       <span class="cs-reel-tag">${c.tag}</span>
       ${c.isVideo !== false ? '<span class="cs-play"></span>' : ''}
@@ -166,7 +166,15 @@ function csFitPages(root) {
     csPageObserver.observe(p);
     const frame = p.querySelector('iframe');
     frame.addEventListener('load', () => {
-      try { if (frame.contentDocument.querySelector('a[href]')) p.classList.add('cs-page-live'); } catch (_) {}
+      try {
+        const doc = frame.contentDocument;
+        if (doc.querySelector('a[href]')) p.classList.add('cs-page-live');
+        /* a slide with links takes its own touches, so pass swipes on to the carousel */
+        if (p.closest('.cs-track')) {
+          doc.addEventListener('touchstart', e => csSwipeStart(e.touches[0]), { passive: true });
+          doc.addEventListener('touchend', e => csSwipeEnd(e.changedTouches[0]), { passive: true });
+        }
+      } catch (_) {}
     }, { once: true });
   });
 }
@@ -187,7 +195,7 @@ function csBuildTile(data) {
     <div class="cs-rule"></div><div class="cs-corner tl"></div><div class="cs-corner tr"></div>
     <div class="cs-tile-eyebrow">${data.eyebrow}</div>
     <div class="cs-tile-body">
-      <img class="cs-logo-img" src="${data.logo}" alt="${data.name}" />
+      <img class="cs-logo-img" src="${data.logo}" alt="${data.name}" width="44" height="44" loading="lazy" decoding="async" />
       <div class="cs-tile-brief">${data.tileBrief}</div>
       <div class="cs-tile-result">
         ${data.tileResults.map(r => `<div><div class="cs-r-label">${r.label}</div><div class="cs-r-num">${r.num}</div></div>`).join('')}
@@ -210,6 +218,17 @@ function csBuildSlidesHtml(data) {
 /* ── Modal (singleton) ── */
 let csOverlayEl, csIndex = 0, csSlideCount = 0;
 
+/* swipe / drag between slides; mostly-vertical movement is left to scrolling */
+let csDragStart = null;
+function csSwipeStart(pt) { csDragStart = { x: pt.clientX, y: pt.clientY }; }
+function csSwipeEnd(pt) {
+  if (!csDragStart) return;
+  const dx = pt.clientX - csDragStart.x, dy = pt.clientY - csDragStart.y;
+  csDragStart = null;
+  if (Math.abs(dx) <= 50 || Math.abs(dx) < Math.abs(dy)) return;
+  csGoTo(csIndex + (dx < 0 ? 1 : -1));
+}
+
 function csEnsureOverlay() {
   if (csOverlayEl) return csOverlayEl;
   csOverlayEl = document.createElement('div');
@@ -217,7 +236,7 @@ function csEnsureOverlay() {
   csOverlayEl.id = 'csOverlay';
   csOverlayEl.innerHTML = `
     <div class="cs-backdrop"></div>
-    <div class="cs-modal">
+    <div class="cs-modal" role="dialog" aria-modal="true" aria-label="Case study" tabindex="-1">
       <button class="cs-close" aria-label="Close">✕</button>
       <div class="cs-viewport">
         <div class="cs-track"></div>
@@ -231,13 +250,13 @@ function csEnsureOverlay() {
       </div>
       <div class="cs-info-side">
         <div class="cs-info-header">
-          <div class="cs-info-avatar"><img src="aarushi-cropped.jpg" alt="Aarushi Agarwal"></div>
+          <div class="cs-info-avatar"><img src="aarushi-avatar.jpg" alt="Aarushi Agarwal" width="30" height="30" loading="lazy" decoding="async"></div>
           <span class="cs-info-username"></span>
           <span class="cs-info-menu">&#8942;</span>
         </div>
         <div class="cs-info-body">
           <div class="cs-info-caption">
-            <div class="cs-info-avatar"><img src="aarushi-cropped.jpg" alt="Aarushi Agarwal"></div>
+            <div class="cs-info-avatar"><img src="aarushi-avatar.jpg" alt="Aarushi Agarwal" width="30" height="30" loading="lazy" decoding="async"></div>
             <p></p>
           </div>
         </div>
@@ -278,18 +297,10 @@ function csEnsureOverlay() {
 
   /* swipe (touch) + drag (mouse) */
   track.addEventListener('dragstart', e => e.preventDefault());
-  let dragStartX = null;
-  const onDragEnd = clientX => {
-    if (dragStartX === null) return;
-    const dx = clientX - dragStartX;
-    dragStartX = null;
-    if (dx > 50) csGoTo(csIndex - 1);
-    else if (dx < -50) csGoTo(csIndex + 1);
-  };
-  track.addEventListener('touchstart', e => { dragStartX = e.touches[0].clientX; });
-  track.addEventListener('touchend', e => onDragEnd(e.changedTouches[0].clientX));
-  track.addEventListener('mousedown', e => { dragStartX = e.clientX; e.preventDefault(); });
-  document.addEventListener('mouseup', e => onDragEnd(e.clientX));
+  track.addEventListener('touchstart', e => csSwipeStart(e.touches[0]), { passive: true });
+  track.addEventListener('touchend', e => csSwipeEnd(e.changedTouches[0]), { passive: true });
+  track.addEventListener('mousedown', e => { csSwipeStart(e); e.preventDefault(); });
+  document.addEventListener('mouseup', e => csSwipeEnd(e));
 
   document.addEventListener('keydown', e => {
     if (!csOverlayEl.classList.contains('open')) return;
@@ -306,6 +317,7 @@ function csGoTo(i) {
   const track = csOverlayEl.querySelector('.cs-track');
   track.style.transform = `translateX(-${csIndex * 100}%)`;
   csOverlayEl.querySelectorAll('.cs-ov-dot').forEach((d, i2) => d.classList.toggle('active', i2 === csIndex));
+  csOverlayEl.querySelectorAll('.cs-slide').forEach((s, i2) => { s.inert = i2 !== csIndex; }); // keyboard only reaches the slide on screen
   csOverlayEl.querySelector('.cs-ov-prev').disabled = csIndex === 0;
   csOverlayEl.querySelector('.cs-ov-next').disabled = csIndex === csSlideCount - 1;
 }

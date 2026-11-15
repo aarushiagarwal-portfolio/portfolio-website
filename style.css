@@ -27,6 +27,11 @@
   --ig-blue:    #0095F6;
   --hl-ring:    linear-gradient(45deg,#9E3324,#E34D85);
   --sidebar-w:  244px;
+  /* iPhone notch / home-bar insets (0 everywhere else) */
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
 }
 
 html { scroll-behavior: smooth; }
@@ -85,10 +90,10 @@ body {
 /* ── SIDEBAR ─────────────────────────── */
 .sidebar {
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
-  width: var(--sidebar-w);
+  width: calc(var(--sidebar-w) + var(--safe-l));
   background: var(--surface); border-right: 1px solid var(--ig-line);
   display: flex; flex-direction: column;
-  padding: 2.25rem 12px 1.25rem;
+  padding: 2.25rem 12px 1.25rem calc(12px + var(--safe-l));
 }
 .sidebar-wordmark {
   display: block; padding: 0 12px; margin-bottom: 2rem;
@@ -104,10 +109,10 @@ body {
   font-family: inherit; font-size: 16px; color: var(--ig-text);
   transition: background 0.15s;
 }
-.nav-item:hover { background: var(--ig-hover); }
+@media (hover: hover) { .nav-item:hover { background: var(--ig-hover); } }
 .nav-item.active { font-weight: 700; }
 .nav-item svg { width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.15s; }
-.nav-item:hover svg, .nav-item:hover .nav-avatar { transform: scale(1.06); }
+@media (hover: hover) { .nav-item:hover svg, .nav-item:hover .nav-avatar { transform: scale(1.06); } }
 .nav-avatar {
   width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
   transition: transform 0.15s;
@@ -132,14 +137,14 @@ body {
   font-family: inherit; font-size: 14px; font-weight: 600;
   text-decoration: none; cursor: pointer; transition: background 0.15s;
 }
-.ig-btn:hover { background: var(--ig-btn-2); }
+@media (hover: hover) { .ig-btn:hover { background: var(--ig-btn-2); } }
 .ig-btn svg { width: 14px; height: 14px; }
 .ig-btn-icon { width: 32px; padding: 0; justify-content: center; }
 .ig-btn-icon svg { width: 16px; height: 16px; }
 
 /* Toast */
 .toast {
-  position: fixed; left: 50%; bottom: 32px; z-index: 2000;
+  position: fixed; left: 50%; bottom: calc(32px + var(--safe-b)); z-index: 2000;
   transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
   background: var(--ig-text); color: #fff; font-size: 14px;
   padding: 10px 18px; border-radius: 8px;
@@ -148,8 +153,8 @@ body {
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* ── PAGE ────────────────────────────── */
-body { padding-left: var(--sidebar-w); }
-.ig-page { max-width: calc(935px + 4rem); margin: 0 auto; padding: 30px 2rem 0; }
+body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
+.ig-page { max-width: calc(935px + 4rem); margin: 0 auto; padding: 30px max(2rem, var(--safe-r)) 0 2rem; }
 
 /* ── PROFILE HEADER ──────────────────── */
 .profile-header {
@@ -204,7 +209,7 @@ body { padding-left: var(--sidebar-w); }
   background: var(--hl-ring);
   transition: transform 0.2s;
 }
-.highlight-item:hover .highlight-ring-wrap { transform: scale(1.05); }
+@media (hover: hover) { .highlight-item:hover .highlight-ring-wrap { transform: scale(1.05); } }
 .highlight-circle {
   width: 100%; height: 100%; border-radius: 50%;
   background: var(--surface); border: 2px solid var(--surface);
@@ -215,7 +220,7 @@ body { padding-left: var(--sidebar-w); }
 
 @media (prefers-reduced-motion: reduce) {
   .highlight-ring-wrap { transition: none; }
-  .highlight-item:hover .highlight-ring-wrap { transform: none; }
+  @media (hover: hover) { .highlight-item:hover .highlight-ring-wrap { transform: none; } }
 }
 
 /* ── TAB BAR ─────────────────────────── */
@@ -227,7 +232,7 @@ body { padding-left: var(--sidebar-w); }
   color: var(--ig-muted); font-family: inherit; font-size: 12px; font-weight: 600;
   letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;
 }
-.tab-btn:hover { color: var(--ig-text); }
+@media (hover: hover) { .tab-btn:hover { color: var(--ig-text); } }
 .tab-btn svg { width: 12px; height: 12px; }
 .tab-btn.active { color: var(--ig-text); border-top-color: var(--ig-text); }
 
@@ -240,7 +245,7 @@ body { padding-left: var(--sidebar-w); }
   background: none; border: none; padding: 0; cursor: pointer;
   font-family: inherit; font-size: 12px; color: var(--ig-muted); text-decoration: none;
 }
-.site-footer button:hover, .site-footer a:hover { text-decoration: underline; }
+@media (hover: hover) { .site-footer button:hover, .site-footer a:hover { text-decoration: underline; } }
 
 /* ── TAB CONTENT ─────────────────────── */
 .tab-content {
@@ -308,14 +313,14 @@ body { padding-left: var(--sidebar-w); }
   width: 100%; height: 100%; object-fit: cover;
   display: block; transition: transform 0.35s;
 }
-.post-thumb:hover img { transform: scale(1.05); }
+@media (hover: hover) { .post-thumb:hover img { transform: scale(1.05); } }
 .post-hover {
   position: absolute; inset: 0;
   background: rgba(0,0,0,0.45);
   display: flex; align-items: center; justify-content: center;
   opacity: 0; transition: opacity 0.25s;
 }
-.post-thumb:hover .post-hover { opacity: 1; }
+@media (hover: hover) { .post-thumb:hover .post-hover { opacity: 1; } }
 .post-hover span { color: #fff; font-size: 0.9rem; font-weight: 600; }
 .more-thumb {
   background: var(--burgundy); aspect-ratio: 4/5;
@@ -372,7 +377,7 @@ body { padding-left: var(--sidebar-w); }
   position: absolute; z-index: 2; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
-.reel-close { top: 16px; right: 16px; width: 40px; height: 40px; background: none; color: #fff; }
+.reel-close { top: calc(16px + var(--safe-t)); right: calc(16px + var(--safe-r)); width: 40px; height: 40px; background: none; color: #fff; }
 .reel-close svg { width: 26px; height: 26px; }
 .reel-nav {
   top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%;
@@ -385,6 +390,7 @@ body { padding-left: var(--sidebar-w); }
 .reel-overlay :focus-visible { outline: 2px solid var(--ig-blue); outline-offset: 2px; }
 .reel-modal {
   --reel-h: min(90vh, 880px);
+  --reel-h: min(90dvh, 880px);
   position: relative; z-index: 1; display: flex;
   height: var(--reel-h); max-width: calc(100vw - 160px);
   background: var(--surface); border-radius: 12px; overflow: hidden;
@@ -427,10 +433,10 @@ body { padding-left: var(--sidebar-w); }
 .reel-handle { display: flex; align-items: center; gap: 6px; font-weight: 600; }
 .reel-dot { color: var(--ig-text); }
 .reel-follow { color: var(--ig-blue); font-weight: 600; text-decoration: none; }
-.reel-follow:hover { color: #00376B; }
+@media (hover: hover) { .reel-follow:hover { color: #00376B; } }
 .reel-sub { font-size: 12px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .reel-more { display: flex; color: var(--ig-text); }
-.reel-more:hover { opacity: 0.6; }
+@media (hover: hover) { .reel-more:hover { opacity: 0.6; } }
 .reel-more svg { width: 24px; height: 24px; }
 .reel-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
 .reel-caption { display: flex; gap: 14px; line-height: 20px; }
@@ -439,7 +445,7 @@ body { padding-left: var(--sidebar-w); }
 .reel-caption strong { font-weight: 600; }
 .reel-text { white-space: pre-line; } /* keeps the TikTok line breaks */
 .reel-tags a { color: #00376B; text-decoration: none; }
-.reel-tags a:hover { text-decoration: underline; }
+@media (hover: hover) { .reel-tags a:hover { text-decoration: underline; } }
 .reel-date { display: block; font-size: 12px; color: var(--ig-muted); }
 .reel-actions {
   display: flex; align-items: center; gap: 8px; padding: 6px 16px 0;
@@ -452,7 +458,7 @@ body { padding-left: var(--sidebar-w); }
   display: flex; align-items: center; justify-content: center;
 }
 .reel-icon svg { width: 24px; height: 24px; }
-.reel-icon:hover svg { opacity: 0.6; }
+@media (hover: hover) { .reel-icon:hover svg { opacity: 0.6; } }
 .reel-spacer { flex: 1; }
 .reel-stats { padding: 4px 16px 16px; }
 .reel-stats strong { display: block; font-weight: 600; }
@@ -463,7 +469,7 @@ body { padding-left: var(--sidebar-w); }
 }
 .reel-comment span { flex: 1; color: var(--ig-muted); }
 .reel-comment a { color: var(--ig-blue); font-weight: 600; text-decoration: none; }
-.reel-comment a:hover { color: #00376B; }
+@media (hover: hover) { .reel-comment a:hover { color: #00376B; } }
 
 @media (max-width: 1000px) {
   .reel-modal { max-width: calc(100vw - 32px); }
@@ -473,10 +479,10 @@ body { padding-left: var(--sidebar-w); }
 }
 @media (max-width: 767px) {
   .reel-modal {
-    display: block; height: 100%; max-width: none; width: 100vw; border-radius: 0;
+    display: block; height: 100%; max-width: none; width: 100%; border-radius: 0;
     overflow-y: auto; overscroll-behavior: contain;
   }
-  .reel-media { height: min(70vh, 177.78vw); width: 100%; aspect-ratio: auto; }
+  .reel-media { height: min(70vh, 177.78vw); height: min(70dvh, 177.78vw); width: 100%; aspect-ratio: auto; }
   .reel-media video { object-fit: contain; }
   .reel-side { width: 100%; border-left: none; }
   .reel-body { overflow: visible; }
@@ -485,7 +491,7 @@ body { padding-left: var(--sidebar-w); }
 }
 
 /* ── TAGGED GRID ─────────────────────── */
-.tagged-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
+.tagged-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 3px; }
 
 @media (prefers-reduced-motion: no-preference) {
   .tagged-grid .tagged-post {
@@ -545,6 +551,7 @@ body { padding-left: var(--sidebar-w); }
   position: relative; z-index: 1;
   width: min(380px, 94vw);
   height: min(680px, 90vh);
+  height: min(680px, 90dvh);
   border-radius: 20px; overflow: hidden;
   background: #111;
   transform: scale(0.93); transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1);
@@ -577,7 +584,7 @@ body { padding-left: var(--sidebar-w); }
   display: flex; align-items: center; justify-content: center;
   transition: background 0.2s;
 }
-.story-close:hover { background: rgba(0,0,0,0.65); }
+@media (hover: hover) { .story-close:hover { background: rgba(0,0,0,0.65); } }
 
 /* Slide area */
 .story-slide-area { flex: 1; position: relative; }
@@ -762,7 +769,7 @@ body { padding-left: var(--sidebar-w); }
   border-radius: 14px; padding: 0.85rem 1rem; margin-bottom: 0.75rem;
   text-decoration: none; color: #fff; transition: background 0.2s;
 }
-.contact-link-s:hover { background: rgba(255,255,255,0.12); }
+@media (hover: hover) { .contact-link-s:hover { background: rgba(255,255,255,0.12); } }
 .cl-icon {
   width: 38px; height: 38px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
@@ -819,7 +826,7 @@ body { padding-left: var(--sidebar-w); }
   display: flex; align-items: center; justify-content: center;
   font-size: 0.82rem; z-index: 2; transition: background 0.2s;
 }
-.post-close:hover { background: rgba(0,0,0,0.2); }
+@media (hover: hover) { .post-close:hover { background: rgba(0,0,0,0.2); } }
 
 /* Carousel side */
 .carousel-side {
@@ -865,7 +872,7 @@ body { padding-left: var(--sidebar-w); }
   font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
   z-index: 3; transition: background 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
-.car-btn:hover { background: #fff; }
+@media (hover: hover) { .car-btn:hover { background: #fff; } }
 .car-prev { left: 0.6rem; }
 .car-next { right: 0.6rem; }
 .car-btn:disabled { opacity: 0.3; cursor: default; }
@@ -950,7 +957,8 @@ body { padding-left: var(--sidebar-w); }
   .sidebar { display: none; }
   .mobile-top {
     display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100; height: 52px; padding: 0 16px;
+    position: sticky; top: 0; z-index: 100; height: calc(52px + var(--safe-t));
+    padding: var(--safe-t) max(16px, var(--safe-r)) 0 max(16px, var(--safe-l));
     background: var(--surface); border-bottom: 1px solid var(--ig-line);
   }
   .mobile-top .sidebar-wordmark { margin: 0; padding: 0; font-size: 17px; }
@@ -958,11 +966,12 @@ body { padding-left: var(--sidebar-w); }
   .mobile-top-actions { display: flex; gap: 4px; margin-right: -8px; }
   .mobile-bottom {
     display: flex; justify-content: space-around; align-items: center;
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; height: 50px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; height: calc(50px + var(--safe-b));
+    padding-bottom: var(--safe-b);
     background: var(--surface); border-top: 1px solid var(--ig-line);
   }
   body { padding-left: 0; }
-  .ig-page { padding: 0 0 50px; }
+  .ig-page { padding: 0 0 calc(50px + var(--safe-b)); }
   .profile-header {
     grid-template-columns: auto 1fr; column-gap: 24px; padding: 16px 16px 0; margin-bottom: 24px;
   }
@@ -970,7 +979,10 @@ body { padding-left: var(--sidebar-w); }
   .profile-img { border-width: 3px; }
   .profile-info { display: contents; }
   .profile-top-row { flex-direction: column; align-items: flex-start; gap: 10px; margin: 0; align-self: center; }
-  .profile-actions { flex-wrap: wrap; }
+  .profile-actions { gap: 6px; }
+  .profile-actions .ig-btn { padding: 0 12px; }
+  .profile-actions .ig-btn-icon { padding: 0; }
+  .profile-actions .icon-btn { width: 32px; }
   .profile-bio, .followed-by { grid-column: 1 / -1; }
   .profile-bio { margin-top: 16px; }
   .profile-counts {
@@ -992,12 +1004,112 @@ body { padding-left: var(--sidebar-w); }
   .site-footer { padding: 32px 16px 24px; }
 }
 
+/* Narrow phones (360px): a little tighter so Contact / LinkedIn / … stay on one row */
+@media (max-width: 374px) {
+  .profile-header { column-gap: 14px; }
+  .profile-actions .ig-btn { padding: 0 10px; }
+  .profile-actions .ig-btn-icon { padding: 0; }
+}
+@media (max-width: 339px) {
+  .profile-actions { flex-wrap: wrap; }
+}
+
 @media (max-width: 680px) {
   .reels-grid  { grid-template-columns: repeat(3,1fr); }
   .post-modal  { flex-direction: column; max-height: 95vh; }
   .carousel-side { width: 100%; height: 260px; }
 }
 @media (max-width: 420px) {
-  .tagged-grid { grid-template-columns: repeat(2,1fr); }
-  .story-shell { border-radius: 0; width: 100vw; height: 100vh; }
+  .tagged-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .story-shell { border-radius: 0; width: 100%; height: 100vh; height: 100dvh; }
+  .story-bars { padding-top: calc(12px + var(--safe-t)); }
+  .story-close { top: calc(14px + var(--safe-t)); }
+}
+
+/* ── PAGE SCROLL LOCK ────────────────────
+   While a story, case study, reel or panel is open the page behind stays put
+   (script.js adds the class and restores the scroll position on close). */
+body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: hidden; }
+
+/* ── SHORT SCREENS (phone held sideways) ─
+   Stories keep their designed size and shrink to fit, so no slide is cut off.
+   --story-fit is set by script.js. */
+@media (max-height: 644px) and (min-width: 421px) {
+  .story-shell, .story-overlay.open .story-shell {
+    height: 580px; transform: scale(var(--story-fit, 1)); transition: none;
+  }
+}
+/* The icon sidebar is taller than a sideways phone: tighten it so "More" still fits. */
+@media (max-height: 520px) and (min-width: 768px) {
+  .sidebar { padding-top: 12px; padding-bottom: 8px; overflow-y: auto; scrollbar-width: none; }
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-wordmark { margin-bottom: 8px; }
+  .sidebar-nav { gap: 0; }
+  .nav-item { padding-top: 8px; padding-bottom: 8px; }
+}
+
+/* ── TOUCH ───────────────────────────────
+   On touch screens every control gets a tap area of about 44px without looking
+   any bigger: an invisible ::after stretches past the visible button. */
+@media (pointer: coarse) {
+  .icon-btn, .ig-btn, .tab-btn, .site-footer button, .site-footer a,
+  .reel-icon, .reel-more, .reel-follow, .reel-comment a,
+  .sp-clear, .sp-cancel, .sp-chip, .sp-link, .wn-back, .wn-btn, .chat-back, button.chat-end,
+  .cs-icon-btn, .cs-ov-dot { position: relative; }
+
+  .icon-btn::after, .ig-btn::after, .tab-btn::after, .site-footer button::after, .site-footer a::after,
+  .reel-icon::after, .reel-more::after, .reel-follow::after, .reel-comment a::after,
+  .reel-close::after, .reel-nav::after, .reel-sound::after,
+  .story-close::after, .post-close::after, .car-btn::after,
+  .sp-clear::after, .sp-cancel::after, .sp-chip::after, .sp-link::after,
+  .wn-back::after, .wn-btn::after, .chat-back::after, button.chat-end::after,
+  .cs-close::after, .cs-ov-nav::after, .cs-icon-btn::after, .cs-ov-dot::after {
+    content: ''; position: absolute; inset: -6px;
+  }
+  .icon-btn::after, .reel-icon::after, .reel-close::after { inset: -2px; }
+  .profile-actions .icon-btn::after { inset: -2px -6px; }
+  .ig-btn::after { inset: -6px 0; }
+  .ig-btn-icon::after { inset: -6px; }
+  .tab-btn::after { inset: 0 -12px; }
+  .site-footer button::after, .site-footer a::after { inset: -15px -9px; }
+  .reel-nav::after { inset: -4px; }
+  .reel-more::after { inset: -10px; }
+  .reel-follow::after, .reel-comment a::after, .sp-link::after { inset: -14px -8px; }
+  .story-close::after, .post-close::after, .car-btn::after { inset: -7px; }
+  .sp-clear::after { inset: -12px; }
+  .sp-cancel::after { inset: -13px -4px; }
+  .sp-chip::after { inset: -6px 0; }
+  .chat-end::after { inset: -4px; }
+  .cs-icon-btn::after { inset: -10px -7px; }
+  .cs-ov-dot::after { inset: -12px -2px; }
+}
+/* Sideways swipes belong to the viewer, up-and-down ones to the page */
+.story-shell, .reel-media, .cs-track { touch-action: pan-y; }
+/* Links on a story slide sit above the tap-to-skip zones, so a tap on them opens the link */
+.contact-link-s { position: relative; z-index: 10; }
+
+/* ── KEYBOARD FOCUS ──────────────────────
+   One clear focus ring for anyone moving around with Tab. */
+:focus-visible { outline: 2px solid var(--ig-blue); outline-offset: 2px; }
+.cs-tile:focus-visible, .post-thumb:focus-visible { outline-offset: -2px; }
+.story-shell:focus, .post-modal:focus, .cs-modal:focus,
+.search-panel:focus, .wn-panel:focus, .chat-panel:focus { outline: none; }
+
+/* ── REDUCED MOTION ──────────────────────
+   For people who ask their device for less motion: no decorative animation.
+   The story progress bar stays, because it shows how long a slide lasts. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *:not(.story-bar-fill), *::before, *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important; transition-delay: 0s !important;
+  }
+}
+/* Tagged tab on big phones (421-520px, three columns): the name and stars
+   need a touch less side padding to fit their column. */
+@media (max-width: 520px) {
+  .tagged-post { min-width: 0; overflow: hidden; }
+  .tagged-meta { padding-left: 0.4rem; padding-right: 0.4rem; }
+  .tagged-author { gap: 0.35rem; min-width: 0; }
+  .tagged-stars { letter-spacing: 0; }
 }
