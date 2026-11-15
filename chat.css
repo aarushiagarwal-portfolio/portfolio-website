@@ -53,7 +53,7 @@
   padding: 16px 4px; color: var(--ig-text); text-decoration: none; font-size: 15px;
 }
 .chat-val { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.chat-link:hover .chat-val { text-decoration: underline; }
+@media (hover: hover) { .chat-link:hover .chat-val { text-decoration: underline; } }
 .chat-ico { display: flex; width: 22px; flex-shrink: 0; }
 .chat-ico svg { width: 22px; height: 22px; }
 .chat-ico-li svg { width: 20px; height: 20px; }
@@ -63,7 +63,7 @@
   color: var(--ig-muted); cursor: pointer; flex-shrink: 0;
 }
 .chat-end svg { width: 18px; height: 18px; }
-button.chat-end:hover { background: var(--ig-hover); color: var(--ig-text); }
+@media (hover: hover) { button.chat-end:hover { background: var(--ig-hover); color: var(--ig-text); } }
 
 .chat-foot { margin-top: auto; padding-top: 24px; text-align: center; font-size: 12px; color: var(--ig-muted); }
 

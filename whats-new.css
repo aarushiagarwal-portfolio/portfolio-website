@@ -52,7 +52,8 @@
   font-family: inherit; text-align: left; color: var(--ig-text);
   transition: background 0.15s;
 }
-.wn-row:hover, button.wn-row:focus-visible { background: var(--ig-hover); }
+button.wn-row:focus-visible { background: var(--ig-hover); }
+@media (hover: hover) { .wn-row:hover { background: var(--ig-hover); } }
 .wn-text { flex: 1; min-width: 0; font-size: 14px; line-height: 18px; overflow-wrap: anywhere; }
 .wn-text b { font-weight: 600; }
 
@@ -81,7 +82,7 @@
   font-family: inherit; font-size: 14px; font-weight: 600;
   transition: background 0.15s;
 }
-.wn-btn:hover { background: #1877F2; }
+@media (hover: hover) { .wn-btn:hover { background: #1877F2; } }
 
 .wn-panel :focus-visible { outline: 2px solid var(--ig-blue); outline-offset: 2px; }
 button.wn-row:focus-visible { outline-offset: -2px; }

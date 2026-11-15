@@ -166,7 +166,15 @@ function csFitPages(root) {
     csPageObserver.observe(p);
     const frame = p.querySelector('iframe');
     frame.addEventListener('load', () => {
-      try { if (frame.contentDocument.querySelector('a[href]')) p.classList.add('cs-page-live'); } catch (_) {}
+      try {
+        const doc = frame.contentDocument;
+        if (doc.querySelector('a[href]')) p.classList.add('cs-page-live');
+        /* a slide with links takes its own touches, so pass swipes on to the carousel */
+        if (p.closest('.cs-track')) {
+          doc.addEventListener('touchstart', e => csSwipeStart(e.touches[0]), { passive: true });
+          doc.addEventListener('touchend', e => csSwipeEnd(e.changedTouches[0]), { passive: true });
+        }
+      } catch (_) {}
     }, { once: true });
   });
 }
@@ -209,6 +217,17 @@ function csBuildSlidesHtml(data) {
 
 /* ── Modal (singleton) ── */
 let csOverlayEl, csIndex = 0, csSlideCount = 0;
+
+/* swipe / drag between slides; mostly-vertical movement is left to scrolling */
+let csDragStart = null;
+function csSwipeStart(pt) { csDragStart = { x: pt.clientX, y: pt.clientY }; }
+function csSwipeEnd(pt) {
+  if (!csDragStart) return;
+  const dx = pt.clientX - csDragStart.x, dy = pt.clientY - csDragStart.y;
+  csDragStart = null;
+  if (Math.abs(dx) <= 50 || Math.abs(dx) < Math.abs(dy)) return;
+  csGoTo(csIndex + (dx < 0 ? 1 : -1));
+}
 
 function csEnsureOverlay() {
   if (csOverlayEl) return csOverlayEl;
@@ -278,18 +297,10 @@ function csEnsureOverlay() {
 
   /* swipe (touch) + drag (mouse) */
   track.addEventListener('dragstart', e => e.preventDefault());
-  let dragStartX = null;
-  const onDragEnd = clientX => {
-    if (dragStartX === null) return;
-    const dx = clientX - dragStartX;
-    dragStartX = null;
-    if (dx > 50) csGoTo(csIndex - 1);
-    else if (dx < -50) csGoTo(csIndex + 1);
-  };
-  track.addEventListener('touchstart', e => { dragStartX = e.touches[0].clientX; });
-  track.addEventListener('touchend', e => onDragEnd(e.changedTouches[0].clientX));
-  track.addEventListener('mousedown', e => { dragStartX = e.clientX; e.preventDefault(); });
-  document.addEventListener('mouseup', e => onDragEnd(e.clientX));
+  track.addEventListener('touchstart', e => csSwipeStart(e.touches[0]), { passive: true });
+  track.addEventListener('touchend', e => csSwipeEnd(e.changedTouches[0]), { passive: true });
+  track.addEventListener('mousedown', e => { csSwipeStart(e); e.preventDefault(); });
+  document.addEventListener('mouseup', e => csSwipeEnd(e));
 
   document.addEventListener('keydown', e => {
     if (!csOverlayEl.classList.contains('open')) return;

@@ -370,6 +370,21 @@ storyBackdrop.addEventListener('click', closeStory);
 storyTapLeft.addEventListener('click',  () => { if (storyIdx > 0) showStorySlide(storyIdx - 1); });
 storyTapRight.addEventListener('click', () => { if (storyIdx + 1 < storySlides.length) showStorySlide(storyIdx + 1); else closeStory(); });
 
+/* Touch: swipe left / right moves between slides (taps still work as before) */
+let storyTouch = null;
+storyShell.addEventListener('touchstart', e => {
+  storyTouch = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+}, { passive: true });
+storyShell.addEventListener('touchend', e => {
+  if (!storyTouch) return;
+  const dx = e.changedTouches[0].clientX - storyTouch.x, dy = e.changedTouches[0].clientY - storyTouch.y;
+  storyTouch = null;
+  if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return; // too short, or mostly vertical
+  if (dx > 0) { if (storyIdx > 0) showStorySlide(storyIdx - 1); }
+  else if (storyIdx + 1 < storySlides.length) showStorySlide(storyIdx + 1);
+  else closeStory();
+}, { passive: true });
+
 document.querySelectorAll('.highlight-item').forEach(item => {
   item.addEventListener('click', () => openStory(item.dataset.story));
 });

@@ -112,7 +112,7 @@
   display: flex; align-items: center; justify-content: center;
   font-size: 0.85rem; transition: background 0.2s;
 }
-.cs-close:hover { background: #fff; }
+@media (hover: hover) { .cs-close:hover { background: #fff; } }
 
 /* ── Carousel (left) ── */
 .cs-viewport {
@@ -223,7 +223,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 .cs-ov-nav svg { width: 18px; height: 18px; }
-.cs-ov-nav:hover { background: #fff; }
+@media (hover: hover) { .cs-ov-nav:hover { background: #fff; } }
 .cs-ov-nav:disabled { opacity: 0; pointer-events: none; }
 .cs-ov-prev { left: 10px; }
 .cs-ov-next { right: 10px; }
