@@ -21,6 +21,8 @@
                                 in case-studies/)
                'review:5'       open the Reviews story on that review
                                 (0 = the first review in script.js)
+               'reel:<TikTok video id>'  open that reel in the Reels viewer
+                                (falls back to TikTok if it isn't in reels.js)
                'url:https://…'  open a link in a new tab
                'chat'           open Let's chat
 
@@ -43,7 +45,7 @@ const WHATS_NEW = {
         {
           id: 'dl-service', type: 'content', avatar: 'me',
           thumb: 'assets/whats-new/dl-service.jpg',
-          action: 'url:https://www.tiktok.com/@aarushis.life/video/7706989627588005142',
+          action: 'reel:7706989627588005142',
           text: '**aarushiagarwal** posted a laptop-friendly café with **no time limit** ☕',
         },
       ],
@@ -70,7 +72,7 @@ const WHATS_NEW = {
         {
           id: 'manchester', type: 'content', avatar: 'me',
           thumb: 'assets/whats-new/manchester.jpg',
-          action: 'url:https://www.tiktok.com/@aarushis.life/video/7679504066296204547',
+          action: 'reel:7679504066296204547',
           text: '**aarushiagarwal** posted a day in Manchester, her most-watched video so far 🚉',
         },
       ],
@@ -122,11 +124,19 @@ const WHATS_NEW = {
   const newestId = allItems.length ? allItems[0].id : '';
 
   /* ── actions ── */
+  function openReelById(id) {
+    const reelsLive = typeof COMING_SOON_TABS === 'undefined' || !COMING_SOON_TABS.includes('reels');
+    const i = typeof REELS !== 'undefined' ? REELS.slice(0, 6).findIndex(r => r.link.endsWith('/' + id)) : -1;
+    if (reelsLive && i >= 0 && window.openReel) window.openReel(i);
+    else window.open('https://www.tiktok.com/@aarushis.life/video/' + id, '_blank', 'noopener');
+  }
+
   function run(action) {
     const [kind, ...rest] = String(action || '').split(':');
     const value = rest.join(':');
     if (kind === 'case') { const cs = findCase(value); if (cs) csOpen(cs); }
     else if (kind === 'review') openStory('reviews', +value || 0);
+    else if (kind === 'reel') openReelById(value);
     else if (kind === 'url') window.open(value, '_blank', 'noopener');
     else if (kind === 'chat') NAV_ACTIONS.chat();
   }
