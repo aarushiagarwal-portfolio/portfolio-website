@@ -9,7 +9,9 @@
    Each entry:
      label:    short name, shown on hover, in the viewer header and in Search
      link:     the video's TikTok URL (https://www.tiktok.com/@aarushis.life/video/<id>)
-     caption:  the TikTok caption, without the hashtags
+     caption:  the TikTok caption, without the hashtags. Use \n for a line break and
+               \n\n for an empty line, so it keeps the TikTok formatting
+     mentions: optional, @accounts tagged at the end of the TikTok caption (shown after the hashtags)
      tags:     hashtags shown under the caption (without the #)
      posted:   date posted, written like '14 November 2026'
      views:    as text, e.g. '1.2K'
@@ -25,42 +27,45 @@ const REEL_ACCOUNT = { handle: 'aarushis.life', url: 'https://www.tiktok.com/@aa
 const REELS = [
   { label: 'Frequency, Angel',
     link: 'https://www.tiktok.com/@aarushis.life/video/7708116464749841686',
-    caption: 'Laptop-friendly café in Angel with no time limit ☕️💻 📍 Frequency, 3 mins from Angel station ⏰ No time limit and good wifi, so you can settle in properly ✨ Honestly the vibe is so good for a focused work day 🔌 Very few sockets, so come fully charged ☕️ I had a vanilla latte: good, but a little bitter for me Save this for your next work-from-café day 🤍 What café in London should I work from next for #3?',
+    caption: "Laptop-friendly café in Angel with no time limit ☕️💻\n\n📍 Frequency, 3 mins from Angel station\n⏰ No time limit and good wifi, so you can settle in properly\n✨ Honestly the vibe is so good for a focused work day\n🔌 Very few sockets, so come fully charged\n☕️ I had a vanilla latte: good, but a little bitter for me\n\nSave this for your next work-from-café day 🤍\n\nWhat café in London should I work from next for #3?",
     tags: ['londoncafe', 'laptopfriendly', 'cafeaesthetic', 'kingscross'],
     posted: '14 November 2026', views: '1.2K', likes: 85, saves: 38,
     clip: 'assets/reels/frequency-clip.mp4', poster: 'assets/reels/frequency.jpg', video: 'assets/reels/frequency.mp4' },
 
   { label: 'DL/Service, Marylebone',
     link: 'https://www.tiktok.com/@aarushis.life/video/7706989627588005142',
-    caption: 'Laptop-friendly café in Marylebone with no time limit ☕️💻 📍 DL/Service, 23 Baker St, London W1U 6RL, halfway between Baker Street and Bond Street ⏰ No time limit, so you can actually settle in for the day 📶 Great wifi, and it stayed calm even on a busy Thursday morning ☕️ The coffee was genuinely amazing Save this for your next work-from-café day 🤍 What\'s your go-to café to work from in London?',
+    caption: "Laptop-friendly café in Marylebone with no time limit ☕️💻\n\n📍 DL/Service, 23 Baker St, London W1U 6RL, halfway between Baker Street and Bond Street\n⏰ No time limit, so you can actually settle in for the day\n📶 Great wifi, and it stayed calm even on a busy Thursday morning\n☕️ The coffee was genuinely amazing\n\nSave this for your next work-from-café day 🤍\n\nWhat’s your go-to café to work from in London?",
     tags: ['londoncafe', 'laptopfriendly', 'coffeshops', 'marylebone', 'workfrom'],
     posted: '11 November 2026', views: '873', likes: 40, saves: 19,
     clip: 'assets/reels/dl-service-clip.mp4', poster: 'assets/reels/dl-service.jpg', video: 'assets/reels/dl-service.mp4' },
 
   { label: 'WatchHouse, Mayfair',
     link: 'https://www.tiktok.com/@aarushis.life/video/7696943096956751136',
-    caption: 'Found the café that makes work feel a little less like work ☕️ If you\'re looking for a laptop friendly café in London to work from, WatchHouse in Hanover Square is a good one. It\'s right in the heart of Mayfair, just a few minutes from Bond Street Station. It\'s a smaller café so it does get a bit busy, but the vibes were so good. There are plenty of charging sockets, comfy seats and loads of outdoor seating if you can\'t find a table inside. Perfect for a work from café day in central London. Save this for when you need a cosy coffee shop to work from 🤍 @WatchHouse',
+    caption: "Found the café that makes work feel a little less like work ☕️\n\nIf you’re looking for a laptop friendly café in London to work from, WatchHouse in Hanover Square is a good one. It’s right in the heart of Mayfair, just a few minutes from Bond Street Station.\n\nIt’s a smaller café so it does get a bit busy, but the vibes were so good. There are plenty of charging sockets, comfy seats and loads of outdoor seating if you can’t find a table inside. Perfect for a work from café day in central London.\n\nSave this for when you need a cosy coffee shop to work from 🤍",
+    mentions: "@WatchHouse",
     tags: ['laptopfriendly', 'cafeaesthetic', 'mayfair', 'londoncafe'],
     posted: '15 October 2026', views: '1.9K', likes: 96, saves: 36,
     clip: 'assets/reels/watchhouse-clip.mp4', poster: 'assets/reels/watchhouse.jpg', video: 'assets/reels/watchhouse.mp4' },
 
   { label: 'Roxy Ballroom, Holborn',
     link: 'https://www.tiktok.com/@aarushis.life/video/7689897141002685728',
-    caption: 'Fun things to do in London! Head to @Roxy Ball Room & Roxy Lanes, if you are looking for a games bar with crazy pool, tech darts, karaoke, beer pong and so many more games. Save this for your next plan, and send it to your bestie! 📍: Roxy Ball Room, Holborn',
+    caption: "Fun things to do in London! Head to @Roxy Ball Room & Roxy Lanes, if you are looking for a games bar with crazy pool, tech darts, karaoke, beer pong and so many more games. Save this for your next plan, and send it to your bestie!\n\n📍: Roxy Ball Room, Holborn",
     tags: ['thingstodoinlondon', 'londonightout', 'londonbars', 'londonactivities', 'datenight'],
     posted: '26 September 2026', views: '2.3K', likes: 35, saves: 8,
     clip: 'assets/reels/roxy-ballroom-clip.mp4', poster: 'assets/reels/roxy-ballroom.jpg', video: 'assets/reels/roxy-ballroom.mp4' },
 
   { label: 'Frothee, King\'s Cross',
     link: 'https://www.tiktok.com/@aarushis.life/video/7687279952747580704',
-    caption: 'I tried their Shaken Brown Sugar Latte, and it was quite nice. Just the right amount of sweet! Give it a try if you are in Kings Cross or Covent Garden. @frotheecafe',
+    caption: "I tried their Shaken Brown Sugar Latte, and it was quite nice. Just the right amount of sweet!\nGive it a try if you are in Kings Cross or Covent Garden.",
+    mentions: "@frotheecafe",
     tags: ['londoncafe', 'londonhotspots', 'coffeeshops', 'kingscross', 'london'],
     posted: '19 September 2026', views: '2.6K', likes: 114, saves: 25,
     clip: 'assets/reels/frothee-clip.mp4', poster: 'assets/reels/frothee.jpg', video: 'assets/reels/frothee.mp4' },
 
   { label: 'Perfect day in Manchester',
     link: 'https://www.tiktok.com/@aarushis.life/video/7679504066296204547',
-    caption: 'How to spend the perfect day in Manchester. Coffee, culture, football history, and food, all in one day 🚉☕️ Full breakdown + what I spent is in the video, save this for your next trip✨ @Tabitha\'s Coffee @Honest Burgers @Secret Manchester',
+    caption: "How to spend the perfect day in Manchester. Coffee, culture, football history, and food, all in one day 🚉☕️\n\nFull breakdown + what I spent is in the video, save this for your next trip✨",
+    mentions: "@Tabitha’s Coffee @Honest Burgers @Secret Manchester",
     tags: ['manchester', 'oldtrafford', 'thingstodo', 'traveltok', 'traveldiaries'],
     posted: '29 August 2026', views: '2.6K', likes: 54, saves: 37,
     clip: 'assets/reels/manchester-clip.mp4', poster: 'assets/reels/manchester.jpg', video: 'assets/reels/manchester.mp4' },
@@ -193,11 +198,12 @@ const REELS = [
 
     captionEl.innerHTML =
       '<img class="reel-av" src="aarushi-cropped.jpg" alt="">' +
-      '<div><p><strong>' + REEL_ACCOUNT.handle + '</strong> ' + esc(r.caption) + '</p>' +
+      '<div><p class="reel-text"><strong>' + REEL_ACCOUNT.handle + '</strong> ' + esc(r.caption) + '</p>' +
       (r.tags && r.tags.length
         ? '<p class="reel-tags">' + r.tags.map(t =>
             '<a href="https://www.tiktok.com/tag/' + encodeURIComponent(t) + '" target="_blank" rel="noopener">#' + esc(t) + '</a>').join(' ') + '</p>'
         : '') +
+      (r.mentions ? '<p class="reel-mentions">' + esc(r.mentions) + '</p>' : '') +
       '<span class="reel-date">' + esc(r.posted.replace(/\s\d{4}$/, '')) + '</span></div>';
     captionEl.parentElement.scrollTop = 0;
 

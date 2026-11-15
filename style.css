@@ -437,6 +437,7 @@ body { padding-left: var(--sidebar-w); }
 .reel-caption > div { min-width: 0; overflow-wrap: anywhere; }
 .reel-caption p { margin-bottom: 14px; }
 .reel-caption strong { font-weight: 600; }
+.reel-text { white-space: pre-line; } /* keeps the TikTok line breaks */
 .reel-tags a { color: #00376B; text-decoration: none; }
 .reel-tags a:hover { text-decoration: underline; }
 .reel-date { display: block; font-size: 12px; color: var(--ig-muted); }
