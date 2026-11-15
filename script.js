@@ -1,3 +1,43 @@
+/* ══════════════════════════════════════
+   PAGE SCROLL LOCK
+   While a story, case study, reel or panel is open, the page behind must not
+   scroll. This watches for anything gaining or losing the "open" class, pins
+   the page in place, and puts it back exactly where it was on close.
+══════════════════════════════════════ */
+const OPEN_LAYERS = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open, .search-panel.open, .wn-panel.open, .chat-panel.open';
+let pageLocked = false, pageLockY = 0, afterUnlock = null;
+
+function jumpTo(y) { // instant, even though the page normally scrolls smoothly
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';
+  window.scrollTo(0, y);
+  root.style.scrollBehavior = '';
+}
+function syncScrollLock() {
+  const shouldLock = !!document.querySelector(OPEN_LAYERS);
+  if (shouldLock === pageLocked) return;
+  pageLocked = shouldLock;
+  if (shouldLock) {
+    pageLockY = window.scrollY;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.top = -pageLockY + 'px';
+    if (scrollbar > 0) document.body.style.paddingRight = scrollbar + 'px'; // no sideways jump when the scrollbar goes
+    document.body.classList.add('scroll-locked');
+  } else {
+    document.body.classList.remove('scroll-locked');
+    document.body.style.top = '';
+    document.body.style.paddingRight = '';
+    jumpTo(pageLockY);
+    if (afterUnlock) { const run = afterUnlock; afterUnlock = null; run(); }
+  }
+}
+/* Scroll the page now, or as soon as whatever is open has closed. */
+function whenScrollable(fn) {
+  syncScrollLock();
+  if (pageLocked) afterUnlock = fn; else fn();
+}
+new MutationObserver(syncScrollLock).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+
 /* ── TABS ────────────────────────────── */
 /* Tabs listed here aren't ready yet: clicking shows a "coming soon" toast instead */
 const COMING_SOON_TABS = [];
@@ -250,6 +290,16 @@ const storySlideArea= document.getElementById('storySlideArea');
 const storyClose    = document.getElementById('storyClose');
 const storyTapLeft  = document.getElementById('storyTapLeft');
 const storyTapRight = document.getElementById('storyTapRight');
+const storyShell    = document.getElementById('storyShell');
+
+/* On short screens (a phone held sideways) the story card keeps its designed
+   size and is scaled down to fit, so nothing is cut off. See style.css. */
+const STORY_FIT_H = 580;
+function fitStory() {
+  storyShell.style.setProperty('--story-fit', Math.min(1, (window.innerHeight * 0.9) / STORY_FIT_H).toFixed(3));
+}
+fitStory();
+window.addEventListener('resize', fitStory);
 
 /* startIdx: slide to open on (0 = first). What's new uses it to open a specific review. */
 function openStory(key, startIdx = 0) {
@@ -335,7 +385,7 @@ document.getElementById('hireBtn').addEventListener('click', () => openChat());
 
 function showTab(name) {
   document.querySelector(`.tab-btn[data-tab="${name}"]`).click();
-  document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  whenScrollable(() => document.querySelector('.tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' }));
 }
 
 /* Posts tab = Work page, Reels tab = Reels page: keep the sidebar in step */
@@ -352,7 +402,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 const NAV_ACTIONS = {
   work: () => {
     document.querySelector('.tab-btn[data-tab="grid"]').click();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    whenScrollable(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
   },
   reels: () => showTab('reels'),
   chat: () => openStory('contact'), // replaced by the Let's chat panel in chat.js

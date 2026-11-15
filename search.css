@@ -4,8 +4,8 @@
    Phone: a full screen above the bottom bar.
 ══════════════════════════════════════ */
 .search-panel {
-  position: fixed; top: 0; bottom: 0; left: var(--sidebar-w); z-index: 90;
-  width: 397px; max-width: calc(100vw - var(--sidebar-w));
+  position: fixed; top: 0; bottom: 0; left: calc(var(--sidebar-w) + var(--safe-l)); z-index: 90;
+  width: 397px; max-width: calc(100vw - var(--sidebar-w) - var(--safe-l));
   display: flex; flex-direction: column;
   background: var(--surface); color: var(--ig-text);
   border-right: 1px solid var(--ig-line); border-radius: 0 16px 16px 0;
@@ -120,7 +120,8 @@
 
 @media (max-width: 767px) {
   .search-panel {
-    left: 0; bottom: 50px; width: 100%; max-width: none; z-index: 150;
+    left: 0; bottom: calc(50px + var(--safe-b)); width: 100%; max-width: none; z-index: 150;
+    padding-top: var(--safe-t);
     border: none; border-radius: 0; box-shadow: none;
     transform: none; opacity: 0;
     transition: opacity 0.2s, visibility 0s 0.2s;
