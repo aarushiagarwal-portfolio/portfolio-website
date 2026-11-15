@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="case-study.css" />
   <link rel="stylesheet" href="search.css" />
   <link rel="stylesheet" href="whats-new.css" />
+  <link rel="stylesheet" href="chat.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Josefin+Sans:wght@400&display=swap" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HTC9N172R9"></script>
@@ -47,10 +48,6 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.5s-8.5-5-8.5-11A4.75 4.75 0 0 1 12 6.8a4.75 4.75 0 0 1 8.5 2.7c0 6-8.5 11-8.5 11z"/></svg>
       <span>What's new</span>
     </button>
-    <button class="nav-item" data-nav="work-with-me">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M12 7.5v9M7.5 12h9"/></svg>
-      <span>Work with me</span>
-    </button>
     <button class="nav-item" data-nav="about">
       <img class="nav-avatar" src="aarushi-cropped.jpg" alt="" />
       <span>About me</span>
@@ -82,9 +79,6 @@
   </button>
   <button class="icon-btn" data-nav="search" aria-label="Search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>
-  </button>
-  <button class="icon-btn" data-nav="work-with-me" aria-label="Work with me">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M12 7.5v9M7.5 12h9"/></svg>
   </button>
   <button class="icon-btn" data-nav="reels" aria-label="Reels">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M2.5 8h19M9 2.5 11.5 8M14.5 2.5 17 8"/><path d="m10 11.5 4.5 2.75L10 17z" fill="currentColor"/></svg>
@@ -241,7 +235,7 @@
 </div>
 
 <!-- ── REEL VIEWER ── -->
-<div class="reel-overlay" id="reelOverlay" aria-hidden="true">
+<div class="reel-overlay" id="reelOverlay" aria-hidden="true" inert>
   <div class="reel-backdrop" data-reel-close></div>
   <button class="reel-close" data-reel-close aria-label="Close">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 5l14 14M19 5 5 19"/></svg>
@@ -252,32 +246,30 @@
   <button class="reel-nav reel-next" id="reelNext" aria-label="Next reel">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
   </button>
-  <div class="reel-modal" role="dialog" aria-modal="true" aria-label="Reel viewer">
+  <div class="reel-modal" role="dialog" aria-modal="true" aria-label="Reel viewer" tabindex="-1">
     <div class="reel-media" id="reelMedia"></div>
     <div class="reel-side">
       <div class="reel-header" id="reelHeader"></div>
       <div class="reel-body"><div class="reel-caption" id="reelCaption"></div></div>
       <div class="reel-actions">
-        <button class="reel-icon reel-like" aria-label="Like">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.5s-8.5-5-8.5-11A4.75 4.75 0 0 1 12 6.8a4.75 4.75 0 0 1 8.5 2.7c0 6-8.5 11-8.5 11z"/></svg>
-        </button>
-        <button class="reel-icon reel-ask" aria-label="Comment">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 0 1-12.4 7.55L3 21l1.45-5.1A8.5 8.5 0 1 1 20.5 12z"/></svg>
-        </button>
-        <button class="reel-icon" aria-label="Share">
+        <span class="reel-stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-8.5-5-8.5-11A4.75 4.75 0 0 1 12 6.8a4.75 4.75 0 0 1 8.5 2.7c0 6-8.5 11-8.5 11z"/></svg>
+          <span id="reelLikes"></span>
+        </span>
+        <button class="reel-icon" id="reelShare" type="button" aria-label="Copy link to this reel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M22 3 9.2 10.1M22 3l-7 18-5.8-10.9L2 7z"/></svg>
         </button>
         <span class="reel-spacer"></span>
-        <button class="reel-icon" aria-label="Save">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M19 21 12 16l-7 5V4h14z"/></svg>
-        </button>
+        <span class="reel-stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M19 21 12 16l-7 5V4h14z"/></svg>
+          <span id="reelSaves"></span>
+        </span>
       </div>
       <div class="reel-stats" id="reelStats"></div>
-      <button class="reel-comment reel-ask">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0"/><circle cx="9" cy="10" r=".8" fill="currentColor"/><circle cx="15" cy="10" r=".8" fill="currentColor"/></svg>
-        <span>Ask me about this reel…</span>
-        <strong>Send</strong>
-      </button>
+      <div class="reel-comment">
+        <span>See comments on TikTok</span>
+        <a id="reelOpen" href="https://www.tiktok.com/@aarushis.life" target="_blank" rel="noopener">Open</a>
+      </div>
     </div>
   </div>
 </div>
@@ -292,5 +284,6 @@
 <script src="case-study.js"></script>
 <script src="search.js"></script>
 <script src="whats-new.js"></script>
+<script src="chat.js"></script>
 </body>
 </html>
