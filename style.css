@@ -1105,3 +1105,11 @@ body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: 
     transition-duration: 0.01ms !important; transition-delay: 0s !important;
   }
 }
+/* Tagged tab on big phones (421-520px, three columns): the name and stars
+   need a touch less side padding to fit their column. */
+@media (max-width: 520px) {
+  .tagged-post { min-width: 0; overflow: hidden; }
+  .tagged-meta { padding-left: 0.4rem; padding-right: 0.4rem; }
+  .tagged-author { gap: 0.35rem; min-width: 0; }
+  .tagged-stars { letter-spacing: 0; }
+}
