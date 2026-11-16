@@ -198,12 +198,12 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
 /* ── HIGHLIGHTS ──────────────────────── */
 .highlights-section { margin-bottom: 44px; }
 .highlights-row {
-  display: flex; gap: 32px; padding: 8px 8px 6px 50px;
+  display: flex; gap: 17px; padding: 8px 8px 6px 29px;   /* Instagram: rings 132px apart, first one 29px in */
   overflow-x: auto; scrollbar-width: none;
 }
 .highlights-row::-webkit-scrollbar { display: none; }
 .highlight-item {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
   width: 115px; background: none; border: none; cursor: pointer; flex-shrink: 0;
   font-family: inherit;
 }
@@ -232,17 +232,20 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
 }
 
 /* ── TAB BAR ─────────────────────────── */
-.tab-bar { display: flex; justify-content: center; gap: 60px; border-top: 1px solid var(--ig-line); }
+/* Sized like Instagram's profile tabs today: icons only (24px) in a 44px bar,
+   each tab 64px wide and 197px apart, with a line under the one you're on.
+   The names live in each button's aria-label. */
+.tab-bar { display: flex; justify-content: center; gap: 133px; }
 .tab-btn {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  height: 52px; margin-top: -1px; padding: 0 2px;
-  background: none; border: none; border-top: 1px solid transparent; cursor: pointer;
-  color: var(--ig-muted); font-family: inherit; font-size: 12px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  width: 64px; height: 44px; padding: 0;
+  background: none; border: none; border-bottom: 1px solid transparent; cursor: pointer;
+  color: var(--ig-muted); font-family: inherit; transition: color 0.2s;
 }
 @media (hover: hover) { .tab-btn:hover { color: var(--ig-text); } }
-.tab-btn svg { width: 12px; height: 12px; }
-.tab-btn.active { color: var(--ig-text); border-top-color: var(--ig-text); }
+.tab-btn span { display: none; }
+.tab-btn svg { width: 24px; height: 24px; }
+.tab-btn.active { color: var(--ig-text); border-bottom-color: var(--ig-text); }
 
 /* ── FOOTER ──────────────────────────── */
 .site-footer {
@@ -1008,8 +1011,6 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
   .highlight-ring-wrap { width: 64px; height: 64px; padding: 2px; }
   .highlight-circle { font-size: 24px; }
   .tab-bar { gap: 0; justify-content: space-around; }
-  .tab-btn span { display: none; }
-  .tab-btn svg { width: 22px; height: 22px; }
   .posts-grid { gap: 2px; }
   .site-footer { padding: 32px 16px 24px; }
 }
@@ -1080,7 +1081,6 @@ body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: 
   .profile-actions .icon-btn::after { inset: -2px -6px; }
   .ig-btn::after { inset: -6px 0; }
   .ig-btn-icon::after { inset: -6px; }
-  .tab-btn::after { inset: 0 -12px; }
   .site-footer button::after, .site-footer a::after { inset: -15px -9px; }
   .reel-nav::after { inset: -4px; }
   .reel-more::after { inset: -10px; }
