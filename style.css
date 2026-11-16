@@ -322,12 +322,25 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
 }
 @media (hover: hover) { .post-thumb:hover .post-hover { opacity: 1; } }
 .post-hover span { color: #fff; font-size: 0.9rem; font-weight: 600; }
+/* "And more to come" tile — Golden Hour warm palette, sized by the tile's width (cqi) */
 .more-thumb {
-  background: var(--burgundy); aspect-ratio: 4/5;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.85);
-  text-align: center; line-height: 1.4;
+  position: relative; aspect-ratio: 4/5; container-type: inline-size;
+  background: #FFF8F1; color: #3A1420; cursor: default;
 }
+.more-in { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 8cqi 7.5cqi 7cqi; }
+.more-eb { font-size: max(8px, 3.3cqi); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #C24A2E; }
+.more-h {
+  margin: auto 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 12cqi; font-weight: 800; line-height: 1.02; letter-spacing: -0.02em;
+}
+.more-h em { font-style: normal; color: #8E2A3B; }
+.more-ft { font-size: max(9px, 3.8cqi); font-weight: 500; color: rgba(58,20,32,0.75); }
+.more-bar { display: flex; gap: 1.5cqi; margin-bottom: 3cqi; }
+.more-bar i { flex: 1; height: 1.4cqi; min-height: 3px; border-radius: 99px; }
+.more-bar i:nth-child(1) { background: #8E2A3B; }
+.more-bar i:nth-child(2) { background: #E66A8C; }
+.more-bar i:nth-child(3) { background: #EF6A4C; }
+.more-bar i:nth-child(4) { background: #F2B33D; }
 
 /* ── REELS GRID ──────────────────────── */
 .reels-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
