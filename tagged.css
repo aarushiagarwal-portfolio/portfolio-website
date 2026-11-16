@@ -1,0 +1,49 @@
+/* ══════════════════════════════════════
+   TAGGED TAB (see tagged.js) — Golden Hour warm palette.
+   Sizes use cqi (a % of the tile's width) so the posts scale with
+   the grid on every screen, like the case-study post tiles.
+══════════════════════════════════════ */
+.tg {
+  --bg: #FFF8F1; --fg: #3A1420; --acc: #C24A2E; --av-bg: #EF6A4C; --av-fg: #3A1420; --rule: rgba(58,20,32,0.15);
+  container-type: inline-size;
+  position: relative; display: block; aspect-ratio: 4 / 5; min-width: 0;
+  padding: 0; border: none; overflow: hidden; cursor: pointer; text-align: left;
+  background: var(--bg); color: var(--fg); font-family: 'Roboto', system-ui, sans-serif;
+  transition: filter 0.15s;
+}
+.tg-in { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 8cqi 7.5cqi 7cqi; }
+.tg:hover { filter: brightness(0.97); }
+.tg:focus-visible { outline: 3px solid var(--ig-blue); outline-offset: -3px; }
+
+.tg-eb {
+  display: flex; justify-content: space-between; gap: 6px; color: var(--acc);
+  font-size: max(8px, 3.3cqi); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.tg-qm { display: block; margin-top: 7cqi; color: var(--acc); }
+.tg-qm svg { display: block; width: 10.5cqi; height: 10.5cqi; }
+.tg-q {
+  display: block; margin-top: 2cqi;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 8.5cqi; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em;
+}
+.tg-q em { font-style: normal; font-weight: 800; color: var(--acc); }
+.tg-by {
+  display: flex; align-items: center; gap: 3cqi;
+  margin-top: auto; padding-top: 4.5cqi; border-top: 1px solid var(--rule);
+}
+.tg-av {
+  display: flex; align-items: center; justify-content: center; flex: none;
+  width: 11.5cqi; height: 11.5cqi; border-radius: 50%;
+  background: var(--av-bg); color: var(--av-fg);
+  font-size: max(8px, 3.4cqi); font-weight: 700; letter-spacing: 0.08em;
+}
+.tg-nm { display: block; font-size: max(8px, 3.4cqi); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.tg-rl { display: block; margin-top: 0.6cqi; font-size: max(9px, 4cqi); font-weight: 500; color: var(--acc); }
+
+/* colour schemes (every highlight passes WCAG AA for large text) */
+.tg-cream-coral { --bg: #FFF8F1; --fg: #3A1420; --acc: #C24A2E; --av-bg: #EF6A4C; --av-fg: #3A1420; --rule: rgba(58,20,32,0.15); }
+.tg-wine        { --bg: #8E2A3B; --fg: #FFF8F1; --acc: #F2B33D; --av-bg: #F2B33D; --av-fg: #3A1420; --rule: rgba(255,248,241,0.22); }
+.tg-ink-rose    { --bg: #3A1420; --fg: #FFF8F1; --acc: #E66A8C; --av-bg: #E66A8C; --av-fg: #3A1420; --rule: rgba(255,248,241,0.2); }
+.tg-marigold    { --bg: #F2B33D; --fg: #3A1420; --acc: #8E2A3B; --av-bg: #8E2A3B; --av-fg: #F2B33D; --rule: rgba(58,20,32,0.2); }
+.tg-ink-coral   { --bg: #3A1420; --fg: #FFF8F1; --acc: #EF6A4C; --av-bg: #EF6A4C; --av-fg: #3A1420; --rule: rgba(255,248,241,0.2); }
+.tg-cream-rose  { --bg: #FFF8F1; --fg: #3A1420; --acc: #B8405F; --av-bg: #E66A8C; --av-fg: #3A1420; --rule: rgba(58,20,32,0.15); }

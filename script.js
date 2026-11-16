@@ -153,10 +153,10 @@ const STORIES = {
     { type: 'certs' },
   ],
   reviews: [
-    { type: 'review', av:'NN', name:'Natasha N.', role:'Colleague', quote:'"Extensive knowledge of social media. Always brings fresh ideas and executes them flawlessly. A genuine expert who elevates any team."', bg:'linear-gradient(160deg,#1a0505,#8B1A1A)' },
-    { type: 'review', av:'GS', name:'Grace S.', role:'Colleague', quote:'"Works efficiently, accurately, and on time. Every single time. She sets the standard for reliability and quality in everything she delivers."', bg:'linear-gradient(160deg,#040418,#1e3a8a)' },
+    { type: 'review', av:'NN', name:'Natasha N.', role:'Client', quote:'"Extensive knowledge of social media. Always brings fresh ideas and executes them flawlessly. A genuine expert who elevates any team."', bg:'linear-gradient(160deg,#1a0505,#8B1A1A)' },
+    { type: 'review', av:'GS', name:'Grace S.', role:'Client', quote:'"Works efficiently, accurately, and on time. Every single time. She sets the standard for reliability and quality in everything she delivers."', bg:'linear-gradient(160deg,#040418,#1e3a8a)' },
     { type: 'review', av:'KO', name:'Kat O.', role:'Manager', quote:'"Her growth within our team is truly inspiring. She stepped up at every opportunity and delivered results that consistently exceeded expectations."', bg:'linear-gradient(160deg,#04180a,#14532d)' },
-    { type: 'review', av:'SA', name:'Sheeza A.', role:'Colleague', quote:'"Has her finger on the pulse when it comes to trends. She spots what\'s coming before anyone else and knows exactly how to capitalise on the moment."', bg:'linear-gradient(160deg,#181004,#92400e)' },
+    { type: 'review', av:'SA', name:'Sheeza A.', role:'Manager', quote:'"Has her finger on the pulse when it comes to trends. She spots what\'s coming before anyone else and knows exactly how to capitalise on the moment."', bg:'linear-gradient(160deg,#181004,#92400e)' },
     { type: 'review', av:'SB', name:'Samuel B.', role:'Manager', quote:'"Fantastic in client-facing situations. Calm, articulate, and always makes the client feel heard and valued. An incredible asset in any meeting."', bg:'linear-gradient(160deg,#0c0418,#5b21b6)' },
     { type: 'review', av:'MA', name:'Mandy A.', role:'Director', quote:'"A natural ability for translating client objectives into actionable outcomes. Aarushi bridges strategy and execution seamlessly — a rare and valuable skill."', bg:'linear-gradient(160deg,#180410,#9d174d)' },
   ],

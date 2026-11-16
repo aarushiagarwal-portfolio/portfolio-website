@@ -510,29 +510,6 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
     opacity: 1;
   }
 }
-.tagged-img {
-  aspect-ratio: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 1.5rem; text-align: center;
-}
-.tag-quote {
-  font-size: 3rem; line-height: 0.5; color: rgba(255,255,255,0.2);
-  font-family: Georgia, serif; margin-bottom: 0.75rem;
-}
-.tagged-img p { font-size: 0.8rem; color: rgba(255,255,255,0.85); line-height: 1.55; font-style: italic; }
-.tagged-meta {
-  background: var(--surface); padding: 0.65rem 0.85rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.tagged-author { display: flex; align-items: center; gap: 0.5rem; }
-.t-av {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: var(--burgundy); color: #fff;
-  font-size: 0.6rem; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-}
-.tagged-author span { font-size: 0.78rem; font-weight: 600; }
-.tagged-stars { color: #f59e0b; font-size: 0.65rem; letter-spacing: 1px; }
 
 /* ══════════════════════════════════════
    STORY OVERLAY
@@ -594,7 +571,8 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
   opacity: 0; transition: opacity 0.25s ease-out;
   pointer-events: none;
 }
-.story-slide.active { opacity: 1; pointer-events: all; }
+.story-slide.active { opacity: 1; }
+.story-overlay.open .story-slide.active { pointer-events: all; } /* only clickable while the story is open, so a closed story never blocks the page */
 
 /* Tap zones */
 .story-tap-left, .story-tap-right {
@@ -1104,12 +1082,4 @@ body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: 
     animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important; transition-delay: 0s !important;
   }
-}
-/* Tagged tab on big phones (421-520px, three columns): the name and stars
-   need a touch less side padding to fit their column. */
-@media (max-width: 520px) {
-  .tagged-post { min-width: 0; overflow: hidden; }
-  .tagged-meta { padding-left: 0.4rem; padding-right: 0.4rem; }
-  .tagged-author { gap: 0.35rem; min-width: 0; }
-  .tagged-stars { letter-spacing: 0; }
 }
