@@ -8,6 +8,7 @@
      Reels     ← REELS in reels.js
      Skills    ← the Skills story in script.js
      Reviews   ← the Reviews story in script.js
+     About me  ← the folders in ABOUT in about.js
 
    TO ADD OR CHANGE A TAG: edit the `tags` list in that project's file in
    case-studies/. Chips are built from those lists, so a new tag name
@@ -150,6 +151,16 @@
     }));
   }
 
+  /* About me folders (ABOUT in about.js): found by name, description, item titles and keywords */
+  if (typeof ABOUT !== 'undefined' && window.openAbout) {
+    ABOUT.folders.forEach(f => addItem({
+      kind: 'about', title: f.name, img: f.items[0] && f.items[0].image, sub: f.description || 'About me',
+      lines: [{ text: f.description }, { text: f.items.map(it => it.title).join(' '), hidden: true },
+        { text: (f.keywords || '') + ' about me', hidden: true }],
+      open: () => { closePanel(); window.openAbout(f.slug); },
+    }));
+  }
+
   /* Chips: every tag used by a project, most used first, platforms last */
   const tagCounts = {};
   items.filter(it => it.kind === 'project').forEach(it => it.tags.forEach(t => {
@@ -264,7 +275,7 @@
   }
 
   const GROUPS = [
-    ['project', 'Projects'], ['skill', 'Skills and tools'], ['reel', 'Reels'], ['review', 'Reviews'],
+    ['project', 'Projects'], ['skill', 'Skills and tools'], ['reel', 'Reels'], ['review', 'Reviews'], ['about', 'About me'],
   ];
 
   function rowHtml(r, i) {

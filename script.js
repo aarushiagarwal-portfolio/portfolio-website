@@ -4,7 +4,7 @@
    scroll. This watches for anything gaining or losing the "open" class, pins
    the page in place, and puts it back exactly where it was on close.
 ══════════════════════════════════════ */
-const OPEN_LAYERS = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open, .search-panel.open, .wn-panel.open, .chat-panel.open';
+const OPEN_LAYERS = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open, .about-viewer.open, .search-panel.open, .wn-panel.open, .chat-panel.open';
 let pageLocked = false, pageLockY = 0, afterUnlock = null;
 
 function jumpTo(y) { // instant, even though the page normally scrolls smoothly
@@ -45,8 +45,8 @@ const SCROLL_STYLE = window.matchMedia('(prefers-reduced-motion: reduce)').match
    closes, focus goes back to whatever opened it. While a full-screen viewer is
    open the page behind can't be reached with Tab.
 ══════════════════════════════════════ */
-const FOCUS_LAYERS = '.story-overlay, .post-overlay, .cs-overlay, .reel-overlay, .search-panel, .wn-panel, .chat-panel';
-const VIEWERS_OPEN = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open';
+const FOCUS_LAYERS = '.story-overlay, .post-overlay, .cs-overlay, .reel-overlay, .about-viewer, .search-panel, .wn-panel, .chat-panel';
+const VIEWERS_OPEN = '.story-overlay.open, .post-overlay.open, .cs-overlay.open, .reel-overlay.open, .about-viewer.open';
 const CAN_FOCUS = 'button:not([disabled]), a[href], input, [tabindex]:not([tabindex="-1"])';
 const focusTrail = [];                 // recently focused or pressed controls, newest last
 const layerOpener = new Map();         // open layer -> the control that opened it
@@ -99,7 +99,8 @@ function syncFocus() {
 /* Tab stays inside an open story or case study (the reel viewer does its own) */
 document.addEventListener('keydown', e => {
   if (e.key !== 'Tab') return;
-  const layer = document.querySelector('.cs-overlay.open') || document.querySelector('.story-overlay.open') || document.querySelector('.post-overlay.open');
+  if (document.querySelector('.reel-overlay.open')) return;   // it is on top and keeps Tab to itself
+  const layer = document.querySelector('.cs-overlay.open') || document.querySelector('.story-overlay.open') || document.querySelector('.post-overlay.open') || document.querySelector('.about-viewer.open');
   if (!layer) return;
   const items = [...layer.querySelectorAll(CAN_FOCUS)].filter(el => el.getClientRects().length && !el.closest('[inert]'));
   if (!items.length) return;
@@ -356,7 +357,7 @@ const NAV_ACTIONS = {
   },
   reels: () => showTab('reels'),
   chat: () => openStory('contact'), // replaced by the Let's chat panel in chat.js
-  about: () => openStory('about'),
+  about: () => { location.hash = 'about'; }, // the About me page (about.js); the About highlight still opens the story
 };
 
 const toastEl = document.getElementById('toast');
