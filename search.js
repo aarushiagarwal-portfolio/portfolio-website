@@ -142,17 +142,7 @@
     const addSkill = (title, sub, i) => addItem({
       kind: 'skill', title, sub, lines: [{ text: sub }], open: () => openStoryAt('skills', i),
     });
-    (STORIES.skills || []).forEach((d, i) => {
-      if (d.type === 'competencies') {
-        addSkill(d.a, d.aItems.join(' · '), i);
-        addSkill(d.b, d.bItems.join(' · '), i);
-        return;
-      }
-      const el = buildSlide(d);
-      el.querySelectorAll('.tool-card-s').forEach(c => addSkill(c.querySelector('strong').textContent, 'Tool · ' + c.querySelector('span').textContent, i));
-      el.querySelectorAll('.cert-card-s strong').forEach(c => addSkill(c.textContent, 'Certification', i));
-      el.querySelectorAll('.sbar-row > span:first-child').forEach(c => addSkill(c.textContent, 'Platform', i));
-    });
+    (STORIES.skills || []).forEach((d, i) => (d.search || []).forEach(x => addSkill(x.title, x.sub, i)));
     (STORIES.reviews || []).forEach((d, i) => addItem({
       kind: 'review', title: d.name + ' · ' + d.role, initials: d.av, sub: d.quote.replace(/^"|"$/g, ''),
       lines: [{ text: d.quote }, { text: 'review recommendation testimonial', hidden: true }],
