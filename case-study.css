@@ -99,20 +99,27 @@
 .cs-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); }
 .cs-modal {
   position: relative; z-index: 1;
-  width: min(920px, 96vw); height: min(86vh, 760px); height: min(86dvh, 760px);
+  /* sized like Instagram's post pop-up: about 90% of the window tall, with a
+     caption panel up to 500px wide; the slide keeps its 4:5 shape */
+  --cs-h: min(90vh, 950px, calc((100vw - 160px - 335px) / 0.8));
+  height: var(--cs-h); max-width: calc(100vw - 160px);
   background: #fff; border-radius: 12px; overflow: hidden;
   display: flex; color: #000;
   transform: scale(0.94); transition: transform 0.25s ease;
 }
 .cs-overlay.open .cs-modal { transform: scale(1); }
+@supports (height: 1dvh) {
+  .cs-modal { --cs-h: min(90dvh, 950px, calc((100vw - 160px - 335px) / 0.8)); }
+}
+/* the close X sits outside the pop-up, top right, like Instagram */
 .cs-close {
-  position: absolute; top: 0.9rem; right: 0.9rem; z-index: 5;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.9); border: none; cursor: pointer;
+  position: absolute; top: calc(16px + var(--safe-t)); right: calc(16px + var(--safe-r)); z-index: 5;
+  width: 40px; height: 40px; border-radius: 50%; color: #fff;
+  background: none; border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.85rem; transition: background 0.2s;
 }
-@media (hover: hover) { .cs-close:hover { background: #fff; } }
+.cs-close svg { width: 26px; height: 26px; }
 
 /* ── Carousel (left) ── */
 .cs-viewport {
@@ -241,7 +248,7 @@
 
 /* ── Info side (real-Instagram-accurate chrome) ── */
 .cs-info-side {
-  flex: 1; min-width: 0; display: flex; flex-direction: column;
+  flex: 0 1 500px; min-width: 0; display: flex; flex-direction: column;
   background: #fff; color: #000;
 }
 .cs-info-header {
@@ -279,10 +286,22 @@
 .cs-slide-page { padding: 0; }
 
 /* ── RESPONSIVE ── */
+@media (max-width: 1000px) {
+  .cs-modal { --cs-h: min(90vh, 950px, calc((100vw - 64px - 335px) / 0.8)); max-width: calc(100vw - 64px); }
+  @supports (height: 1dvh) {
+    .cs-modal { --cs-h: min(90dvh, 950px, calc((100vw - 64px - 335px) / 0.8)); }
+  }
+}
 @media (max-width: 680px) {
-  .cs-modal { flex-direction: column; height: 92vh; height: 92dvh; width: 100%; border-radius: 0; }
+  .cs-modal { flex-direction: column; height: 92vh; height: 92dvh; width: 100%; max-width: none; border-radius: 0; }
   .cs-viewport { width: 100%; height: auto; aspect-ratio: 4/5; }
   .cs-info-side { flex: 1; min-height: 0; }
+  /* on a phone the X sits on the slide, so it gets its white disc back */
+  .cs-close {
+    top: calc(4vh + 10px); top: calc(4dvh + 10px); right: 10px; width: 32px; height: 32px;
+    background: rgba(255,255,255,0.9); color: #000;
+  }
+  .cs-close svg { width: 16px; height: 16px; }
   /* Grid tile text can't stay legible at a 1/3-column mobile width, so it
      takes the full row instead of squeezing in next to square thumbnails. */
   .cs-tile, .posts-grid .more-thumb { grid-column: 1 / -1; aspect-ratio: 4/5; }

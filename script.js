@@ -232,7 +232,7 @@ const storyShell    = document.getElementById('storyShell');
 
 /* On short screens (a phone held sideways) the story card keeps its designed
    size and is scaled down to fit, so nothing is cut off. See style.css. */
-const STORY_FIT_H = 580;
+const STORY_FIT_H = 640;
 function fitStory() {
   storyShell.style.setProperty('--story-fit', Math.min(1, (window.innerHeight * 0.9) / STORY_FIT_H).toFixed(3));
 }
