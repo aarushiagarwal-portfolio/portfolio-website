@@ -302,7 +302,6 @@
     background: rgba(255,255,255,0.9); color: #000;
   }
   .cs-close svg { width: 16px; height: 16px; }
-  /* Grid tile text can't stay legible at a 1/3-column mobile width, so it
-     takes the full row instead of squeezing in next to square thumbnails. */
-  .cs-tile, .posts-grid .more-thumb { grid-column: 1 / -1; aspect-ratio: 4/5; }
+  /* Phones keep the Instagram grid of three: each cover is a designed slide
+     that scales down with its tile, and tapping it opens the full carousel. */
 }
