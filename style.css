@@ -160,11 +160,12 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
 @media (min-width: 2000px) { .ig-page { max-width: calc(1280px + 4rem); } }
 
 /* ── PROFILE HEADER ──────────────────── */
+/* Arranged like Instagram's profile today: a centred 680px block with the photo
+   on the left, then name, counts and bio, and the buttons in one wide row below. */
 .profile-header {
-  display: grid; grid-template-columns: 291px 1fr; align-items: start;
-  padding-top: 20px; margin-bottom: 44px;
+  display: grid; grid-template-columns: 168px minmax(0, 1fr); column-gap: 18px; row-gap: 24px; align-items: start;
+  max-width: 680px; margin: 0 auto 40px; padding-top: 10px;
 }
-.profile-pic-wrap { justify-self: center; }
 .profile-ring {
   width: 168px; height: 168px; border-radius: 50%; padding: 4px;
   background: conic-gradient(from 210deg, #FFC83C, #F25C2A, #D3165C, #A61BB0, #D3165C, #F25C2A, #FFC83C);
@@ -174,19 +175,20 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
   object-fit: cover; object-position: center;
   border: 5px solid var(--surface); display: block;
 }
-.profile-info { min-width: 0; padding-top: 6px; }
-.profile-top-row {
-  display: flex; align-items: center; gap: 20px;
-  flex-wrap: wrap; margin-bottom: 20px;
-}
+.profile-info { min-width: 0; padding-top: 4px; }
+.profile-top-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
 .profile-top-row h1 {
   display: inline-flex; align-items: center; gap: 8px;
-  font-size: 20px; font-weight: 400; color: var(--ig-text);
+  font-size: 22px; font-weight: 700; line-height: 28px; color: var(--ig-text);
 }
 .verified { width: 18px; height: 18px; }
-.profile-actions { display: flex; align-items: center; gap: 8px; }
+.profile-top-row .icon-btn { height: 28px; }
+.profile-actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.profile-actions .ig-btn { flex: 1; height: 44px; justify-content: center; border-radius: 10px; }
+.profile-actions .ig-btn-icon { flex: 0 0 44px; width: 44px; }
+.profile-actions .ig-btn-icon svg { width: 18px; height: 18px; }
 
-.profile-counts { display: flex; gap: 40px; margin-bottom: 20px; font-size: 16px; }
+.profile-counts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 18px; font-size: 16px; line-height: 20px; }
 .count-item strong { font-weight: 600; }
 
 .profile-bio { font-size: 14px; line-height: 18px; }
@@ -196,19 +198,19 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
 .followed-by strong { color: var(--ig-text); font-weight: 600; }
 
 /* ── HIGHLIGHTS ──────────────────────── */
-.highlights-section { margin-bottom: 44px; }
+.highlights-section { max-width: 680px; margin: 0 auto 30px; }
 .highlights-row {
-  display: flex; gap: 32px; padding: 8px 8px 6px 50px;
+  display: flex; gap: 0; padding: 8px 8px 6px 7px;   /* Instagram: 84px rings, 97px apart */
   overflow-x: auto; scrollbar-width: none;
 }
 .highlights-row::-webkit-scrollbar { display: none; }
 .highlight-item {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  width: 115px; background: none; border: none; cursor: pointer; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  width: 97px; background: none; border: none; cursor: pointer; flex-shrink: 0;
   font-family: inherit;
 }
 .highlight-ring-wrap {
-  width: 87px; height: 87px; border-radius: 50%; padding: 3px;
+  width: 84px; height: 84px; border-radius: 50%; padding: 3px;
   background: linear-gradient(135deg, #8E2A3B, #E66A8C 35%, #EF6A4C 65%, #F2B33D);
   transition: transform 0.2s;
 }
@@ -232,17 +234,20 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
 }
 
 /* ── TAB BAR ─────────────────────────── */
-.tab-bar { display: flex; justify-content: center; gap: 60px; border-top: 1px solid var(--ig-line); }
+/* Sized like Instagram's profile tabs today: icons only (24px) in a 44px bar,
+   each tab 64px wide and 197px apart, with a line under the one you're on.
+   The names live in each button's aria-label. */
+.tab-bar { display: flex; justify-content: center; gap: 133px; border-bottom: 1px solid var(--ig-line); }
 .tab-btn {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  height: 52px; margin-top: -1px; padding: 0 2px;
-  background: none; border: none; border-top: 1px solid transparent; cursor: pointer;
-  color: var(--ig-muted); font-family: inherit; font-size: 12px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  width: 64px; height: 44px; margin-bottom: -1px; padding: 0;
+  background: none; border: none; border-bottom: 1px solid transparent; cursor: pointer;
+  color: var(--ig-muted); font-family: inherit; transition: color 0.2s;
 }
 @media (hover: hover) { .tab-btn:hover { color: var(--ig-text); } }
-.tab-btn svg { width: 12px; height: 12px; }
-.tab-btn.active { color: var(--ig-text); border-top-color: var(--ig-text); }
+.tab-btn span { display: none; }
+.tab-btn svg { width: 24px; height: 24px; }
+.tab-btn.active { color: var(--ig-text); border-bottom-color: var(--ig-text); }
 
 /* ── FOOTER ──────────────────────────── */
 .site-footer {
@@ -982,46 +987,47 @@ body { padding-left: calc(var(--sidebar-w) + var(--safe-l)); }
   }
   body { padding-left: 0; }
   .ig-page { padding: 0 0 calc(50px + var(--safe-b)); }
+  /* Phone profile, like Instagram: small photo, the name and counts beside it,
+     then bio and two buttons across the full width */
   .profile-header {
-    grid-template-columns: auto 1fr; column-gap: 24px; padding: 16px 16px 0; margin-bottom: 24px;
+    grid-template-columns: auto minmax(0, 1fr); column-gap: 24px; row-gap: 0;
+    max-width: none; margin: 0 0 12px; padding: 16px 16px 0;
   }
+  .profile-pic-wrap { grid-row: 1 / span 2; align-self: center; }
   .profile-ring { width: 86px; height: 86px; padding: 3px; }
   .profile-img { border-width: 3px; }
   .profile-info { display: contents; }
-  .profile-top-row { flex-direction: column; align-items: flex-start; gap: 10px; margin: 0; align-self: center; }
-  .profile-actions { gap: 6px; }
-  .profile-actions .ig-btn { padding: 0 12px; }
-  .profile-actions .ig-btn-icon { padding: 0; }
-  .profile-actions .icon-btn { width: 32px; }
-  .profile-bio, .followed-by { grid-column: 1 / -1; }
-  .profile-bio { margin-top: 16px; }
+  .profile-top-row { grid-column: 2; margin: 0 0 8px; align-self: end; }
+  .profile-top-row h1 { gap: 6px; font-size: 14px; line-height: 18px; }
+  .verified { width: 14px; height: 14px; }
+  .profile-top-row .icon-btn { margin-left: auto; height: 24px; }
   .profile-counts {
-    grid-column: 1 / -1; order: 5; margin: 16px -16px 0; padding: 12px 16px;
-    border-top: 1px solid var(--ig-line); justify-content: space-around; gap: 8px;
-    font-size: 14px; text-align: center;
+    grid-column: 2; align-self: start; flex-wrap: nowrap; gap: 14px; margin: 0;
+    font-size: 14px; line-height: 18px;
   }
+  .count-item { min-width: 0; }
   .count-item strong { display: block; }
-  .count-item span { color: var(--ig-muted); }
-  .highlights-section { margin-bottom: 8px; }
-  .highlights-row { gap: 12px; padding: 6px 16px 16px; }
-  .highlight-item { width: 72px; gap: 8px; }
+  .profile-bio, .followed-by { grid-column: 1 / -1; }
+  .profile-bio { margin-top: 14px; }
+  .followed-by { margin-top: 10px; }
+  .profile-actions { margin-top: 14px; }
+  .profile-actions .ig-btn { height: 32px; border-radius: 8px; }
+  .profile-actions .ig-btn-icon { flex-basis: 32px; width: 32px; }
+  .profile-actions .ig-btn-icon svg { width: 16px; height: 16px; }
+  .highlights-section { max-width: none; margin: 0 0 8px; }
+  .highlights-row { gap: 2px; padding: 6px 12px 16px; }
+  .highlight-item { width: 70px; gap: 6px; }
   .highlight-ring-wrap { width: 64px; height: 64px; padding: 2px; }
   .highlight-circle { font-size: 24px; }
   .tab-bar { gap: 0; justify-content: space-around; }
-  .tab-btn span { display: none; }
-  .tab-btn svg { width: 22px; height: 22px; }
   .posts-grid { gap: 2px; }
   .site-footer { padding: 32px 16px 24px; }
 }
 
-/* Narrow phones (360px): a little tighter so Contact / LinkedIn / … stay on one row */
+/* Narrow phones (360px and under): slightly tighter beside the photo */
 @media (max-width: 374px) {
-  .profile-header { column-gap: 14px; }
-  .profile-actions .ig-btn { padding: 0 10px; }
-  .profile-actions .ig-btn-icon { padding: 0; }
-}
-@media (max-width: 339px) {
-  .profile-actions { flex-wrap: wrap; }
+  .profile-header { column-gap: 16px; }
+  .profile-counts { gap: 10px; font-size: 13px; }
 }
 
 @media (max-width: 680px) {
@@ -1044,9 +1050,9 @@ body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: 
 /* ── SHORT SCREENS (phone held sideways) ─
    Stories keep their designed size and shrink to fit, so no slide is cut off.
    --story-fit is set by script.js. */
-@media (max-height: 644px) and (min-width: 421px) {
+@media (max-height: 711px) and (min-width: 421px) {
   .story-shell, .story-overlay.open .story-shell {
-    height: 580px; transform: scale(var(--story-fit, 1)); transition: none;
+    height: 640px; transform: scale(var(--story-fit, 1)); transition: none;
   }
 }
 /* The icon sidebar is taller than a sideways phone: tighten it so "More" still fits. */
@@ -1080,7 +1086,6 @@ body.scroll-locked { position: fixed; left: 0; right: 0; width: 100%; overflow: 
   .profile-actions .icon-btn::after { inset: -2px -6px; }
   .ig-btn::after { inset: -6px 0; }
   .ig-btn-icon::after { inset: -6px; }
-  .tab-btn::after { inset: 0 -12px; }
   .site-footer button::after, .site-footer a::after { inset: -15px -9px; }
   .reel-nav::after { inset: -4px; }
   .reel-more::after { inset: -10px; }

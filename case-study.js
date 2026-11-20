@@ -236,8 +236,8 @@ function csEnsureOverlay() {
   csOverlayEl.id = 'csOverlay';
   csOverlayEl.innerHTML = `
     <div class="cs-backdrop"></div>
+    <button class="cs-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></button>
     <div class="cs-modal" role="dialog" aria-modal="true" aria-label="Case study" tabindex="-1">
-      <button class="cs-close" aria-label="Close">✕</button>
       <div class="cs-viewport">
         <div class="cs-track"></div>
         <button class="cs-ov-nav cs-ov-prev" aria-label="Previous slide">

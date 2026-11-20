@@ -1,0 +1,174 @@
+/* ══════════════════════════════════════
+   ABOUT ME PAGE (see about.js)
+   A page of folders in the style of Instagram's Saved collections. It sits
+   in the main area in place of the profile; the sidebar, the phone bars and
+   the footer stay where they are.
+══════════════════════════════════════ */
+
+/* While the About page is showing, the profile content steps aside */
+body.about-on .ig-page > :not(.about-view):not(.site-footer) { display: none; }
+.about-view[hidden] { display: none; }
+.about-view { color: var(--ig-text); min-height: 60vh; }
+.about-view a { color: inherit; text-decoration: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .about-view > * { animation: fadeIn 0.25s ease-out; }
+}
+
+/* ── About me page: header, intro, folder covers ── */
+.ab-head { display: flex; align-items: center; gap: 20px; padding-top: 20px; }
+.ab-photo { width: 77px; height: 77px; border-radius: 50%; object-fit: cover; flex-shrink: 0; display: block; }
+.ab-name { font-size: 20px; font-weight: 400; line-height: 25px; }
+.ab-tagline { margin-top: 4px; font-size: 14px; line-height: 18px; color: var(--ig-muted); }
+.ab-intro { max-width: 600px; margin: 20px 0 32px; font-size: 15px; line-height: 22px; white-space: pre-line; }
+
+.ab-folders {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px;
+  padding-top: 32px; border-top: 1px solid var(--ig-line);
+}
+.ab-folder { display: block; min-width: 0; border-radius: 12px; }
+.ab-cover {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px;
+  aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--surface);
+}
+.ab-cover img, .ab-cover i { display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; background: var(--surface-2); }
+.ab-cover::after {
+  content: ''; position: absolute; inset: 0; background: #000; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none;
+}
+.ab-folder-name { display: block; margin-top: 12px; font-size: 16px; font-weight: 600; line-height: 20px; overflow-wrap: anywhere; }
+.ab-folder-count { display: block; margin-top: 2px; font-size: 12px; line-height: 16px; color: var(--ig-muted); }
+
+/* ── A folder: sticky bar, description, pills, grid ── */
+.ab-bar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 8px; height: 60px; margin: 0 -8px;
+  padding: 0 8px; background: var(--surface); border-bottom: 1px solid var(--ig-line);
+}
+.ab-bar-text { min-width: 0; }
+.ab-bar-text h1 { font-size: 16px; font-weight: 600; line-height: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ab-bar-text span { display: block; font-size: 12px; line-height: 16px; color: var(--ig-muted); }
+.ab-back svg { width: 24px; height: 24px; }
+.ab-desc { margin: 20px 0 16px; font-size: 14px; line-height: 20px; }
+.ab-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.ab-pills .sp-chip { display: inline-flex; align-items: center; text-decoration: none; }
+.ab-pills .sp-chip.on { color: #fff; }
+
+.ab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.ab-tile {
+  position: relative; display: block; width: 100%; aspect-ratio: 1; overflow: hidden;
+  padding: 0; border: none; background: var(--surface-2); cursor: pointer;
+}
+.ab-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ab-tile::after {
+  content: ''; position: absolute; inset: 0; background: #000; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none;
+}
+.ab-tile:focus-visible { outline-offset: -2px; }
+.ab-badge { position: absolute; top: 10px; right: 10px; display: flex; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45)); }
+.ab-badge svg { width: 20px; height: 20px; }
+
+.ab-end { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 44px; }
+.about-view .ab-all { position: relative; font-size: 14px; color: var(--ig-muted); }
+.ab-next {
+  display: flex; align-items: center; gap: 12px; min-width: 260px; max-width: 100%;
+  padding: 10px 16px 10px 10px; border: 1px solid var(--ig-line); border-radius: 12px;
+  transition: background 0.15s;
+}
+.ab-cover-mini { width: 48px; flex-shrink: 0; border-radius: 8px; gap: 1px; }
+.ab-next-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ab-next-text span { font-size: 12px; line-height: 16px; color: var(--ig-muted); }
+.ab-next-text strong { font-size: 14px; font-weight: 600; line-height: 18px; }
+.ab-next svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+@media (hover: hover) {
+  .ab-folder:hover .ab-cover::after { opacity: 0.12; }
+  .ab-tile:hover::after { opacity: 0.2; }
+  .about-view .ab-all:hover { text-decoration: underline; }
+  .ab-next:hover { background: var(--ig-hover); }
+  .ab-btn:hover { background: #1877F2; }
+}
+
+/* ── Item viewer (same shell as the reel viewer, one layer below it) ── */
+.about-viewer {
+  position: fixed; inset: 0; z-index: 390; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.about-viewer.open { opacity: 1; pointer-events: all; }
+.av-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.65); }
+.av-modal {
+  --av-side: 500px;   /* Instagram's pop-up: about 90% of the window tall, 500px panel */
+  --av-h: min(90vh, 880px, calc(100vw - 160px - var(--av-side)));
+  position: relative; z-index: 1; display: flex; height: var(--av-h);
+  background: var(--surface); border-radius: 12px; overflow: hidden;
+}
+@supports (height: 1dvh) {
+  .av-modal { --av-h: min(90dvh, 880px, calc(100vw - 160px - var(--av-side))); }
+}
+@media (max-width: 1263px) { .av-modal { --av-side: 380px; } }
+.av-modal:focus { outline: none; }
+.av-media { flex-shrink: 0; height: 100%; aspect-ratio: 1; background: #000; touch-action: pan-y; }
+.av-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.av-side {
+  width: var(--av-side); min-width: 0; display: flex; flex-direction: column;
+  border-left: 1px solid var(--ig-line); font-size: 14px; color: var(--ig-text);
+}
+.av-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--ig-line); }
+.av-head img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0; display: block; }
+.av-head strong { display: block; font-weight: 600; }
+.av-head span { display: block; margin-top: 2px; font-size: 12px; color: var(--ig-muted); }
+.av-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
+.av-body h2 { margin-bottom: 8px; font-size: 16px; font-weight: 600; line-height: 20px; overflow-wrap: anywhere; }
+.av-caption { line-height: 20px; white-space: pre-line; overflow-wrap: anywhere; }
+.av-foot { padding: 12px 16px; border-top: 1px solid var(--ig-line); }
+.av-foot[hidden] { display: none; }
+.ab-btn {
+  position: relative; display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; height: 36px; padding: 0 16px; border: none; border-radius: 8px;
+  background: var(--ig-blue); color: #fff; cursor: pointer;
+  font-family: inherit; font-size: 14px; font-weight: 600; transition: background 0.15s;
+}
+.ab-btn svg { width: 16px; height: 16px; }
+
+/* Search results for folders: a rounded square cover, like reels */
+.sp-av-about { border-radius: 8px; }
+
+/* Touch: 44px tap areas without changing how anything looks */
+@media (pointer: coarse) {
+  .about-view .ab-all::after { content: ''; position: absolute; inset: -15px -10px; }
+  .ab-btn::after { content: ''; position: absolute; inset: -4px 0; }
+}
+
+@media (max-width: 1000px) {
+  .av-modal { --av-side: 320px; --av-h: min(90vh, 880px, calc(100vw - 96px - var(--av-side))); }
+  @supports (height: 1dvh) {
+    .av-modal { --av-h: min(90dvh, 880px, calc(100vw - 96px - var(--av-side))); }
+  }
+}
+
+@media (max-width: 767px) {
+  .about-view { min-height: 50vh; }
+  .ab-head { gap: 16px; padding: 16px 16px 0; }
+  .ab-photo { width: 64px; height: 64px; }
+  .ab-intro { margin: 16px 16px 24px; }
+  .ab-folders { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; padding: 20px 16px 0; }
+  .ab-cover { border-radius: 10px; }
+
+  .ab-bar { top: calc(52px + var(--safe-t)); height: 52px; margin: 0; padding: 0 8px; }
+  .ab-desc { margin: 16px 16px 12px; }
+  .ab-pills { flex-wrap: nowrap; overflow-x: auto; margin-bottom: 16px; padding: 0 16px; scrollbar-width: none; }
+  .ab-pills::-webkit-scrollbar { display: none; }
+  .ab-pills .sp-chip { flex-shrink: 0; }
+  .ab-grid { gap: 2px; }
+  .ab-end { margin-top: 32px; padding: 0 16px; }
+
+  /* the viewer fills the screen: picture on top, details underneath */
+  .av-modal {
+    display: block; width: 100%; height: 100%; border-radius: 0;
+    overflow-y: auto; overscroll-behavior: contain;
+  }
+  .av-media { width: 100%; height: min(100vw, 60vh); height: min(100vw, 60dvh); aspect-ratio: auto; }
+  .av-side { width: 100%; border-left: none; }
+  .av-body { overflow: visible; }
+  .av-foot { padding-bottom: calc(12px + var(--safe-b)); }
+}
