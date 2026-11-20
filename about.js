@@ -111,7 +111,7 @@ const ABOUT = {
 ══════════════════════════════════════ */
 /* Set to false to keep the page off the site (About me then opens the About
    story, and Search leaves the folders out) until the placeholders are filled. */
-const ABOUT_LIVE = true;
+const ABOUT_LIVE = false;
 
 (function () {
   const main = document.querySelector('.ig-page');
