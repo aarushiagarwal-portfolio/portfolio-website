@@ -109,9 +109,13 @@ const ABOUT = {
 /* ══════════════════════════════════════
    PAGE — you shouldn't need to edit below this line
 ══════════════════════════════════════ */
+/* Set to false to keep the page off the site (About me then opens the About
+   story, and Search leaves the folders out) until the placeholders are filled. */
+const ABOUT_LIVE = true;
+
 (function () {
   const main = document.querySelector('.ig-page');
-  if (!main || !ABOUT.folders.length) return;
+  if (!ABOUT_LIVE || !main || !ABOUT.folders.length) return;
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const folders = ABOUT.folders;

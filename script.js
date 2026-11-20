@@ -357,7 +357,8 @@ const NAV_ACTIONS = {
   },
   reels: () => showTab('reels'),
   chat: () => openStory('contact'), // replaced by the Let's chat panel in chat.js
-  about: () => { location.hash = 'about'; }, // the About me page (about.js); the About highlight still opens the story
+  // the About me page (about.js) when it's switched on, otherwise the About story; the About highlight always opens the story
+  about: () => { if (window.openAbout) location.hash = 'about'; else openStory('about'); },
 };
 
 const toastEl = document.getElementById('toast');
