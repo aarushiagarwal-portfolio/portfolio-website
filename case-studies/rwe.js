@@ -126,7 +126,7 @@ window.CASE_STUDIES.push({
           type: 'creativesGrid',
           items: [
             { img: 'assets/case-studies/rwe/creative-1.jpeg', tag: 'REEL', caption: 'Friendships day', href: 'https://www.instagram.com/rwe.global/reel/DMvAqnPKb-A/' },
-            { img: 'assets/case-studies/rwe/creative-2.jpeg', tag: 'REEL', caption: 'This is us · trend', href: 'https://www.instagram.com/rwe.global/p/DXJ86kejLG3/' },
+            { img: 'assets/case-studies/rwe/creative-2.jpeg', tag: 'REEL', caption: 'This is who · trend', href: 'https://www.instagram.com/rwe.global/p/DXJ86kejLG3/' },
             { img: 'assets/case-studies/rwe/creative-3.jpeg', tag: 'REEL', caption: 'Day in the life', href: 'https://www.instagram.com/rwe.global/reel/DNBCRzHMPvr/' },
             { img: 'assets/case-studies/rwe/creative-4.jpeg', tag: 'REEL', caption: 'Career mobility', href: 'https://www.instagram.com/rwe.global/p/DMFz0SYOWvt/' },
           ],

@@ -182,7 +182,7 @@ function csFitPages(root) {
 function csBuildTile(data) {
   const btn = document.createElement('button');
   btn.className = 'cs-tile';
-  btn.setAttribute('aria-label', `Open ${data.name} case study`);
+  btn.setAttribute('aria-label', `Open ${data.name} case study: ${data.eyebrow ? data.eyebrow + '. ' : ''}${(data.tileResults || []).map(r => r.num + ' ' + (r.label === r.label.toUpperCase() ? r.label : r.label.toLowerCase())).join(', ')}`);
   btn.dataset.cs = data.id; // lets Search narrow the grid to matching projects
   if (data.slidePages) {
     btn.classList.add('cs-tile-page');
