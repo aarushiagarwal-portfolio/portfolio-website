@@ -30,7 +30,7 @@ window.CASE_STUDIES.push({
                          to share its chip, or type a new name to create one)
                  slide = which slide of the carousel opens for that tag
                  proof = the one-line evidence shown under the project ── */
-  headline: '40M+ impressions',
+  headline: '220M+ impressions',
   tags: [
     { tag: 'Paid social', slide: 4, proof: 'Executed paid social across LinkedIn, Meta and Reddit' },
     { tag: 'Reporting', slide: 5, proof: 'Generated campaign performance reports' },
@@ -43,9 +43,9 @@ window.CASE_STUDIES.push({
   eyebrow: 'Tech Talent Campaign',
   tileBrief: 'Paid social campaign building Amex\'s tech employer brand across 3 markets.',
   tileResults: [
-    { label: 'Impressions', num: '40M+' },
-    { label: 'Budget', num: '$335K' },
-    { label: 'Markets', num: '3' },
+    { label: 'Impressions', num: '220M+' },
+    { label: 'Clicks', num: '2.66M+' },
+    { label: 'CPC', num: '$0.13' },
   ],
 
   /* ── carousel (6 slides) ── */
@@ -72,7 +72,7 @@ window.CASE_STUDIES.push({
           type: 'specGrid',
           items: [
             { k: 'Duration', v: '9 months' },
-            { k: 'Paid budget', v: '$335,000' },
+            { k: 'Media spend', v: '$351,000' },
             { k: 'Markets', v: 'US · UK · IN' },
             { k: 'Channels', icons: ['facebook', 'linkedin', 'reddit'] },
           ],
@@ -105,10 +105,10 @@ window.CASE_STUDIES.push({
             {
               title: 'Campaign dashboard',
               items: [
-                { icon: '👁️', label: 'Impressions', num: '40M+' },
-                { icon: '💷', label: 'Budget', num: '$335K' },
-                { icon: '🌍', label: 'Markets', num: '3' },
-                { icon: '💰', label: 'CPC', num: '$1.3' },
+                { icon: '👁️', label: 'Impressions', num: '220M+' },
+                { icon: '👆', label: 'Clicks', num: '2.66M+' },
+                { icon: '📈', label: 'CTR', num: '1.21%' },
+                { icon: '💰', label: 'CPC', num: '$0.13' },
               ],
             },
           ],
@@ -134,7 +134,7 @@ window.CASE_STUDIES.push({
   /* ── feed post chrome (right-hand info panel) ── */
   post: {
     username: 'aarushiagarwal',
-    caption: `9 months. 3 markets. 40M+ impressions. $335K budget. 💳
+    caption: `9 months. 3 markets. 220M+ impressions. 2.66M+ clicks. 💳
 
 Paid social tactical campaign for American Express, where the objective was to build awareness of the tech roles across Facebook, LinkedIn and Reddit, reaching engineers and developers across the US, UK and India.
 

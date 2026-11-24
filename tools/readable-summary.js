@@ -15,7 +15,7 @@ for(const d of ctx.window.CASE_STUDIES){
   out.push('<article>');
   out.push(`<h3>${esc(d.name)}: ${esc(d.eyebrow||'')}</h3>`);
   if(d.tileBrief) out.push(`<p>${esc(d.tileBrief)}</p>`);
-  if(d.tileResults) out.push(`<p>Results: ${d.tileResults.map(r=>esc(r.num+' '+r.label.toLowerCase())).join(', ')}.</p>`);
+  if(d.tileResults) out.push(`<p>Results: ${d.tileResults.map(r=>esc(r.num+' '+(r.label===r.label.toUpperCase()?r.label:r.label.toLowerCase()))).join(', ')}.</p>`);
   const roles=(d.slides||[]).flatMap(s=>s.blocks||[]).filter(b=>b.type==='roleList').flatMap(b=>b.items);
   if(roles.length) out.push('<p>My role:</p><ul>'+roles.map(r=>`<li>${strip(r)}</li>`).join('')+'</ul>');
   if(d.post&&d.post.caption) out.push(`<p>${strip(d.post.caption).replace(/\n+/g,' ')}</p>`);
